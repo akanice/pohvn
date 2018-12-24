@@ -1,0 +1,25 @@
+.currentLink {
+	float: left;
+	display: inline-block;
+	background-color: #23CCEF;
+    border: 0;
+    color: #FFFFFF;
+    padding: 7px 13px;
+	display: inline-block;
+	border-radius: 25px;
+}
+
+.paginationLink {
+	float: left;
+	
+}
+.currentLink a, .paginationLink a {
+	background-color: #fff;
+    border: 1px solid #ddd;
+	border-radius: 25px;
+    color: #797979;
+    padding: 7px 13px;
+	display: inline-block;
+	margin: 0 2px;
+	height: 38px;
+}

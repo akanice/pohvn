@@ -1,0 +1,6 @@
+RewriteBase /
+RewriteEngine on
+RewriteCond $1 !^(index\.php|assets)
+RewriteRule ^(.*)$ index.php/$1 [L]
+
+RewriteRule google0e9aeb0bbe3c0a81.html google0e9aeb0bbe3c0a81.html [L]
