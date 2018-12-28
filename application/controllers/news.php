@@ -4,7 +4,7 @@ class Home extends MY_Controller{
     private $data;
     function __construct() {
         parent::__construct();
-		
+		$this->optionData();
         //Get Mega Menu 
         $this->load->model('menusmodel');
 
@@ -13,18 +13,18 @@ class Home extends MY_Controller{
         }
         $this->data['footer'] = $footer;
         //Options
-		$this->load->model('optionsmodel');
-		$options = array_swap_index($this->optionsmodel->read(), 'name');
-        $this->data['options'] = $options;
-		$this->data['home_logo']					= @$options['home_logo']->value;
-        $this->data['tour_banner'] 					= @$options['tour_banner']->value;
-        $this->data['home_hotline']					= @$options['home_hotline']->value;
-        $this->data['home_short_introduction'] 		= @$options['home_short_introduction']->value;
-        $this->data['link_facebook'] 				= @$options['link_facebook']->value;
-        $this->data['link_twitter'] 				= @$options['link_twitter']->value;
-        $this->data['link_gplus'] 					= @$options['link_gplus']->value;
-        $this->data['link_instagram'] 				= @$options['link_instagram']->value;
-        $this->data['tour_banner'] 					= @$options['tour_banner']->value;
+		// $this->load->model('optionsmodel');
+		// $options = array_swap_index($this->optionsmodel->read(), 'name');
+        // $this->data['options'] = $options;
+		// $this->data['home_logo']					= @$options['home_logo']->value;
+        // $this->data['tour_banner'] 					= @$options['tour_banner']->value;
+        // $this->data['home_hotline']					= @$options['home_hotline']->value;
+        // $this->data['home_short_introduction'] 		= @$options['home_short_introduction']->value;
+        // $this->data['link_facebook'] 				= @$options['link_facebook']->value;
+        // $this->data['link_twitter'] 				= @$options['link_twitter']->value;
+        // $this->data['link_gplus'] 					= @$options['link_gplus']->value;
+        // $this->data['link_instagram'] 				= @$options['link_instagram']->value;
+        // $this->data['tour_banner'] 					= @$options['tour_banner']->value;
 		//widget
 		$this->load->model('widgetmodel');
 		$this->data['w_footeruser1'] = array_swap_index($this->widgetmodel->read(array('section_name'=>"footeruser1")),'position');

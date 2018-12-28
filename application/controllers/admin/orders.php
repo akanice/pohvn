@@ -7,19 +7,17 @@ class Orders extends MY_Controller{
         $this->auth = new Auth();
         $this->auth->check();
         $this->data['email_header'] = $this->session->userdata('adminemail');
+        $this->data['all_user_data'] = $this->session->all_userdata();
         $this->load->model('customersmodel');
         $this->load->model('ordersmodel');
-        $this->load->model('productsmodel');
-        $this->load->model('devicemodel');
-        $this->load->model('usersmodel');
 	}
     public function index(){
-		$this->load->model('usershistorymodel');
-        $this->data['title']    = 'Lọc nước CRM - Quản lý đơn hàng';
-        $this->data['customer'] = $this->input->get('customer');
-        $total = $this->ordersmodel->getTotalOrders($this->data['customer']);
-        if($this->data['customer'] != ""){
-            $config['suffix'] = '?customer='.urlencode($this->data['customer']);
+        $this->data['title'] 				= 'Quản lý đơn hàng';
+        $this->data['customer'] 		= $this->input->get('customer');
+        $this->data['phone'] 			= $this->input->get('phone');
+        $total = $this->ordersmodel->getTotalOrders($this->data['customer'],$this->data['phone']);
+		if (($this->data['customer'] != "") or ($this->data['phone'] != "" )) {
+            $config['suffix'] = '?customer='.urlencode($this->data['customer']).'&phone='.urlencode($this->data['phone']);
         }
         //Pagination
         $this->load->library('pagination');
@@ -35,9 +33,8 @@ class Orders extends MY_Controller{
         $start = ($page_number - 1) * $config['per_page'];
         $this->data['page_links'] = $this->pagination->create_links();
         $this->data['base'] = site_url('admin/orders/');
-        $this->load->model('usersmodel');
-        $this->data['staff_techniques'] = $this->usersmodel->read(array('group_id' => 5));
-        $this->data['list'] = $this->ordersmodel->getListOrders($this->data['customer'], $config['per_page'],$start);
+        
+        $this->data['list'] = $this->ordersmodel->getListOrders($this->data['customer'], $this->data['phone'], $config['per_page'],$start);
 		
         $this->load->view('admin/common/header',$this->data);
         $this->load->view('admin/orders/list');
