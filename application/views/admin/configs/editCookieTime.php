@@ -5,7 +5,7 @@
 				<div class="card">
 					<div class="content">
 						<h3 class="page-title">
-							Sửa slider
+							Thời gian lưu cookies affiliate
 						</h3>
 						<ul class="breadcrumb">
 							<li>
@@ -15,7 +15,7 @@
 								<a href="<?=base_url('admin/configs')?>">Cài đặt hiển thị website</a>
 							</li>
 							<li class="active">
-								Sửa slider
+								Thời gian lưu cookies affiliate
 							</li>
 						</ul>
 						<!-- END PAGE TITLE & BREADCRUMB-->
@@ -37,23 +37,17 @@
 								<b><?=@$notice?></span>
 						</div>
 						<?php } ?>
-						<h4 class="title"><a href="<?=base_url('admin/configs/')?>" class="btn btn-fill btn-sm btn-primary">Quay lại</a> Sửa slider</h4>
-						<p><small><i>(Tính từ trái quả phải, từ trên xuống dưới*)</i></small></p>
+						<h4 class="title"><a href="<?=base_url('admin/configs/')?>" class="btn btn-fill btn-sm btn-primary">Quay lại</a> Thời gian lưu cookies affiliate (nhập số ngày)</h4>
+						<p><small><i></i></small></p><hr>
 					</div>
 					<div class="content">
                         <form class="form-horizontal" method="POST" enctype="multipart/form-data">
-							<?php if ($slider_block_new) foreach ($slider_block_new as $item) {?>
 							<div class="form-group">
-                                <label class="col-sm-2 control-label">Block <?=@$item->term_id?></label>
-                                <div class="col-sm-10">
-                                    <select data-placeholder="Chọn bài viết hiển thị..." class="chosen-select form-control" style="width:100%;" tabindex="4" name="slider_block_<?=@$item->term_id?>">
-                                        <?php foreach($news as $a){?>
-                                            <option value="<?=$a->id?>" <?php if (($item->value != '') and ($item->value != false)) { if ($a->id == $item->value) { echo 'selected'; }}?>><?=$a->title?></option>
-                                        <?php }?>
-                                    </select>
+                                <label class="col-sm-2 control-label">Số ngày</label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="cookie_time" value="<?=@$cookie_time?>" class="form-control">
                                 </div>
-                            </div>
-							<?php } ?>
+							</div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label"></label>
 								<div class="col-sm-6">

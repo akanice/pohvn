@@ -122,16 +122,16 @@ class NewsModel extends MY_Model {
 		if($query->num_rows()>0) return $query->result();
 		return false;
 	}
-	public function getRelatedNew($cat_alias,$new_alias,$language){
-		$this->db->select("news.*,news_category.name as cat_name,news_category.alias as cat_alias");
-		$this->db->join('news_category','news.categoryid = news_category.id','left');
-		$this->db->where('news_category.alias',$cat_alias);
-		$this->db->where("news.alias != ",$new_alias);
-		$this->db->where('news.language',$language);
+	public function getRelatedNews($cat_id,$limit=5){
+		$this->db->select("news.title,news.alias,news.thumb");
+		$this->db->like('news.categoryid',$cat_id);
 		$this->db->order_by('id', 'DESC');
-		$query  =   $this->db->get('news',4);
-		if($query->num_rows()>0) return $query->result();
-		else return false;
+		$query = $this->db->get('news',$limit);
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return false;
+		}
 	}
     public function getListNews($title,$category,$limit=10,$offset){
         $this->db->select('news.*');

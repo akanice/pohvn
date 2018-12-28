@@ -72,6 +72,7 @@
         </div>
         <!-- END PAGE -->
     </div>
+</div>
 	<script type="text/javascript">
         $(document).ready(function () {
             $(".chosen-select").chosen({ max_selected_options: 2 });

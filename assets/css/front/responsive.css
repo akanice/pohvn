@@ -118,4 +118,8 @@
 		border-radius: 0;
 		border: 0;
 	}
+	.main-content {
+		background: #fff;
+		padding: 15px 15px;
+	}
 }

@@ -1,130 +1,120 @@
-<!-- Right side column. Contains the navbar and content of the page -->
-<aside class="right-side">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>
-            Quản lý đơn hàng
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="<?=site_url('admin')?>"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-            <li><a href="<?=site_url('admin/orders')?>">Quản lý đơn hàng</a></li>
-            <li class="active">Danh sách đơn hàng</li>
-        </ol>
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-        <div class="row" style="margin-left: -15px">
-            <div class="col-xs-12">
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title"><i class="fa fa-th"></i> Danh sách đơn hàng</h3>
-						<div class="pull-right header order_tabs">
-							<?php $suffix_uri = $this->uri->segment(2); $suffix_uri3 = $this->uri->segment(3) ?>
-							<a href="<?=base_url('admin/orders/show')?>" <?php if ($suffix_uri3 == '') echo 'class="active"'?>>Tất cả</a><span class="divider">/</span>
-							<a href="<?=base_url('admin/orders/show/yesterday')?>" <?php if ($suffix_uri3 == 'list_yesterday') echo 'class="active"'?>>Hôm qua</a><span class="divider">/</span>
-							<a href="<?=base_url('admin/orders/show/today')?>" <?php if ($suffix_uri3 == 'list_today') echo 'class="active"'?>>Hôm nay</a><span class="divider">/</span>
-							<a href="<?=base_url('admin/orders/show/tomorrow')?>" <?php if ($suffix_uri3 == 'list_tomorrow') echo 'class="active"'?>>Ngày mai</a>
-						</div>
-                    </div><!-- /.box-header -->
-                    <div class="box-body table-responsive">
-                        <table id="example2" class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Khách hàng</th>
-                                    <th>Ngày tạo</th>
-                                    <th>Hẹn khách</th>
-                                    <th>Tổng giá trị</th>
-                                    <th>Trạng thái đơn</th>
-                                    <th>Hành động</th>
-                                    <th>Đóng đơn</th>
-                                </tr>
-                            </thead>
-                            <form method="GET" action="<?=@$base?>">
-                                <tr>
-                                    <td></td>
-                                    <td><input type="text" class="form-control" placeholder="Tên khách hàng" name="customer" value="<?=@$customer?>"></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td style="text-align: center"><button type="submit" class="btn btn-default">Tìm kiếm</button></td>
-									<th></th>
-                                </tr>
-                            </form>
-                            <tbody>
-                            <?php if($list) foreach ($list as $item){ ?>
-                                <tr class="odd gradeX">
-									<td><?=@$item->id?></td>
-									<td><?=@$item->customer_last_name .' '. $item->customer_first_name?></td>
-                                    <td><?=@date('d/m/Y <b>H:i</b>', $item->create_date)?></td>
-                                    <td><?=@date('d/m/Y <b>H:i</b>', $item->implement_date)?></td>
-                                    <td><?=number_format($item->total_price,0,',','.')?> VNĐ</td>
-                                    <td><?php 
-										switch ($item->status) {
-											case 'new':
-												echo 'Mới';
-												break;
-											case 'pending':
-												echo 'Đang chờ';
-												break;
-											case 'confirm':
-												echo 'Đã chốt';
-												break;
-											case 'closed':
-												echo 'Đã đóng';
-												break;
-											default:
-												echo 'Mới';
-										}
-									?></td>
-                                    <td style="text-align: center">
-                                        <a href="<?=@base_url('admin/orders/view/'.$item->id)?>" class="btn btn-default btn-sm"><i class="fa fa-print"></i> Xem và in</a>
-										<?php if ($item->status != 'closed') { ?>
-											<a href="<?=@base_url('admin/orders/updatesale/'.$item->id)?>" class="btn btn-warning btn-sm"><i class="fa fa-print"></i> Thêm giảm giá</a>
-										<?php } ?>
-										<?php if (($item->status != 'confirm') && ($item->status != 'closed')) { ?>											
-											<a href="<?=@base_url('admin/orders/edit/'.$item->id)?>" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i> Cập nhật</a>
-										<?php } ?>
-                                        <a href="<?=@base_url('admin/orders/delete/'.$item->id)?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')" ><i class="fa fa-trash"></i> Xóa</a>
-										<?php if (($this->session->userdata('admingroup') == 2) || ($this->session->userdata('admingroup') == 1)) {?>
-										<?php	$id_order = $item->id;
-												//$user_history = $this->usershistorymodel->getUserHistoryFromOrder($id_order,'assign');
-												$user_history = $this->usersmodel->read(array('id'=>$item->staff_technique_id),array(),true);
-										if (!isset($user_history)||($user_history == '')||($user_history == null)) {?>
-											<span id="order_change_<?=$item->id?>"><a href="javascript:void(0);" class="btn btn-info btn-sm" onclick="editOrder(<?=@$item->id?>,'<?=@$item->note?>')"><i class="fa fa-user"></i> Gán đơn hàng</a></span>
-										<?php } else {?>
-											<span id="order_change_<?=$item->id?>"><a href="javascript:void(0);" class="btn btn-info btn-sm" onclick="editOrder(<?=@$item->id?>,'<?=@$item->note?>')">
-												<?=@$user_history->lastname?> <?=@$user_history->firstname?>
-											</a></span>
-										<?php } ?>
-										<?php } ?>
-                                    </td>
-									<?php if (($this->session->userdata('admingroup') == 5) || ($this->session->userdata('admingroup') == 1)) {?>
-									<td style="text-align:center" id="extra_buttons_<?=$item->id?>">
-										<?php if (($item->status != 'confirm') && ($item->staff_technique_id != 0)) {?>
-											<a href="<?=@base_url('admin/orders/confirm/'.$item->id)?>" class="btn btn-sm bg-maroon" onclick="return confirm('Bạn chắc chắn đóng đơn hàng này ?\nĐơn hàng sẽ được chuyển vào danh sách đơn hàng đã hoàn thành.')"><i class="fa fa-print"></i> Hoàn thành</a>
-											<a href="javascript:void(0);" class="btn btn-sm bg-primary" onclick="delayedOrder(<?=@$item->id?>,'<?=@$item->note?>')"> Báo hoãn</a>
-										<?php }?>
-									</td>
-									<?php } else {?>
-									<td></td>
-									<?php } ?>
-                                </tr>
-                            <?php } ?>
-                            </tbody>
-                        </table>
-                        <div class="dataTables_paginate paging_bootstrap">
-                            <ul class="pagination"><?php echo $page_links?></ul>
-                        </div>
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
+<div class="content">
+    <!-- BEGIN PAGE CONTAINER-->
+    <div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row">
+            <div class="col-md-12">
+				<div class="card">
+					<div class="content">
+						<h3 class="page-title">
+							Quản lý đơn hàng
+						</h3>
+						<ul class="breadcrumb">
+							<li>
+								<a href="<?=base_url('admin')?>">Trang chủ</a>
+							</li>
+							<li class="active">
+								Quản lý đơn hàng
+							</li>
+						</ul>
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
             </div>
         </div>
 
-    </section><!-- /.content -->
-</aside><!-- /.right-side -->
+        <div class="row">
+            <div class="col-md-12">
+				<div class="card">
+					<div class="content">
+						<div class="widget red">
+							<div class="widget-title">
+								<h4>Danh sách đơn hàng</h4>
+							</div>
+							<div class="widget-body">
+								<table class="table table-striped table-bordered" id="sample_1">
+									<thead>
+									<tr>
+										<th width=''>ID</th>
+										<th width=''>Ngày tạo</th>
+										<th width=''>Ngày dự sinh</th>
+										<th width=''>Họ tên</th>
+										<th width=''>Số điện thoại</th>
+										<th width=''>Email</th>
+										<th width=''>Địa chỉ</th>
+										<th width=''>Note</th>
+										<th width=''>Affiliate</th>
+										<th width=''>Trạng thái</th>
+										<th width=''>Hành động</th>
+									</tr>
+									</thead>
+									<form method="GET" action="<?=@$base?>">
+										<tr>
+											<td width=''></td>
+											<td width=''></td>
+											<td width=''></td>
+											<td width=''><input type="text" class="form-control" placeholder="Họ tên" name="name" value="<?=@$name?>"></td>
+											<td width=''><input type="text" class="form-control" placeholder="Số điện thoại" name="phone" value="<?=@$phone?>"></td>
+											<td width=''></td>
+											<td width=''></td>
+											<td width=''></td>
+											<td width=''></td>
+											<td width=''></td>
+											<td width='' style="text-align: center"><button type="submit" class="btn btn-fill btn-default">Tìm kiếm</button></td>
+										</tr>
+									</form>
+									<tbody>
+									<?php if($list) foreach ($list as $item) {?>
+										<tr class="odd gradeX">
+											<td><?=@$item->id?></td>
+											<td><?=@date('d/m/Y <b>H:i</b>', $item->create_time)?></td>
+											<td><?=@date('d/m/Y', $item->birth_expect)?></td>
+											<td><?=@$item->customer_name?></td>
+											<td><?=@$item->customer_phone?></td>
+											<td><?=@$item->customer_email?></td>
+											<td><?=@$item->customer_address?></td>
+											<td><?=@$item->note?></td>
+											<td><a href="<?=@base_url('admin/affiliate/viewUser/'.$item->user_id)?>"><?=@$item->user_name?></a></td>
+											<td><?php 
+												switch ($item->status) {
+													case 'pending':
+														$status = 'Mới';$extra_class = 'color_green';
+														break;
+													case 'process':
+														$status =  'Đang xử lý';$extra_class = 'color_blue';
+														break;
+													case 'confirmed':
+														$status =  'Thành công';$extra_class = 'color_red';
+														break;
+													case 'closed':
+														$status =  'Đã hoàn thành';$extra_class = 'color_grey';
+														break;
+													case 'cancelled':
+														$status =  'Đã hủy';$extra_class = 'color_grey';
+														break;
+													default:
+														$status =  'Mới';$extra_class = 'color_default';
+												}
+												echo '<span class="'.$extra_class.'">'.$status.'</span>';
+											?></td>
+											<td style="text-align: center"><a href="<?=@base_url('admin/orders/edit/'.$item->id)?>"><i class="fa fa-pencil"></i> Xử lý</a></td>
+										</tr>
+										<?php } ?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div style="padding-left: 400px"><?php echo $page_links?></div>
+				</div>
+				<!-- END PAGE CONTAINER-->
+			</div>
+			<!-- END PAGE -->
+		</div>
+	</div>
+</div>
+
+
 <script type="text/javascript">
     function editOrder(itemId,itemNote){
         $('#orderId').val(itemId);

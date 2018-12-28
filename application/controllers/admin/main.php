@@ -42,6 +42,13 @@ class Main extends MY_Controller{
         }
         $this->load->view('admin/login',$this->data);
     }
+	
+	public function access_denied() {
+		$this->load->view('admin/common/header',$this->data);
+		$this->load->view('admin/access_denied');
+		$this->load->view('admin/common/footer');
+	}
+	
     public function logoutAdmin(){
         $this->auth->logoutAdmin();
         redirect(site_url('admin'));

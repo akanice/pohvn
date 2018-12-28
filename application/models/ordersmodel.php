@@ -75,9 +75,12 @@ class ordersModel extends MY_Model {
         $this->db->select('orders.*,customers.email as customer_email,
 							customers.name as customer_name,
 							customers.phone as customer_phone, 
-							customers.address as customers_address,
+							customers.address as customer_address,
+							users.id as user_id,
+							users.name as user_name,
 						');
         $this->db->join('customers', 'orders.customer_id = customers.id', 'left');
+        $this->db->join('users', 'orders.affiliate_id = users.id', 'left');
 		$this->db->order_by('orders.create_time', 'DESC');
         if($customer){
             $this->db->like('customers.name', $customer);

@@ -6,33 +6,31 @@ class Customers extends MY_Controller{
         parent::__construct();
         $this->auth = new Auth();
         $this->auth->check();
+		$this->checkCookies();
+		
         $this->data['email_header'] = $this->session->userdata('adminemail');
-		$this->data['admingroup'] = $this->session->userdata('admingroup');
         $this->data['all_user_data'] = $this->session->all_userdata();
-		$user_id = $this->session->userdata('adminid');
+		
         $this->load->model('customersmodel');
-		$this->data['groups_permission'] = array('administrator');
+        $this->load->model('adminsmodel');
 	}
+	
     public function index(){
-        //if (in_array($this->data['admingroup'],$this->data['groups_permission'])) {
-			$userid = $this->session->userdata('adminid');
-			$groupid = $this->session->userdata('admingroup');
+		$user_group = $this->adminsmodel->read(array('id'=>$this->session->userdata('adminid')),array(),true)->group;
+        if ($user_group == 'admin') {
 			$this->data['title']    = 'POH - Quản lý data khách hàng';
 
-			$whereArray = array('email'=>'%'.$this->input->get('email').'%',
+			$whereArray = array('phone'=>'%'.$this->input->get('phone').'%',
 									'name'=>'%'.$this->input->get('name').'%',
 									'address'=>'%'.$this->input->get('address').'%',
 								   );
-			// if($groupid != 1 && $groupid != 5){
-				// $whereArray['staff_create_id'] = $userid;
-			// }
 			$total = $this->customersmodel->readCount($whereArray);
-			$this->data['email'] = $this->input->get('email');
+			$this->data['phone'] = $this->input->get('phone');
 			$this->data['name'] = $this->input->get('name');
 			$this->data['address'] = $this->input->get('address');
 
-			if($this->input->get('email') != "" || $this->input->get('name') != ""  || $this->input->get('address') != "" ){
-				$config['suffix'] = '?email='.urlencode($this->data['email']).'&name='.urlencode($this->data['name']).'&address='.urlencode($this->data['address']);
+			if($this->input->get('phone') != "" || $this->input->get('name') != ""  || $this->input->get('address') != "" ){
+				$config['suffix'] = '?phone='.urlencode($this->data['phone']).'&name='.urlencode($this->data['name']).'&address='.urlencode($this->data['address']);
 			}
 			//Pagination
 			$this->load->library('pagination');
@@ -47,9 +45,9 @@ class Customers extends MY_Controller{
 			if (empty($page_number)) $page_number = 1;
 			$start = ($page_number - 1) * $config['per_page'];
 			$this->data['page_links'] = $this->pagination->create_links();
-			if($this->input->get('email') != "" || $this->input->get('name') != ""  || $this->input->get('address') != "" ){
+			if($this->input->get('phone') != "" || $this->input->get('name') != ""  || $this->input->get('address') != "" ){
 				$this->data['list'] = $this->customersmodel->read(array(
-																		'email'=>'%'.$this->input->get('email').'%',
+																		'phone'=>'%'.$this->input->get('phone').'%',
 																		'name'=>'%'.$this->input->get('name').'%',
 																		'address'=>'%'.$this->input->get('address').'%',
 																	   ),array(),false,$config['per_page'],$start);
@@ -57,13 +55,12 @@ class Customers extends MY_Controller{
 				$this->data['list'] = $this->customersmodel->read(array(),array('id'=>false),false,$config['per_page'],$start);
 			}
 			
-			$this->data['base'] = site_url('admin/customers/');
 			$this->load->view('admin/common/header',$this->data);
 			$this->load->view('admin/customers/list');
 			$this->load->view('admin/common/footer');
-		// } else {
-			// redirect(base_url()."admin/access_denied");
-		// }
+		} else {
+			redirect(base_url()."admin/access_denied");
+		}
     }
 
     public function add() {

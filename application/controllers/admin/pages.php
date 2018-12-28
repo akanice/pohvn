@@ -8,9 +8,6 @@ class Pages extends MY_Controller{
         $this->auth = new Auth();
         $this->auth->check();
 		$this->checkCookies();
-        if($this->session->userdata('admingroup') == "mod"){
-            show_404();
-        }
         $this->data['email_header'] = $this->session->userdata('adminemail');
         $this->data['all_user_data'] = $this->session->all_userdata();
         $this->load->model('pagesmodel');

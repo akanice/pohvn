@@ -71,14 +71,14 @@ $route['admin/sliders/(:num)']          				=	'admin/sliders/index/$1';
 $route['admin/faqs/(:num)']							=	'admin/faqs/index/$1';
 $route['admin/tag/(:num)']								=	'admin/tag/index/$1';
 $route['admin/widget/(:num)']						=	'admin/widget/$1';
-
+$route['admin/access_denied']               		=	'admin/main/access_denied';
 $route['tim-kiem']											=	"home/tourSearch";
 $route['logout']												=	"home/logout";
 
 // Front-end routes
 $route['category'] 											= 	"news/cat_index";
-$route['category/(:any)/(:any)/(:num)']			=	"news/category/$1/$2/$3";
+$route['category/(:any)/(:num)']						=	"news/category/$1/$2/$3";
 
 $route['page/(:any)'] 										= 	"home/page";
 
-$route['(:any)'] 												= 	"news/$1";
+$route['(:any)'] 												= 	"news/index/$1";

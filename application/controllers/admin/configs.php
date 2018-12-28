@@ -26,7 +26,8 @@ class Configs extends MY_Controller{
 			$array = json_decode($cat_array_id);
 			$this->data['cat_display'] = $this->newscategorymodel->read(array("id"=>$array),array(),false,false);
 		}
-			
+		$this->data['cookie_time'] = $this->configsmodel->read(array('term'=>'affiliate','name'=>'cookie_time'),array(),true);	
+		
         $this->data['base'] = site_url('admin/configs/');
         $this->load->view('admin/common/header',$this->data);
         $this->load->view('admin/configs/list');
@@ -239,6 +240,33 @@ class Configs extends MY_Controller{
 			$this->load->view('admin/common/footer');
 		}
 	}
+	
+	public function editCookieTime() {
+		$this->data['cookie_time'] = $this->configsmodel->read(array('term'=>'affiliate','name'=>'cookie_time'),array(),true);
+		$this->data['cookie_time'] = (int)$this->data['cookie_time']->value/(24*60*60);
+		if($this->input->post('submit') != null){
+			$cookie_time = $this->input->post("cookie_time")*(24*60*60);
+			//print_r($cookie_time);die();
+			$data = array(
+				'value' => (string)$cookie_time,
+			);
+			//var_dump($data);die();
+			$this->configsmodel->update($data,array('term'=>'affiliate','name'=>'cookie_time'));
+
+			// Update new data
+			$this->data['notice'] = 'Cập nhật thành cmn công!';
+			$this->data['cookie_time'] = $this->configsmodel->read(array('term'=>'affiliate','name'=>'cookie_time'),array(),true);
+			$this->data['cookie_time'] = $this->data['cookie_time']->value/(24*60*60);
+			
+			$this->load->view('admin/common/header',$this->data);
+			$this->load->view('admin/configs/editcookietime');
+			$this->load->view('admin/common/footer');
+		} else {	
+			$this->load->view('admin/common/header',$this->data);
+			$this->load->view('admin/configs/editcookietime');
+			$this->load->view('admin/common/footer');
+		}
+	}	
 	
     public function delete($id){
         if(isset($id)&&($id>0)&&is_numeric($id)){

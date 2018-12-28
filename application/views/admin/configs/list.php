@@ -43,7 +43,7 @@
 												<?php } ?>
 												</td>
 												<td class="td-actions text-right">
-													<a href="<?=@base_url('admin/configs/editcathome')?>" rel="tooltip" title="" class="btn btn-info btn-simple btn-link" data-original-title="Sửa">
+													<a href="<?=@base_url('admin/configs/editcathome')?>" rel="tooltip" title="" class="btn btn-info btn-simple btn-link">
 														<i class="fa fa-edit"></i>
 													</a>
 												</td>
@@ -52,7 +52,7 @@
 												<td>Bài viết nổi bật tại mỗi chuyên mục</td>
 												<td></td>
 												<td class="td-actions text-right">
-													<a href="<?=@base_url('admin/configs/editfeaturednews')?>" rel="tooltip" title="" class="btn btn-info btn-simple btn-link" data-original-title="Sửa">
+													<a href="<?=@base_url('admin/configs/editfeaturednews')?>" rel="tooltip" title="" class="btn btn-info btn-simple btn-link">
 														<i class="fa fa-edit"></i>
 													</a>
 												</td>
@@ -61,7 +61,7 @@
 												<td>Bài viết trên Slider</td>
 												<td></td>
 												<td class="td-actions text-right">
-													<a href="<?=@base_url('admin/configs/editHomeSlider')?>" rel="tooltip" title="" class="btn btn-info btn-simple btn-link" data-original-title="Sửa">
+													<a href="<?=@base_url('admin/configs/editHomeSlider')?>" rel="tooltip" title="" class="btn btn-info btn-simple btn-link">
 														<i class="fa fa-edit"></i>
 													</a>
 												</td>
@@ -74,7 +74,36 @@
 					</div>
 				</div>
             </div>
-            <!-- END PAGE CONTAINER-->
+			
+			<div class="col-md-6">
+				<div class="card">
+					<div class="content">
+						<div class="widget red">
+							<div class="widget-title">
+								<h4>Affiliate</h4>
+								<?php //print_r($result);?>
+							</div>
+							<div class="widget-body">
+								<div class="item">
+									<table class="table">
+										<tbody>
+											<tr>
+												<td>Thời gian lưu cookies affiliate</td>
+												<td><span class="color_green"><?=$cookie_time->value/(24*60*60); ?> ngày</span></td>
+												<td class="td-actions text-right">
+													<a href="<?=@base_url('admin/configs/editcookietime')?>" rel="tooltip" title="" class="btn btn-info btn-simple btn-link">
+														<i class="fa fa-edit"></i>
+													</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
         </div>
         <!-- END PAGE -->
     </div>
