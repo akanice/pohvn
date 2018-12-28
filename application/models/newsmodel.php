@@ -9,10 +9,15 @@ class NewsModel extends MY_Model {
             'nullable'  => true,
             'type'      => 'integer'
         ),
+		'order' =>  array(
+            'isIndex'   => true,
+            'nullable'  => true,
+            'type'      => 'integer'
+        ),
         'categoryid' => array(
             'isIndex'   => false,
             'nullable'  => true,
-            'type'      => 'integer'
+            'type'      => 'string'
         ),
         'title' => array(
             'isIndex'   => false,
@@ -64,11 +69,6 @@ class NewsModel extends MY_Model {
             'nullable'  => false,
             'type'      => 'integer'
         ),
-		'language' => array(
-            'isIndex'   => false,
-            'nullable'  => false,
-            'type'      => 'string'
-        ),
 		'count_view' => array(
             'isIndex'   => false,
             'nullable'  => false,
@@ -109,18 +109,17 @@ class NewsModel extends MY_Model {
         }
 	}
 	
-	public function getNewByCategory($alias,$limit,$offset,$language) {
-		$this->db->select('news.*, news_category.name as cat_name, news_category.alias as cat_alias');
+	public function getNewsByCategoryId($cat_id,$limit,$offset) {
+		$this->db->select('news.title,news.id');
 		$this->db->join('news_category','news.categoryid= news_category.id','left');
-		$this->db->where('news_category.alias', $alias);
-		$this->db->where('news.language',$language);
+		$this->db->like('news.categoryid', $cat_id);
 		$this->db->order_by('id', 'DESC');
 		if($limit != ""){
 			$query = $this->db->get('news',$limit,$offset);
         } else {
 			$query = $this->db->get('news');
 		}
-		if($query->num_rows>0) return $query->result();
+		if($query->num_rows()>0) return $query->result();
 		return false;
 	}
 	public function getRelatedNew($cat_alias,$new_alias,$language){
@@ -134,27 +133,45 @@ class NewsModel extends MY_Model {
 		if($query->num_rows()>0) return $query->result();
 		else return false;
 	}
-    public function getListNews($name,$category,$limit=10,$offset){
-        $this->db->select('news.*,news_category.title as cat_name');
+    public function getListNews($title,$category,$limit=10,$offset){
+        $this->db->select('news.*');
         $this->db->join('news_category','news.categoryid= news_category.id','left');
-        $this->db->like('news.title', $name);
+        $this->db->where('news.type', 'default');
+        $this->db->like('news.title', $title);
+		$this->db->order_by("news.id", "desc");
         if($category != "") {
-            $this->db->where('news.categoryid', $category);
+            $this->db->like('news.categoryid', $category);
         }
-		//$this->db->db_debug = true;    
-        if($limit != ''){
-            $query= $this->db->get('news',$limit,$offset);
-            if($query->num_rows()>0) {
-				return $query->result();
-			} else {
-				return false;
+		$this->db->db_debug = true;    
+		$result[] = array();
+		$cat_list = array();
+		
+		$query= $this->db->get('news',$limit,$offset);
+		if($query->num_rows()>0) {
+			$rs_array = $query->result();
+			foreach ($rs_array as $n=>$value) {
+				$cat_array = array();
+				$result[$n] = $value;
+				$cat_array = json_decode($value->categoryid);
+				$v = array();
+				foreach ($cat_array as $key=>$value2) {
+					$this->db->select('news_category.id,news_category.title,news_category.alias');
+					$this->db->where('news_category.id', $value2);
+					$query2 = $this->db->get('news_category')->row();
+					
+					$x[$key]['id'] = $query2->id;
+					$x[$key]['title'] = $query2->title;
+					$x[$key]['alias'] = $query2->alias;
+					
+					$v[] = $x[$key];
+				}
+				$result[$n]->categoryid = ($v);
 			}
-        } else {
-            $query = $this->db->get('news');
-			if($query->num_rows()>0) {
-				return $query->result();
-			}
-        }
+			return $result;
+		} else {
+			return false;
+		}
+
     }
 
 	public function getCountNew($name,$category,$limit,$offset){
@@ -237,4 +254,28 @@ class NewsModel extends MY_Model {
 		}
 		return $result;
 	}
+	
+	// landing page
+	public function getListLandingpage($name,$limit=15,$offset){
+        $this->db->select('news.*,landing_page.total_price as ld_pricing');
+        $this->db->join('landing_page','news.id= landing_page.news_id','left');
+        $this->db->where('news.type', 'landing');
+        $this->db->like('news.title', $name);
+        $this->db->order_by('news.id', "desc");
+
+		//$this->db->db_debug = true;    
+        if($limit != ''){
+            $query= $this->db->get('news',$limit,$offset);
+            if($query->num_rows()>0) {
+				return $query->result();
+			} else {
+				return false;
+			}
+        } else {
+            $query = $this->db->get('news');
+			if($query->num_rows()>0) {
+				return $query->result();
+			}
+        }
+    }
 }

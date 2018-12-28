@@ -46,28 +46,11 @@
 
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<div class="container d-flex flex-column flex-md-row justify-content-between">
-						<ul class="navbar-nav mr-auto">
-							<li class="nav-item active">
-								<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">Link</a>
-							</li>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Dropdown
-								</a>
-								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<a class="dropdown-item" href="#">Action</a>
-									<a class="dropdown-item" href="#">Another action</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#">Something else here</a>
-								</div>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link disabled" href="#">Disabled</a>
-							</li>
-						</ul>
+						<?php 
+						$this->menusmodel->setup_navmenu();
+						$this->multi_menu->set_items($navmenu);
+						echo $this->multi_menu->render(); ?>
+						
 						<form class="form-inline my-2 my-lg-0">
 							<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
 							<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -83,47 +66,14 @@
 				</div>
 
 				<div class="sidebar-header">
-					<h3>Bootstrap Sidebar</h3>
+					<h3>Menu</h3>
 				</div>
-
-				<ul class="list-unstyled components">
-					<p>Dummy Heading</p>
-					<li class="active">
-						<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Home</a>
-						<ul class="collapse list-unstyled" id="homeSubmenu">
-							<li>
-								<a href="#">Home 1</a>
-							</li>
-							<li>
-								<a href="#">Home 2</a>
-							</li>
-							<li>
-								<a href="#">Home 3</a>
-							</li>
-						</ul>
-					</li>
-					<li>
-						<a href="#">About</a>
-						<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
-						<ul class="collapse list-unstyled" id="pageSubmenu">
-							<li>
-								<a href="#">Page 1</a>
-							</li>
-							<li>
-								<a href="#">Page 2</a>
-							</li>
-							<li>
-								<a href="#">Page 3</a>
-							</li>
-						</ul>
-					</li>
-					<li>
-						<a href="#">Portfolio</a>
-					</li>
-					<li>
-						<a href="#">Contact</a>
-					</li>
-				</ul>
+				
+				<?php 
+					$this->menusmodel->setup_mobilemenu();
+					$this->multi_menu->set_items($navmenu);
+					echo $this->multi_menu->render(); ?>
+						
 			</nav>
 		</div>
 	</header>

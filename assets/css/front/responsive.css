@@ -1,6 +1,12 @@
 ﻿/*
 	CR Team - Professional Web Designer
 */
+@media only screen and (min-width: 768px) {
+	.dropdown:hover>.dropdown-menu {
+	  display: block;
+	  margin: 0;
+	}
+}
 @media only screen and (max-width: 1169px) {
 	.featured-style-26 .penci-image-holder:before {
 		height: 160px;
@@ -103,5 +109,13 @@
 	}
 	.grid-post-box-meta  {
 		margin-top: 0;
+	}
+	.navbar-nav .dropdown-menu {
+		position: static !important;
+		float: none;
+		transform: unset !important;
+		margin: -1px;
+		border-radius: 0;
+		border: 0;
 	}
 }

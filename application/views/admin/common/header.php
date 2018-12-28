@@ -110,8 +110,22 @@
 				</li>
 				<li class="<?php if (($suffix_uri == 'landingpage')) echo 'active';?>">
 					<a href="<?=base_url('admin/landingpage')?>">
-						<i class="pe-7s-note2"></i>
+						<i class="pe-7s-browser"></i>
 						<p>Landing Page</p>
+					</a>
+				</li>
+				
+				<li class="<?php if (($suffix_uri == 'orders')) echo 'active';?>">
+					<a href="<?=base_url('admin/orders')?>">
+						<i class="pe-7s-note2"></i>
+						<p>Đơn hàng</p>
+					</a>
+				</li>
+				
+				<li class="<?php if (($suffix_uri == 'customers')) echo 'active';?>">
+					<a href="<?=base_url('admin/customers')?>">
+						<i class="pe-7s-users"></i>
+						<p>Khách hàng</p>
 					</a>
 				</li>
 				
@@ -129,17 +143,18 @@
 					</div>
 				</li>
 
-				<li class="<?php if (($suffix_uri == 'options') or ($suffix_uri == 'sliders') or ($suffix_uri == 'menus')) echo 'active';?>">
+				<li class="<?php if (($suffix_uri == 'options') or ($suffix_uri == 'sliders') or ($suffix_uri == 'menus') or ($suffix_uri == 'configs')) echo 'active';?>">
 					<a data-toggle="collapse" href="#mapsExamples">
 						<i class="pe-7s-map-marker"></i>
 						<p>Cài đặt
 						   <b class="caret"></b>
 						</p>
 					</a>
-					<div class="collapse <?php if (($suffix_uri == 'options') or ($suffix_uri == 'sliders') or  ($suffix_uri == 'menus')) echo 'in';?>" id="mapsExamples">
+					<div class="collapse <?php if (($suffix_uri == 'options') or ($suffix_uri == 'sliders') or  ($suffix_uri == 'menus') or  ($suffix_uri == 'configs')) echo 'in';?>" id="mapsExamples">
 						<ul class="nav">
 							<li class="<?php if ($suffix_uri == 'menus') echo 'active'?>"><a href="<?=base_url('admin/menus')?>">Menu</a></li>
 							<li class="<?php if ($suffix_uri == 'options') echo 'active'?>"><a href="<?=base_url('admin/options')?>">Tùy chỉnh</a></li>
+							<li class="<?php if ($suffix_uri == 'configs') echo 'active'?>"><a href="<?=base_url('admin/configs')?>">Hiển thị</a></li>
 							<li class="<?php if ($suffix_uri == 'sliders') echo 'active'?>"><a href="<?=base_url('admin/sliders')?>">Slider</a></li>
 						</ul>
 					</div>

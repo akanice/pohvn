@@ -53,7 +53,7 @@
 												<select class="form-control" name="category">
 													<option value="">--Chọn--</option>
 													<?php foreach ($newscategory as $c) {?>
-														<option value="<?=@$c->id?>" <?php if($category==$c->id){echo 'selected="selected" ';}?>><?=@$c->name?></option>
+														<option value="<?=@$c->id?>" <?php if($category==$c->id){echo 'selected="selected" ';}?>><?=@$c->title?></option>
 													<?php }
 													?>
 												</select>
@@ -63,11 +63,17 @@
 										</tr>
 									</form>
 									<tbody>
-									<?php if($list) foreach ($list as $item){ ?>
+									<?php if($list) foreach ($list as $item) {?>
 										<tr class="odd gradeX">
 											<td><?=@$item->id?></td>
-											<td><?=@$item->title?> <img src="<?=@$item->thumb?>" width="18px" height="18px" class="img-circle"></td>
-											<td><a href="<?=base_url().'admin/news/?name=&category='.$item->categoryid?>"><?=@$item->cat_name?></a></td>
+											<td><?=@$item->title?> <img src="<?=@base_url($item->thumb)?>" width="18px" height="18px" class="img-circle"></td>
+											<td>
+												<?php if (isset($item->categoryid) && ($item->categoryid != ''))
+													$space='';foreach ($item->categoryid as $n) { 
+													?>
+												<?=$space?><a href="<?=base_url().'admin/news/?title=&category='.$n['id']?>"><?=@$n['title']?></a> 
+												<?php $space=', ';} ?>
+											</td>
 											<td><?=@$item->count_view?></td>
 											<td style="text-align: center"><a href="<?=@base_url('admin/news/edit/'.$item->id)?>"><i class="fa fa-pencil"></i> Sửa</a> | <a href="<?=@base_url('admin/news/delete/'.$item->id)?>" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')" ><i class="fa fa-trash"></i> Xóa</a></td>
 										</tr>

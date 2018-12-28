@@ -2,7 +2,8 @@
 
 class NewsCategoryModel extends MY_Model {
     protected $tableName = 'news_category';
-    
+    protected $_sortedCategories = array();
+	
     protected $table = array(
         'id' =>  array(
             'isIndex'   => true,
@@ -79,5 +80,20 @@ class NewsCategoryModel extends MY_Model {
 		$query = $this->db->get('news_category');
 		return $query->result();
 	}
+	
+	protected function _nForLoop($data, $parent = "0", $level = 1) {
+        foreach ($data as $key => $value) {
+            if ($value["parent_id"] == $parent) {
+                $this->_sortedCategories[] = array("id" => $value["id"], "title" => $value["title"], "alias" => $value["alias"], "parent_id" => $value["parent_id"], "level" => $level);
+                // next loop
+                $this->_nForLoop($data, $value["id"], $level + 1);
+            }
+        }
+    }
+
+    public function getSortedCategories() {
+        $this->_nForLoop($this->db->get('news_category')->result_array());
+        return $this->_sortedCategories;
+    }
 		
 }

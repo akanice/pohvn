@@ -7,12 +7,17 @@ class Home extends MY_Controller{
 
         //Get Menu 
         $this->load->model('menusmodel');
+		
+		$nav_data = $this->menusmodel->read(array('menu_id'=>'1'));
+		$this->data['navmenu'] = json_decode(json_encode($nav_data), true);
+		$this->data['footermenu'] = $this->menusmodel->read(array('menu_id'=>2));
+		$this->data['config_navmenu'] = $this->menusmodel->setup_navmenu();
+		$this->data['config_mobilemenu'] = $this->menusmodel->setup_mobilemenu();
+		
+		//print_r($this->data['config_navmenu']);die();
         $this->load->model('menustermmodel');
         $this->load->model('configsmodel');
-        //Set up mega menu
-        $nav_menus = $this->menusmodel->read(array('menu_id'=>1));
-        $this->data['nav_menus'] = $nav_menus;
-
+        
         //Options
 		$this->load->model('optionsmodel');
 		$options = array_swap_index($this->optionsmodel->read(), 'name');
@@ -44,8 +49,15 @@ class Home extends MY_Controller{
         $this->data['meta_keywords'] 			= @$options['home_meta_keywords']->value;
 		
 		$this->load->view('home/common/header',  $this->data);
-		$this->load->view('home/template/home_slider');
 		
+		// Slider data
+		// $this->data['section_sliders'][] = new \stdClass;
+		for ($i=1;$i<=5;$i++) {
+			$item_id = $this->configsmodel->read(array('term'=>'home','name'=>'slider_block','term_id'=>$i),array(),true)->value;
+			$this->data['section_sliders'][] = $this->newsmodel->read(array('id'=>$item_id),array(),true);
+		}
+		
+		$this->load->view('home/template/home_slider', $this->data);
 		//sections data
 		$this->data['section_news'][] = new \stdClass;
 		foreach (json_decode($configs['cat_available']) as $item) {
@@ -61,6 +73,8 @@ class Home extends MY_Controller{
 			$this->data['section_news']['slogan'] = $this->configsmodel->read(array("term"=>"category","name"=>"slogan","term_id"=>$item),array(),true);
 			$this->data['section_news_content'] = $this->load->view('home/template/section_news',$this->data);
 		}
+		
+		
 		//print_r($this->data['section_news']['news_featured']);
 		// print_r($this->data['section_news'][1]['news_item']);
 		// die();

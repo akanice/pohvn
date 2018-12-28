@@ -25,13 +25,13 @@
         </div>
 
 		<div class="row">
-			<div class="col-md-12 col-lg-8">
+			 <form class="form-horizontal" method="POST" enctype="multipart/form-data">
+			<div class="col-md-8 col-lg-8">
 				<div class="card">
 					<div class="header">
-						<h4 class="title">Tạo mới tin tức</h4>
+						<h4 class="title">Tạo mới</h4>
 					</div>
 					<div class="content">
-                        <form class="form-horizontal" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Tiêu đề</label>
                                 <div class="col-sm-10">
@@ -78,36 +78,55 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Ảnh</label>
-                                <div class="col-sm-10">
-                                    <input type="file" accept="image" class="form-control" name="image" required="" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Danh mục</label>
-                                <div class="col-sm-10">
-                                    <select class="input-large m-wrap form-control" name="category">
-                                        <?php foreach ($newscategory as $c) {?>
-                                            <option value="<?=@$c->id?>"><?=@$c->name?></option>
-                                        <?php }
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label class="col-sm-2 control-label"></label>
 								<div class="col-sm-6">
 									<input type="submit" class="btn btn-primary btn-fill btn-wd" name="submit" value="Lưu lại">
 									<a href="javascript:window.history.go(-1);" class="btn btn-default">Hủy</a>
 								</div>
 							</div>
-                        </form>
-                        <!-- END FORM-->
                     </div>
                 </div>
-                <!-- END VALIDATION STATES-->
             </div>
-            <!-- END PAGE CONTAINER-->
+			<div class="col-md-4 col-lg-4">
+				<div class="card">
+					<div class="header">
+						<h4 class="title">Tạo mới</h4>
+					</div>
+					<div class="content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Danh mục</label>
+							<div class="col-sm-10">
+								<div class="" style="overflow-y: scroll;height: 250px;border: 1px solid #eee;padding: 0 10px;">
+									<?php foreach($list_cat_id as $cat_item) {?>
+									<?php
+										$indent = "";
+										for ($i = 1; $i < $cat_item['level']; $i++) {
+											$indent .= "--- ";
+										}
+									?>
+									<label class="checkbox">
+										<input type="checkbox" name="category[]" data-toggle="checkbox" value="<?=@$cat_item['id']?>"> <?=@$indent.$cat_item['title'] ?>
+									</label>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Ảnh</label>
+							<div class="col-sm-10">
+								<input type="file" accept="image" class="form-control" name="image" required="" />
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-12">
+								<input type="submit" class="btn btn-primary btn-fill btn-wd" name="submit" value="Lưu lại">
+								<a href="javascript:window.history.go(-1);" class="btn btn-default">Hủy</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</form>
         </div>
         <!-- END PAGE -->
     </div>

@@ -31,11 +31,7 @@ class Menus extends MY_Controller{
 		$this->data['childs'] = $this->menusmodel->read(array("menu_id"=>$id));
 
 		$results = $this->data['results'] = json_decode(json_encode($this->data['childs']), true);
-
-		// $this->multi_menu->set_items($results);
-		// echo $this->multi_menu->render_admin();
 		
-		// die();
 		if ($this->input->post("parent") == 0 || $this->input->post("parent") == '') {
 			$parent = null;
 		} else {

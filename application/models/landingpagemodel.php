@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class BlogCategoryModel extends MY_Model {
-    protected $tableName = 'blog_category';
+class LandingpageModel extends MY_Model {
+    protected $tableName = 'landing_page';
     
     protected $table = array(
         'id' =>  array(
@@ -9,40 +9,36 @@ class BlogCategoryModel extends MY_Model {
             'nullable'  => true,
             'type'      => 'integer'
         ),
-        'name' => array(
+        'news_id' => array(
+            'isIndex'   => false,
+            'nullable'  => true,
+            'type'      => 'integer'
+        ),
+		'code_header' => array(
             'isIndex'   => false,
             'nullable'  => false,
             'type'      => 'string'
         ),
-        'alias' => array(
+		'code_footer' => array(
             'isIndex'   => false,
             'nullable'  => false,
             'type'      => 'string'
         ),
-        'meta_title' => array(
-            'isIndex'   => false,
-            'nullable'  => true,
-            'type'      => 'string'
-        ),
-        'meta_keywords' => array(
-            'isIndex'   => false,
-            'nullable'  => true,
-            'type'      => 'string'
-        ),
-        'meta_description' => array(
-            'isIndex'   => false,
-            'nullable'  => true,
-            'type'      => 'string'
-        ),
-		'language' => array(
+        'total_price' => array(
             'isIndex'   => false,
             'nullable'  => false,
             'type'      => 'string'
-        )
+        ),
+        'step_price' => array(
+            'isIndex'   => false,
+            'nullable'  => false,
+            'type'      => 'string'
+        ),
     );
 
     public function __construct() {
         parent::__construct();
         $this->checkTableDefine();
     }
+	
 }

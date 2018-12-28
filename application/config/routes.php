@@ -62,7 +62,10 @@ $route['admin/admins/(:num)']						= 	'admin/admins/index/$1';
 $route['admin/users/(:num)']							=	'admin/users/index/$1';
 $route['admin/news/(:num)']             				=	'admin/news/index/$1';
 $route['admin/newscategory/(:num)']			=	'admin/newscategory/index/$1';
+$route['admin/landingpage/(:num)']				=	'admin/landingpage/index/$1';
 $route['admin/pages/(:num)']							=	'admin/pages/index/$1';
+$route['admin/orders/(:num)']							=	'admin/orders/index/$1';
+$route['admin/customers/(:num)']					=	'admin/customers/index/$1';
 $route['admin/options/(:num)']          				=	'admin/options/index/$1';
 $route['admin/sliders/(:num)']          				=	'admin/sliders/index/$1';
 $route['admin/faqs/(:num)']							=	'admin/faqs/index/$1';
@@ -73,9 +76,9 @@ $route['tim-kiem']											=	"home/tourSearch";
 $route['logout']												=	"home/logout";
 
 // Front-end routes
-$route['category'] 											= 	"news/index";
+$route['category'] 											= 	"news/cat_index";
 $route['category/(:any)/(:any)/(:num)']			=	"news/category/$1/$2/$3";
 
 $route['page/(:any)'] 										= 	"home/page";
 
-$route['(:any)'] 												= 	"home/news";
+$route['(:any)'] 												= 	"news/$1";

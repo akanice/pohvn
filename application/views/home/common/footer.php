@@ -14,4 +14,23 @@
 	<script type="text/javascript" src="<?=base_url('assets/js/bootstrap-submenu.min.js')?>"></script>
 	<script type="text/javascript" src="<?=base_url('assets/js/script.js')?>"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#sidebar_mobile").mCustomScrollbar({
+				theme: "minimal"
+			});
+
+			$('#dismiss, .overlay').on('click', function () {
+				$('#sidebar_mobile').removeClass('active');
+				$('.overlay').removeClass('active');
+			});
+
+			$('#sidebarCollapse').on('click', function () {
+				$('#sidebar_mobile').addClass('active');
+				$('.overlay').addClass('active');
+				$('.collapse.in').toggleClass('in');
+				$('a[aria-expanded=true]').attr('aria-expanded', 'false');
+			});
+		});
+	</script>
 </body>

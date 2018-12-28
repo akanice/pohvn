@@ -17,7 +17,7 @@ class ConfigsModel extends MY_Model {
 		'term_id' => array(
             'isIndex'   => false,
             'nullable'  => false,
-            'type'      => 'string'
+            'type'      => 'integer'
         ),
 		'name' => array(
             'isIndex'   => false,

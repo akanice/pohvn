@@ -12,7 +12,7 @@
 								<a href="<?=base_url('admin')?>">Trang chủ</a>
 							</li>
 							<li>
-								<a href="<?=base_url('admin/news')?>">Quản lý sản phẩm</a>
+								<a href="<?=base_url('admin/news')?>">Quản lý tin tức</a>
 							</li>
 							<li class="active">
 								Sửa nội dung tin tức
@@ -25,13 +25,13 @@
         </div>
 
 		<div class="row">
+			<form class="form-horizontal" method="POST" enctype="multipart/form-data">
 			<div class="col-md-12 col-lg-8">
 				<div class="card">
 					<div class="header">
 						<h4 class="title">Sửa nội dung tin tức</h4>
 					</div>
 					<div class="content">
-                        <form class="form-horizontal" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label class="col-sm-2">Tiêu đề</label>
                                 <div class="col-sm-10">
@@ -42,8 +42,8 @@
                                 <label class="col-sm-2 control-label">Loại bài viết</label>
                                 <div class="col-sm-10">
 									<select name="type" class="form-control">
-										<option value="default" <?php if($news->language=='default'){echo 'selected="selected" ';}?>>Mặc định</option>
-										<option value="landing" <?php if($news->language=='landing'){echo 'selected="selected" ';}?>>Landing Page</option>
+										<option value="default" <?php if($news->type=='default'){echo 'selected="selected" ';}?>>Mặc định</option>
+										<option value="landing" <?php if($news->type=='landing'){echo 'selected="selected" ';}?>>Landing Page</option>
 									</select>
 								</div>
 							</div>
@@ -57,24 +57,6 @@
                                 <label class="col-sm-2 control-label">Nội dung</label>
                                 <div class="col-sm-10">
                                     <textarea class="form-control ckeditor" name="content" rows="10"><?=@$news->content?></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Ảnh</label>
-                                <div class="col-sm-10">
-                                    <input type="file" accept="image" class="form-control" name="image" style="width: 200px"/>
-                                    <image src="<?=base_url($news->image)?>" height="100px">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Danh mục</label>
-                                <div class="col-sm-10">
-                                    <select class="input-large m-wrap form-control" name="category">
-                                        <?php foreach ($newscategory as $c) {?>
-                                            <option value="<?=@$c->id?>" <?php if($news->categoryid==$c->id){echo 'selected="selected" ';}?>><?=@$c->name?></option>
-                                        <?php }
-                                        ?>
-                                    </select>
                                 </div>
                             </div>
 							<div class="form-group">
@@ -102,12 +84,46 @@
 									<a href="javascript:window.history.go(-1);" class="btn btn-default">Hủy</a>
 								</div>
 							</div>
-                        </form>
                         <!-- END FORM-->
                     </div>
                 </div>
                 <!-- END VALIDATION STATES-->
             </div>
+			<div class="col-md-4 col-lg-4">
+				<div class="card">
+					<div class="header">
+						<h4 class="title">Tạo mới</h4>
+					</div>
+					<div class="content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Danh mục</label>
+							<div class="col-sm-10">
+								<div class="" style="overflow-y: scroll;height: 250px;border: 1px solid #eee;padding: 0 10px;">
+									<?php foreach($newscategory as $cat_item) {?>
+									<?php
+										$indent = "";
+										for ($i = 1; $i < $cat_item['level']; $i++) {
+											$indent .= "--- ";
+										}
+									?>
+									<label class="checkbox">
+										<input type="checkbox" name="category[]" data-toggle="checkbox" value="<?=@$cat_item['id']?>" <?php if (in_array($cat_item['id'],$news->categoryid)) {echo 'checked';}?>> <?=@$indent.$cat_item['title'] ?>
+									</label>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Ảnh</label>
+							<div class="col-sm-10">
+								<input type="file" accept="image" class="form-control" name="image" style="width: 200px"/>
+								<image src="<?=base_url($news->image)?>" height="100px">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</form>
             <!-- END PAGE CONTAINER-->
         </div>
         <!-- END PAGE -->
