@@ -15,10 +15,15 @@ class LandingpageModel extends MY_Model {
             'nullable' => true,
             'type'     => 'integer'
         ),
-        'code_header'      => array(
-            'isIndex'  => false,
-            'nullable' => false,
-            'type'     => 'string'
+		'menu_id' => array(
+            'isIndex'   => false,
+            'nullable'  => true,
+            'type'      => 'integer'
+        ),
+		'code_header' => array(
+            'isIndex'   => false,
+            'nullable'  => false,
+            'type'      => 'string'
         ),
         'code_footer'      => array(
             'isIndex'  => false,

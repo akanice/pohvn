@@ -65,7 +65,7 @@
                                     <td style="text-align: center">
 										<a href="<?=@base_url('admin/customers/edit/'.$item->id)?>" class="btn btn-primary btn-sm btn-fill"><i class="fa fa-pencil"></i> Sửa</a>
 										<a href="<?=@base_url('admin/customers/delete/'.$item->id)?>" class="btn btn-danger btn-sm btn-fill" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')" ><i class="fa fa-trash"></i> Xóa</a>
-										<a href="<?=@base_url('admin/orders/add/'.$item->id)?>" class="btn btn-info btn-sm btn-fill"><i class="fa fa-plus"></i> Tạo đơn hàng</a>
+										
                                     </td>
 								</tr>
                             <?php } ?>

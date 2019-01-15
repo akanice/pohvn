@@ -71,7 +71,7 @@ class ordersModel extends MY_Model {
         // return $query;
     }
 
-    public function getListorders($customer,$phone,$limit, $offset) {
+    public function getListorders($customer,$phone,$status,$limit, $offset) {
         $this->db->select('orders.*,customers.email as customer_email,
 							customers.name as customer_name,
 							customers.phone as customer_phone, 
@@ -87,6 +87,9 @@ class ordersModel extends MY_Model {
         }
 		if($phone){
             $this->db->like('customers.phone', $phone);
+        }
+		if($status){
+            $this->db->like('orders.status', $status);
         }
         if ($limit != "") {
             $query = $this->db->get('orders', $limit, $offset);

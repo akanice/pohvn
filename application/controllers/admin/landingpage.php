@@ -64,8 +64,8 @@ class Landingpage extends MY_Controller{
     }
 
     public function add() {
-        //$this->data['landingpagecategory'] = $this->landingpagecategorymodel->read(array(),array(),false);
-
+		$this->load->model('menustermmodel');
+		$this->data['menus'] = $this->menustermmodel->read(array(),array(),false);
 		if($this->input->post('submit') != null){
             $uploaddir = 'assets/uploads/images/articles/';
             if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
@@ -89,10 +89,10 @@ class Landingpage extends MY_Controller{
 				"meta_title" => $this->input->post("meta_title"),
 				"meta_description" => $this->input->post("meta_description"),
 				"meta_keywords" => $this->input->post("meta_keywords"),
+				"menu_id" => $this->input->post("menu_id"),
 				"type" => $this->input->post("type"),
 				"create_time" => time(),
 			);
-			print_r($data);
 			$news_id = $this->newsmodel->create($data);
 			$this->newsmodel->update(array('order'=>$news_id),array('id'=>$news_id));
 			
@@ -114,7 +114,12 @@ class Landingpage extends MY_Controller{
     }
 
     public function edit($id) {
+		$this->load->model('menustermmodel');
+		$this->data['menus'] = $this->menustermmodel->read(array(),array(),false);
         $this->data['landingpage'] = $this->newsmodel->read(array('id'=>$id),array(),true);
+		$this->data['landingpage_data'] = $this->landingpagemodel->read(array('news_id'=>$this->data['landingpage']->id),array(),true);
+		$this->data['pricingPackage'] = json_decode($this->data['landingpage_data']->step_price);
+		
         if($this->input->post('submit') != null){
             $uploaddir = '/assets/uploads/images/articles/';
             $this->load->library("upload");
@@ -125,24 +130,32 @@ class Landingpage extends MY_Controller{
                 $image = $this->data['landingpage']->image;
             }
             $data = array(
-                "title" => $this->input->post("title"),
-                "alias" => make_alias($this->input->post("title")),
-                "categoryid" => $this->input->post("category"),
-                "content" => $this->input->post("content"),
+				"order" => 1,
+				"title" => $this->input->post("title"),
+				"alias" => make_alias($this->input->post("title")),
+				"categoryid" => 0,
+				"content" => $this->input->post("content"),
                 "image" => $image,
-                "description" => $this->input->post("description"),
+                "thumb" => $image,
+				"description" => $this->input->post("description"),
 				"meta_title" => $this->input->post("meta_title"),
 				"meta_description" => $this->input->post("meta_description"),
 				"meta_keywords" => $this->input->post("meta_keywords"),
+				"menu_id" => $this->input->post("menu_id"),
 				"type" => $this->input->post("type"),
-            );
+				"create_time" => time(),
+			);
             $this->newsmodel->update($data,array('id'=>$id));
 			
-			// $step_price => $this->input->post("step_price");
-			// $data2 = array(
-				// "total_price" => $this->input->post("total_price"),
-				// "step_price" => $step_price;
-			// );
+			$pricingPackage = $this->input->post("pricingPackage");
+			$pricingPackage = json_encode($pricingPackage);
+			$data2 = array(
+				"news_id" => $news_id,
+				"total_price" => $this->input->post("total_price"),
+				"step_price" => $pricingPackage,
+			);
+			$this->landingpagemodel->update($data2,array('id'=>$id));
+			
             redirect(base_url() . "admin/landingpage");
             exit();
         } else {

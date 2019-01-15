@@ -4,8 +4,8 @@ class News extends MY_Controller{
     private $data;
     function __construct() {
         parent::__construct();
-		// $this->optionData();
-        //Get Menu 
+        
+		//Get Menu 
         $this->load->model('menusmodel');
 		
 		$nav_data = $this->menusmodel->read(array('menu_id'=>'1'));
@@ -31,6 +31,7 @@ class News extends MY_Controller{
         $this->data['link_gplus'] 									= @$options['link_gplus']->value;
         $this->data['link_instagram'] 							= @$options['link_instagram']->value;
         $this->data['tour_banner'] 								= @$options['tour_banner']->value;
+		
 		$this->load->model('newsmodel');
 		$this->load->model('newscategorymodel');
     }
@@ -50,9 +51,68 @@ class News extends MY_Controller{
 		$this->data['most_viewed'] = $this->newsmodel->read(array(),array('count_view'=>false),false,5);
 		$this->data['related_news'] = $this->newsmodel->getRelatedNews($cat_chosen,5);
 		
-		$this->load->view('home/common/header',  $this->data);
-        $this->load->view('home/news_detail');
-        $this->load->view('home/common/footer');
+		
+		if ($this->data['new']->type == 'default') {
+			$this->load->view('home/common/header',  $this->data);
+			$this->load->view('home/news_detail');
+			$this->load->view('home/common/footer');
+		} else {
+			$this->load->view('home/template/landing_page', $this->data);
+		}
     }
+	
+	public function category($alias) {
+        $news_category = $this->newscategorymodel->read(array('alias'=>$alias),array(),true);
 
+		$total = $this->newsmodel->readCountNew($news_category->id);
+		// print_r($total);die();
+		$per_page = 6;
+		$this->configPagination($slug='category',$per_page,$alias,$total);
+        $page_number = $this->uri->segment(3);
+        if (empty($page_number)) $page_number = 1;
+        $start = ($page_number - 1) * $per_page;
+        $this->data['page_links'] = $this->pagination->create_links();
+
+        $this->data['news'] = $this->newsmodel->read(array('categoryid'=>$news_category->id),array(),false,$per_page,$start);
+	
+        if (empty($this->data['products'])) {
+			$this->data['title'] = 'Sản phẩm'	;
+		} else {
+			$this->data['title'] = 'Sản phẩm | '.$this->data['current_category']->name;
+		}
+		
+		$this->data['meta_keywords']    = $news_category->meta_keywords;
+		$this->data['meta_description']	= $news_category->meta_description;
+		
+		$this->load->view('home/common/header',$this->data);
+        $this->load->view('home/news_list');
+        $this->load->view('home/common/footer');
+	}
+
+	private function configPagination($slug,$per_page=9,$alias,$total) {
+        $this->load->library('pagination');
+        $config['base_url'] = base_url().$slug.'/'.$alias;
+        $config['total_rows'] = $total;
+        $config['uri_segment'] = 3;
+        $config['per_page'] = $per_page;
+        $config['num_links'] = 5;
+        $config['use_page_numbers'] = TRUE;
+        $config["num_tag_open"] = "<li>";
+        $config["num_tag_close"] = "</li>";
+        $config["cur_tag_open"] = "<li class='active'><a href='#'>";
+        $config["cur_tag_close"] = "</a></li>";
+        $config["first_link"] = "First";
+        $config["first_tag_open"] = "<li class='first'>";
+        $config["first_tag_close"] = "</li>";
+        $config["last_link"] = "Last";
+        $config["last_tag_open"] = "<li class='last'>";
+        $config["last_tag_close"] = "</li>";
+        $config["next_link"] = "Next → ";
+        $config["next_tag_open"] = "<li class='next'>";
+        $config["next_tag_close"] = "</li>";
+        $config["prev_link"] = "← Prev";
+        $config["prev_tag_open"] = "<li class='prev'>";
+        $config["prev_tag_close"] = "</li>";
+        $this->pagination->initialize($config);
+	}
 }

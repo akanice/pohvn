@@ -13,11 +13,12 @@ class Orders extends MY_Controller{
 	}
     public function index(){
         $this->data['title'] 				= 'Quản lý đơn hàng';
-        $this->data['customer'] 		= $this->input->get('customer');
+        $this->data['name'] 		= $this->input->get('name');
         $this->data['phone'] 			= $this->input->get('phone');
-        $total = $this->ordersmodel->getTotalOrders($this->data['customer'],$this->data['phone']);
-		if (($this->data['customer'] != "") or ($this->data['phone'] != "" )) {
-            $config['suffix'] = '?customer='.urlencode($this->data['customer']).'&phone='.urlencode($this->data['phone']);
+        $this->data['status'] 			= $this->input->get('status');
+        $total = $this->ordersmodel->getTotalOrders($this->data['name'],$this->data['phone'],$this->data['status']);
+		if (($this->data['name'] != "") or ($this->data['phone'] != "" ) or ($this->data['status'] != '')) {
+            $config['suffix'] = '?name='.urlencode($this->data['name']).'&phone='.urlencode($this->data['phone']).'&phone='.urlencode($this->data['status']);
         }
         //Pagination
         $this->load->library('pagination');
@@ -34,7 +35,7 @@ class Orders extends MY_Controller{
         $this->data['page_links'] = $this->pagination->create_links();
         $this->data['base'] = site_url('admin/orders/');
         
-        $this->data['list'] = $this->ordersmodel->getListOrders($this->data['customer'], $this->data['phone'], $config['per_page'],$start);
+        $this->data['list'] = $this->ordersmodel->getListOrders($this->data['name'], $this->data['phone'], $this->data['status'], $config['per_page'],$start);
 		
         $this->load->view('admin/common/header',$this->data);
         $this->load->view('admin/orders/list');

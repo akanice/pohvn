@@ -9503,3 +9503,8 @@ star {
 .content-full-width .tab-pane {
   padding: 15px;
 }
+.fleft {float:left}
+.fright {float:right}
+.sub_menu {
+	margin: 15px 0;
+}

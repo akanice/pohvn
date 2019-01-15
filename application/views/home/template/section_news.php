@@ -21,7 +21,7 @@
 										?>
 									<div class="article col-md-6 col-sm-12 col-xs-12" id="article-<?=$item->id?>">
 										<div class="fleft article-thumb">
-											<a href="<?=base_url($item->alias)?>" class="image-holder fix-size" style="background-image:url('<?=base_url($item->thumb)?>');display:inline-block"></a>
+											<a href="<?=base_url($item->alias)?>" class="image-holder fix-size" style="background-image:url('<?=@$item->thumb?>');display:inline-block"></a>
 										</div>
 										<div class="article-title">
 											<a href="<?=base_url($item->alias)?>"><h4 class="article-title"><?=$item->title?></h4></a>
@@ -35,7 +35,7 @@
 										?>
 									<div class="article col-md-6 col-sm-12 col-xs-12" id="article-<?=$item[0]->id?>">
 										<div class="fleft article-thumb">
-											<a href="<?=base_url($item[0]->alias)?>" class="image-holder fix-size" style="background-image:url('<?=base_url($item[0]->thumb)?>');display:inline-block"></a>
+											<a href="<?=base_url($item[0]->alias)?>" class="image-holder fix-size" style="background-image:url('<?=@$item[0]->thumb?>');display:inline-block"></a>
 										</div>
 										<div class="article-title">
 											<a href="<?=base_url($item[0]->alias)?>"><h4 class="article-title"><?=$item[0]->title?></h4></a>
@@ -50,7 +50,7 @@
 									<div class="col-md-5 col-sm-5">
 										<div class="cat-primary penci-slide-overlay">
 											<div class="cat-thumb">
-												<a href="#"><img src="/assets/img/sample_image-2.jpg" class="img-holder"></a>
+												<a href="#"><img src="<?=$section_news['parent_cat']->image?>" class="img-holder"></a>
 											</div>
 											<a href="#"><div class="overlay-link"></div></a>
 											<div class="cat-title">
