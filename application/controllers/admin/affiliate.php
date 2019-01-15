@@ -60,7 +60,7 @@ class Affiliate extends MY_Controller {
 		if (empty($page_number)) $page_number = 1;
 		$start = ($page_number - 1) * $config['per_page'];
 		$this->data['page_links'] = $this->pagination->create_links();
-		$this->data['listAffiliate'] = $this->affiliatesmodel->getListAffiliateTransaction($start, $config['per_page']);
+		$this->data['listAffiliates'] = $this->affiliatesmodel->getListAffiliateTransaction($start, $config['per_page']);
 		$this->load->view('admin/common/header', $this->data);
 		$this->load->view('admin/affiliate/statistic');
 		$this->load->view('admin/common/footer');

@@ -53,17 +53,15 @@ class Affiliatesmodel extends MY_Model {
 
     public function getListAffiliateTransaction($start, $perPage) {
         $this->db->select('orders.*,affiliate_transactions.*');
-        $this->db->from('affiliate_transactions');
-        $this->db->join('orders', 'orders.affiliate_transaction_id = affiliate_transactions.id', 'left');
+        $this->db->join('affiliate_transactions', 'orders.affiliate_transaction_id = affiliate_transactions.id', 'INNER');
         $query = $this->db->get('orders', $perPage, $start);
         return $query ? $query->result() : $query;
     }
 
     public function getListAffiliateUsers($start, $perPage) {
         $this->db->select('users.*,affiliate_user_info.*');
-        $this->db->from('users');
-        $this->db->join('affiliate_user_info', 'users.id = affiliate_user_info.user_id', 'left');
-        $query = $this->db->get();
+        $this->db->join('affiliate_user_info', 'users.id = affiliate_user_info.user_id', 'LEFT');
+        $query = $this->db->get('users', $start, $perPage);
         return $query ? $query->result() : $query;
     }
 

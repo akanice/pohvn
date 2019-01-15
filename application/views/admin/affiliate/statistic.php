@@ -37,6 +37,19 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    <?php if($listAffiliates) foreach ($listAffiliates as $affiliateTransaction){ ?>
+                                        <tr>
+                                            <th width=''>Affiliate Id</th>
+                                            <th width=''>Order</th>
+                                            <th width=''>Số tiền hoa hồng</th>
+                                            <th width=''>Người giới thiệu</th>
+                                            <th width=''>Email</th>
+                                            <th width=''>Ngày lập order</th>
+                                            <th width=''>Trạng thái</th>
+                                            <th width=''>Chi tiết</th>
+                                        </tr>
+                                    <?php } ?>
+                                    </tbody>
                                     </tbody>
                                 </table>
                             </div>
