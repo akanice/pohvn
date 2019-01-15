@@ -49,7 +49,25 @@
 												</td>
 											</tr>
 											<tr>
-												<td>Bài viết nổi bật tại mỗi chuyên mục</td>
+												<td>---  Bài viết nổi bật tại mỗi chuyên mục</td>
+												<td></td>
+												<td class="td-actions text-right">
+													<a href="<?=@base_url('admin/configs/editfeaturednews')?>" rel="tooltip" title="" class="btn btn-info btn-simple btn-link">
+														<i class="fa fa-edit"></i>
+													</a>
+												</td>
+											</tr>
+											<tr>
+												<td>---  Slogan mỗi chuyên mục</td>
+												<td></td>
+												<td class="td-actions text-right">
+													<a href="<?=@base_url('admin/configs/editfeaturednews')?>" rel="tooltip" title="" class="btn btn-info btn-simple btn-link">
+														<i class="fa fa-edit"></i>
+													</a>
+												</td>
+											</tr>
+											<tr>
+												<td>---  Banner mỗi chuyên mục</td>
 												<td></td>
 												<td class="td-actions text-right">
 													<a href="<?=@base_url('admin/configs/editfeaturednews')?>" rel="tooltip" title="" class="btn btn-info btn-simple btn-link">

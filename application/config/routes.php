@@ -77,7 +77,7 @@ $route['logout']												=	"home/logout";
 
 // Front-end routes
 $route['category'] 											= 	"news/cat_index";
-$route['category/(:any)']						=	"news/category/$1";
+$route['category/(:any)']									=	"news/category/$1";
 
 $route['page/(:any)'] 										= 	"home/page";
 $route['(:any)'] 												= 	"news/index/$1";
