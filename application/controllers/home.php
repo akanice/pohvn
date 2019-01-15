@@ -51,10 +51,11 @@ class Home extends MY_Controller{
 		$this->load->view('home/common/header',  $this->data);
 		
 		// Slider data
-		// $this->data['section_sliders'][] = new \stdClass;
+		$this->data['section_sliders'] = array();
 		for ($i=1;$i<=5;$i++) {
 			$item_id = $this->configsmodel->read(array('term'=>'home','name'=>'slider_block','term_id'=>$i),array(),true)->value;
-			$this->data['section_sliders'][] = $this->newsmodel->read(array('id'=>$item_id),array(),true);
+			$item = $this->newsmodel->read(array('id'=>$item_id),array(),true);
+			if($item) $this->data['section_sliders'][] = $item;
 		}
 		
 		$this->load->view('home/template/home_slider', $this->data);
@@ -271,5 +272,16 @@ class Home extends MY_Controller{
         $this->load->view('home/pages');
         $this->load->view('home/common/footer');  
 	}
+
+	public function affiliateUserInfo() {
+        $this->data['title'] = 'Dashboard';
+        $this->data['meta_title'] 				= '';
+        $this->data['meta_description'] 		= '';
+        $this->data['meta_keywords'] 			= '';
+        $this->data['affiliate_user'] =
+        $this->load->view('home/common/header',  $this->data);
+        $this->load->view('home/affiliate_user_dashboard');
+        $this->load->view('home/common/footer');
+    }
 
 }
