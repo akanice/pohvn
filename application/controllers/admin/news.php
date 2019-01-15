@@ -108,7 +108,6 @@ class News extends MY_Controller{
 			}
 			$categories = $this->input->post("category");
             $data = array(
-				"order" => 1,
 				"title" => $this->input->post("title"),
 				"alias" => make_alias($this->input->post("title")),
 				"categoryid" => json_encode($categories),
@@ -140,17 +139,19 @@ class News extends MY_Controller{
         $this->data['news'] = $this->newsmodel->read(array('id'=>$id),array(),true);
 		$this->data['news']->categoryid = json_decode($this->data['news']->categoryid);
         if($this->input->post('submit') != null){
-            $uploaddir = '/assets/uploads/images/articles/';
-            if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
-            $this->load->library("upload");
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $uploaddir . basename($_FILES['image']['name']))) {
-                $image = $uploaddir . $_FILES['image']['name'];
-            } else{
-                $image = $this->data['news']->image;
-            }
-			//Create thumb
-			if ($image != '') {
-                $dir_thumb = 'assets/uploads/images/thumb/';
+			$uploaddir = '/assets/uploads/images/articles/';
+			if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
+			$this->load->library("upload");
+			if(isset($_FILES['image']) && count($_FILES['image']) > 0 && $_FILES['image']['name'] != "") {
+				if (move_uploaded_file($_FILES['image']['tmp_name'], $uploaddir . basename($_FILES['image']['name']))) {
+					$image = $uploaddir . $_FILES['image']['name'];
+				} else{
+					$image = $this->data['news']->image;
+					$image_thumb = $this->data['news']->thumb;
+				}
+				
+                //Create thumb
+                $dir_thumb = 'assets/uploads/thumb/';
                 if (!file_exists($dir_thumb) || !is_dir($dir_thumb)) mkdir($dir_thumb,0777,true);
                 $this->load->library('image_lib');
                 $config2 = array();
@@ -168,25 +169,25 @@ class News extends MY_Controller{
                 }else{
                     $image_thumb = $dir_thumb.basename($_FILES['image']['name'], '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION)) . '_thumb.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
                 }
-            }else{
+            } else {
                 $image = $this->data['news']->image;
                 $image_thumb = $this->data['news']->thumb;
             }
-			
+			$categories = $this->input->post("category");
             $data = array(
-                "title" => $this->input->post("title"),
-                "alias" => make_alias($this->input->post("title")),
-                "categoryid" => $this->input->post("category"),
-                "content" => $this->input->post("content"),
+				"title" => $this->input->post("title"),
+				"alias" => make_alias($this->input->post("title")),
+				"categoryid" => json_encode($categories),
+				"content" => $this->input->post("content"),
                 "image" => $image,
 				"thumb" => $image_thumb,
-                "description" => $this->input->post("description"),
+				"description" => $this->input->post("description"),
 				"meta_title" => $this->input->post("meta_title"),
 				"meta_description" => $this->input->post("meta_description"),
 				"meta_keywords" => $this->input->post("meta_keywords"),
-				// "language" => $this->input->post("language"),
 				"type" => $this->input->post("type"),
-            );
+				"create_time" => time(),
+			);
             $this->newsmodel->update($data,array('id'=>$id));
             redirect(base_url() . "admin/news");
             exit();

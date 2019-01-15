@@ -321,23 +321,25 @@ class Configs extends MY_Controller{
 		
 		if($this->input->post('submit') != null){
 			foreach ($this->data['banner'] as $cid) {
-				if ($this->input->post('banner_'.$cid['cat_id'])) {
-					$uploaddir = '/assets/uploads/images/banners/';
-					if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
-					$this->load->library("upload");
+				$this->load->library("upload");
+				$uploaddir = '/assets/uploads/images/banners/';
+				if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
+				//print_r($_FILES['banner_'.$cid['cat_id']]);
+				if(isset($_FILES['banner_'.$cid['cat_id']]) && count($_FILES['banner_'.$cid['cat_id']]) > 0 && $_FILES['banner_'.$cid['cat_id']]['name'] != "") {
 					if (move_uploaded_file($_FILES['banner_'.$cid['cat_id']]['tmp_name'], $uploaddir . basename($_FILES['banner_'.$cid['cat_id']]['name']))) {
 						$image = $uploaddir . $_FILES['banner_'.$cid['cat_id']]['name'];
 					}
 					$data[$cid['cat_id']] = array(
 						"value" => $image,
 					);
-					//$this->configsmodel->update($data[$cid['cat_id']],array('term'=>'category','name'=>'banner','term_id'=>$cid['cat_id']));
+					//echo 'ahihi';
+					$this->configsmodel->update($data[$cid['cat_id']],array('term'=>'category','name'=>'banner','term_id'=>$cid['cat_id']));
 				} else {
 					$image = $cid['current_banner'];
+					echo 'bhoho';
 					//print_r($image);
 				}
 			}
-			die();
 			
 			$this->data['notice'] = 'Cập nhật thành cmn công!';
 			foreach ($this->data['home_cat_available'] as $key=>$cat_id) {
