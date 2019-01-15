@@ -84,4 +84,5 @@ $route['category'] 											= 	"news/cat_index";
 $route['category/(:any)']									=	"news/category/$1";
 
 $route['page/(:any)'] 										= 	"home/page";
+$route['affiliate-user']												=	"home/affiliateUserInfo";
 $route['(:any)'] 												= 	"news/index/$1";

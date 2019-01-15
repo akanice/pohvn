@@ -97,6 +97,12 @@ class Affiliatesmodel extends MY_Model {
         $this->db->delete('affiliate_user_info');
     }
 
+    public function getAffiliateUser($id) {
+        $this->db->where('id', $id);
+        $res = $this->db->get('affiliate_user_info');
+        return $res ? $res->result() : false;
+    }
+
     public function createAffiliateTransaction($landingPageId, $userId, $totalPrice, $orderId = null) {
         $this->load->model('landingpagemodel');
         $landingPage = $this->landingpagemodel->getLandingpage($landingPageId);
