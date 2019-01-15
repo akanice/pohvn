@@ -136,6 +136,7 @@ class Affiliatesmodel extends MY_Model {
     private function getTransaction($id) {
         $this->db->where('id', $id);
         $res = $this->db->get();
-        return $res ? ($res->result())[0] : null;
+        $result = $res ? $res->result() : array();
+        return sizeof($result) > 0 ? $result[0] : null;
     }
 }
