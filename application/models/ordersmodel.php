@@ -97,7 +97,7 @@ class ordersModel extends MY_Model {
         }else{
             $query = $this->db->get('orders');
         }
-        return $query->result();
+        return $query ? $query->result() : false;
         // return false;
     }
 	
