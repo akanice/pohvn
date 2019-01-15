@@ -1,121 +1,69 @@
-<aside class="right-side">
-    <section class="content-header">
-        <h1>
-            Quản lý đơn hàng
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="<?=site_url('admin')?>"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-            <li><a href="<?=site_url('admin/orders')?>">Quản lý đơn hàng</a></li>
-            <li class="active">Cập nhật đơn hàng</li>
-        </ol>
-    </section>
-    <!-- Main content -->
-	<link href="<?=base_url('assets/css/select.min.css')?>" rel="stylesheet" />
-	<script src="<?=base_url('assets/js/plugins/select2/select2.full.min.js')?>"></script>
-	<script>
-		$(document).ready(function() {
-			$(".select2").select2();
-			$("#addmore_row").click(function() {
-				// setTimeout(function(){ $(".select2").select2(); }, 100);
-				$(".select2").select2();
-			});
-		}).change(function() {
-			$(".select2").select2();
-		})
-	</script>
-    <section class="content">
-        <div class="row" style="margin-left: -15px" ng-controller="OrderEditCtrl">
-            <!-- left column -->
-			<form role="form" method="POST" enctype="multipart/form-data" action="<?=base_url('admin/orders/edit/'.$id)?>">
-				<div class="col-md-12 col-sm-12 col-lg-10">
-					<!-- general form elements -->
-					<div class="box box-success box-solid">
-						<div class="box-header with-border">
-							<h3 class="box-title">Cập nhật đơn hàng</h3>
-						</div>
-						<div class="box-body">
-                            <div class="form-group row-fluid">
-								<div class="col-md-3"><label>Tên máy:</label></div>
-								<div class="col-md-7">
-									<select class="form-control select2 select2-hidden-accessible" required="" style="width: 100%;" tabindex="-1" aria-hidden="true" name="device_id">
-										<?php foreach ($devices as $key => $value) {?>
-											<option value="<?=$value->id;?>" <?php if($order->id_device==$value->id) {echo 'selected';}?>><?=$value->name?></option>
-										<?php } ?>
-									</select>
-								</div>
-								<div class="col-md-2">
-									<button class="btn btn-primary" style="width:100%;display:inline-block" type="submit" name="submitForm" value="submitDevice">Xác nhận</button>
-								</div>
-								<br><br><hr>
-								
-								<?php if (isset($products)) {?>
-								<div class="">
-									<h4>Linh kiện tương ứng</h4>
-									<table class="table table-bordered table-hover">
-										<thead>
-											<tr>
-												<th>Tên sản phẩm</th>
-												<th>Tuổi thọ</th>
-												<th>Giá tiền</th>
-												<th>Số lượng</th>
-												<th>Thành tiền</th>
-											</tr>
-										</thead>
-										<tbody>
-											<?php foreach($products as $item) {?>
-											<tr class="odd gradeX">
-												<td><?=@$item->name?></td>
-												<td><?php 
-													if (@$item->longevity < 30) { 
-														echo $item->longevity." ngày";
-													} elseif (($item->longevity >= 30) && ($item->longevity < 365) && ($item->longevity%30 == 0)) {
-														echo ($item->longevity/30)." tháng";
-													} elseif (($item->longevity >= 365) && ($item->longevity%365 == 0)) {
-														echo ($item->longevity/365)." năm";
-													} else {
-														echo $item->longevity." ngày";
-													}
-													?>
-												</td>
-												<td id="product_price_<?=$item->pro_id?>" class="form_product_price"><?=number_format($item->sell_price,0,',','.')?></td>
-												<td><input type="text" name="product_id[<?=$item->pro_id?>]" class="form-control form_product_number" id="number_product_<?=$item->pro_id?>" data-input="<?=$item->pro_id?>" value="<?php if(isset($item->quantity)) {echo $item->quantity;} else {echo '0';}?>"></td>
-												<td><span style="text-align:right" name="total_item_<?=$item->pro_id?>" class="form-control form_product_total" id="total_item_<?=$item->pro_id?>"></span></td>
-											</tr>
-											<script>
-													number_product = $('#number_product_<?=$item->pro_id?>').val();
-													sum = 0;
-													number_product = parseInt($('#number_product_<?=$item->pro_id?>').val());
-													pricing = parseInt($('#product_price_<?=$item->pro_id?>').html())*1000;
-													$('#total_item_<?=$item->pro_id?>').html(pricing*number_product);
-													$('#number_product_<?=$item->pro_id?>').val(number_product);
-													$('#total_item_').val(pricing*number_product);
-											</script>
-											<?php }?>
-										</tbody>
-									</table>
-								</div>
-								<?php } ?>
-						</div>
-						<div class="box-footer">
-							<button type="submit" class="btn btn-primary" name="submitForm" value="submitAll">Lưu lại</button>
-							<a href="javascript:window.history.go(-1);" class="btn btn-default">Hủy</a>
-						</div>
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+            <div class="col-md-12">
+				<div class="card">
+					<div class="content">
+						<h3 class="page-title">
+							Quản lý đơn hàng
+						</h3>
+						<ul class="breadcrumb">
+							<li>
+								<a href="<?=base_url('admin')?>">Trang chủ</a>
+							</li>
+							<li>
+								<a href="<?=base_url('admin/news')?>">Quản lý đơn hàng</a>
+							</li>
+							<li class="active">
+								Cập nhật đơn hàng
+							</li>
+						</ul>
+						<!-- END PAGE TITLE & BREADCRUMB-->
 					</div>
 				</div>
-			</form>
+            </div>
         </div>
-    </section>
-</aside>
+
+		<div class="row">
+			<form class="form-horizontal" method="POST" enctype="multipart/form-data">
+				<div class="col-md-12 col-lg-8">
+					<div class="card">
+						<div class="header">
+							<h4 class="title">Cập nhật đơn hàng</h4>
+						</div>
+						<div class="content">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Mã đơn hàng</label>
+									<div class="col-sm-10">
+										<input type="text" value="<?=@$order->code?>" class="form-control" disabled>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Trạng thái đơn hàng</label>
+									<div class="col-sm-10">
+										<select name="status" class="form-control">
+											<option value="pending" <?php if($order->status=='pending'){echo 'selected="selected" ';}?>>Mới</option>
+											<option value="process" <?php if($order->status=='process'){echo 'selected="selected" ';}?>>Đang xử lý</option>
+											<option value="confirmed" <?php if($order->status=='confirmed'){echo 'selected="selected" ';}?>>Đã thanh toán</option>
+											<option value="closed" <?php if($order->status=='closed'){echo 'selected="selected" ';}?>>Đóng</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label"></label>
+									<div class="col-sm-6">
+										<input type="submit" class="btn btn-primary btn-fill btn-wd" name="submit" value="Lưu lại">
+										<a href="javascript:window.history.go(-1);" class="btn btn-default btn-fill">Hủy</a>
+									</div>
+								</div>
+							<!-- END FORM-->
+						</div>
+					</div>
+					<!-- END VALIDATION STATES-->
+				</div>
+			</form>
+            <!-- END PAGE CONTAINER-->
+        </div>
+        <!-- END PAGE -->
+    </div>
 </div>
-<script>
-	function multiplyShares(itemId) {
-		var pricing = parseInt($('#product_price_'+itemId).html())*1000;
-		number_product = $('#number_product_'+itemId).val();
-		
-		sum = (pricing*number_product);
-		console.log(sum);
-		$('#total_item_'+itemId).html(sum);
-		//alert(itemId);
-	};
-	$(".form_product_number").keyup(function() { multiplyShares($(this).attr('data-input')); });
-</script>

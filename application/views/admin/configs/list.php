@@ -61,7 +61,7 @@
 												<td>---  Slogan mỗi chuyên mục</td>
 												<td></td>
 												<td class="td-actions text-right">
-													<a href="<?=@base_url('admin/configs/editfeaturednews')?>" rel="tooltip" title="" class="btn btn-info btn-simple btn-link">
+													<a href="<?=@base_url('admin/configs/editslogancategory')?>" rel="tooltip" title="" class="btn btn-info btn-simple btn-link">
 														<i class="fa fa-edit"></i>
 													</a>
 												</td>
@@ -70,7 +70,7 @@
 												<td>---  Banner mỗi chuyên mục</td>
 												<td></td>
 												<td class="td-actions text-right">
-													<a href="<?=@base_url('admin/configs/editfeaturednews')?>" rel="tooltip" title="" class="btn btn-info btn-simple btn-link">
+													<a href="<?=@base_url('admin/configs/editbannercategory')?>" rel="tooltip" title="" class="btn btn-info btn-simple btn-link">
 														<i class="fa fa-edit"></i>
 													</a>
 												</td>

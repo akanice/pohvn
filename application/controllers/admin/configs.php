@@ -266,7 +266,95 @@ class Configs extends MY_Controller{
 			$this->load->view('admin/configs/editcookietime');
 			$this->load->view('admin/common/footer');
 		}
-	}	
+	}
+	
+	public function editSloganCategory() {
+		$this->load->model('newsmodel');
+		$this->load->model('newscategorymodel');
+		$this->data['home_cat_available'] = $this->configsmodel->read(array('term'=>'home','name'=>'cat_available'),array(),true);
+		$this->data['home_cat_available'] = json_decode($this->data['home_cat_available']->value, true);
+		foreach ($this->data['home_cat_available'] as $key=>$cat_id) {
+			$this->data['slogans'][$key]['current_slogan'] = $this->configsmodel->read(array('term'=>'category','name'=>'slogan','term_id'=>$cat_id),array(),true)->value;
+			$this->data['slogans'][$key]['cat_title'] = $this->newscategorymodel->read(array('id'=>$cat_id),array(),true)->title;
+			$this->data['slogans'][$key]['cat_id'] = $this->newscategorymodel->read(array('id'=>$cat_id),array(),true)->id;
+		}
+		
+		if($this->input->post('submit') != null){
+			foreach ($this->data['slogans'] as $cid) {
+				if ($this->input->post('slogan_'.$cid['cat_id'])) {
+					$value = $this->input->post('slogan_'.$cid['cat_id']); 
+					$data[$cid['cat_id']] = array(
+						'value' => $value,
+					);
+					// print_r($value);
+					$this->configsmodel->update($data[$cid['cat_id']],array('term'=>'category','name'=>'slogan','term_id'=>$cid['cat_id']));
+				}
+			}
+			// Update new data
+			$this->data['notice'] = 'Cập nhật thành cmn công!';
+			foreach ($this->data['home_cat_available'] as $key=>$cat_id) {
+				$this->data['slogans'][$key]['current_slogan'] = $this->configsmodel->read(array('term'=>'category','name'=>'slogan','term_id'=>$cat_id),array(),true)->value;
+				$this->data['slogans'][$key]['cat_title'] = $this->newscategorymodel->read(array('id'=>$cat_id),array(),true)->title;
+				$this->data['slogans'][$key]['cat_id'] = $this->newscategorymodel->read(array('id'=>$cat_id),array(),true)->id;
+			}
+			
+			$this->load->view('admin/common/header',$this->data);
+			$this->load->view('admin/configs/editSloganCategory');
+			$this->load->view('admin/common/footer');
+		} else {	
+			$this->load->view('admin/common/header',$this->data);
+			$this->load->view('admin/configs/editSloganCategory');
+			$this->load->view('admin/common/footer');
+		}
+	}
+	
+	public function editBannerCategory() {
+		$this->load->model('newsmodel');
+		$this->load->model('newscategorymodel');
+		$this->data['home_cat_available'] = $this->configsmodel->read(array('term'=>'home','name'=>'cat_available'),array(),true);
+		$this->data['home_cat_available'] = json_decode($this->data['home_cat_available']->value, true);
+		foreach ($this->data['home_cat_available'] as $key=>$cat_id) {
+			$this->data['banner'][$key]['current_banner'] = $this->configsmodel->read(array('term'=>'category','name'=>'banner','term_id'=>$cat_id),array(),true)->value;
+			$this->data['banner'][$key]['cat_title'] = $this->newscategorymodel->read(array('id'=>$cat_id),array(),true)->title;
+			$this->data['banner'][$key]['cat_id'] = $this->newscategorymodel->read(array('id'=>$cat_id),array(),true)->id;
+		}
+		
+		if($this->input->post('submit') != null){
+			foreach ($this->data['banner'] as $cid) {
+				if ($this->input->post('banner_'.$cid['cat_id'])) {
+					$uploaddir = '/assets/uploads/images/banners/';
+					if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
+					$this->load->library("upload");
+					if (move_uploaded_file($_FILES['banner_'.$cid['cat_id']]['tmp_name'], $uploaddir . basename($_FILES['banner_'.$cid['cat_id']]['name']))) {
+						$image = $uploaddir . $_FILES['banner_'.$cid['cat_id']]['name'];
+					}
+					$data[$cid['cat_id']] = array(
+						"value" => $image,
+					);
+					//$this->configsmodel->update($data[$cid['cat_id']],array('term'=>'category','name'=>'banner','term_id'=>$cid['cat_id']));
+				} else {
+					$image = $cid['current_banner'];
+					//print_r($image);
+				}
+			}
+			die();
+			
+			$this->data['notice'] = 'Cập nhật thành cmn công!';
+			foreach ($this->data['home_cat_available'] as $key=>$cat_id) {
+				$this->data['banner'][$key]['current_banner'] = $this->configsmodel->read(array('term'=>'category','name'=>'banner','term_id'=>$cat_id),array(),true)->value;
+				$this->data['banner'][$key]['cat_title'] = $this->newscategorymodel->read(array('id'=>$cat_id),array(),true)->title;
+				$this->data['banner'][$key]['cat_id'] = $this->newscategorymodel->read(array('id'=>$cat_id),array(),true)->id;
+			}
+			
+			$this->load->view('admin/common/header',$this->data);
+			$this->load->view('admin/configs/editBannerCategory');
+			$this->load->view('admin/common/footer');
+		} else {	
+			$this->load->view('admin/common/header',$this->data);
+			$this->load->view('admin/configs/editBannerCategory');
+			$this->load->view('admin/common/footer');
+		}
+	}
 	
     public function delete($id){
         if(isset($id)&&($id>0)&&is_numeric($id)){
