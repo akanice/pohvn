@@ -122,4 +122,7 @@
 		background: #fff;
 		padding: 15px 15px;
 	}
+	.dropdown-toggle::after {
+		right: 22px;
+	}
 }

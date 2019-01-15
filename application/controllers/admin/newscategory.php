@@ -89,12 +89,10 @@ class NewsCategory extends MY_Controller{
         if($this->input->post('submit') != null){
             $data = array(
                 "title" => $this->input->post("title"),
+                "parent_id" => $this->input->post("parent_id"),
                 "alias" => make_alias($this->input->post("title")),
 			);
             $this->newscategorymodel->update($data,array('id'=>$id));
-            $alias_old = site_url('tin-tuc/danh-muc/'.$this->data['newscategory']->alias);
-            $alias_id = $this->aliasmodel->read(array('alias'=>$alias_old,'type'=>'news_category'),array(),true)->id;
-            $alias_new = site_url('tin-tuc/danh-muc/'.make_alias($this->input->post("title")));
             redirect(base_url() . "admin/newscategory");
             exit();
         }

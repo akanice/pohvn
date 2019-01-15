@@ -28,11 +28,18 @@
 				<div class="card">
 					<div class="content">
 						<div class="widget red">
-							<div class="widget-title">
-								<h4>Danh sách đơn hàng</h4>
+							<div class="widget-title clearfix">
+								<h4 class="fleft">Danh sách đơn hàng</h4>
+								<div class="fright sub_menu">
+									<?php $status = $this->input->get('status'); ?>
+									<a href="<?=current_url().'?name='.@$name.'&phone='.@$phone.'&status=';?>" <?php if ($status == '') echo 'class="active"'?>>Tất cả</a><span class="divider">/</span>
+									<a href="<?=current_url().'?name='.@$name.'&phone='.@$phone.'&status=pending';?>" <?php if ($status == 'pending') echo 'class="active"'?>>Mới</a><span class="divider">/</span>
+									<a href="<?=current_url().'?name='.@$name.'&phone='.@$phone.'&status=process';?>" <?php if ($status == 'process') echo 'class="active"'?>>Đang xử lý</a><span class="divider">/</span>
+									<a href="<?=current_url().'?name='.@$name.'&phone='.@$phone.'&status=closed';?>" <?php if ($status == 'closed') echo 'class="active"'?>>Đã đóng</a>
+								</div>
 							</div>
 							<div class="widget-body">
-								<table class="table table-striped table-bordered" id="sample_1">
+								<table class="table table-striped table-bordered table-responsive" id="sample_1">
 									<thead>
 									<tr>
 										<th width=''>ID</th>
@@ -59,7 +66,7 @@
 											<td width=''></td>
 											<td width=''></td>
 											<td width=''></td>
-											<td width=''></td>
+											<td width=''><input type="hidden" class="form-control" placeholder="Họ tên" name="status" value="<?=@$status?>"></td>
 											<td width='' style="text-align: center"><button type="submit" class="btn btn-fill btn-default">Tìm kiếm</button></td>
 										</tr>
 									</form>

@@ -41,7 +41,7 @@
 							<div class="form-group">
                                 <label class="col-sm-3 control-label">Danh mục cha</label>
                                 <div class="col-sm-9">
-									<select class="input-large m-wrap form-control" name="language">
+									<select class="input-large m-wrap form-control" name="parent_id">
 										<option value="0" <?php if($newscategory->parent_id==0){echo 'selected="selected" ';}?>>--- Trống ---</option>
 										<?php foreach ($categories as $c) {?>
                                         <option value="<?=$c->id?>" <?php if($newscategory->parent_id==$c->id){echo 'selected="selected" ';}?>><?=$c->title?>
@@ -71,3 +71,4 @@
         </div>
         <!-- END PAGE -->
     </div>
+</div>

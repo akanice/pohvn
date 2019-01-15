@@ -84,6 +84,17 @@
                                     <textarea class="form-control" name="meta_keywords"><?=@$landingpage->meta_keywords?></textarea>
                                 </div>
                             </div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Menu hiển thị</label>
+								<div class="col-sm-10">
+									<select class="input-large m-wrap form-control" name="menu_id">
+										<?php  foreach ($menus as $c) {?>
+											<option value="<?=@$c->id?>" <?php if ($c->id == $landingpage_data->menu_id) {echo 'selected';}?>><?=@$c->name?></option>
+										<?php }
+										?>
+									</select>
+								</div>
+							</div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label"></label>
 								<div class="col-sm-6">
@@ -91,7 +102,6 @@
 									<a href="javascript:window.history.go(-1);" class="btn btn-default">Hủy</a>
 								</div>
 							</div>
-                        </form>
                         <!-- END FORM-->
                     </div>
                 </div>
@@ -101,33 +111,38 @@
 			<div class="col-md-4 col-lg-4">
 				<div class="card">
 					<div class="header">
-						<h4 class="title">Tạo mới</h4>
 					</div>
 					<div class="content">
-					<?php
-					$c = 0;
-					if ( count( $pricingPackage ) > 0 && is_array($pricingPackage)) {
-						foreach( $pricingPackage as $packageDay ) {
-							if ( isset( $packageDay['packitem'] ) || isset( $packageDay['packdetails'] ) ) {
-								printf( '
-									<div class="package-item">
-										<table class="form-table poh_metabox">
-											<tbody>
-												<tr><th>Số ngày thai kỳ:</td><th></td></tr>
-												<tr><th style="width:150px">Từ</th><td><input type="text" name="pricingPackage[%1$s][packitemfrom]" value="%2$s" /></td></tr>
-												<tr><th style="width:150px">Đến</th><td><input type="text" name="pricingPackage[%1$s][packitemto]" value="%3$s" /></td></tr>
-												<tr><th style="width:150px">Giá còn</th><td><input type="text" name="pricingPackage[%1$s][packdetails]" value="%4$s" /> vnđ</td></tr>
-											</tbody>
-										</table><hr>
-										<a href="javascript:void(0);" class="remove-package"><i class="fa fa-trash"></i></a>',
-										$c, $packageDay['packitemfrom'],$packageDay['packitemto'], $packageDay['packdetails'], __( 'Remove','ninezeroseven' ) 
-									);
-								echo '</div>';
-								$c = $c +1;
-							}
-						}
-					}
-					?>
+						<div class="form-group">
+							<label class="col-sm-12">Giá mặc định</label>
+							<div class="col-sm-12"><input type="text" class="form-control" name="total_price" value="<?=@$landingpage_data->total_price?>" placeholder="VND"></div>
+						</div>
+						<hr />
+						<div class="form-group">
+							<label class="col-sm-12">Thêm mức giá / tuổi thai</label>
+								<?php
+								$c = 0;//print_r($pricingPackage);
+								if ( count( $pricingPackage ) > 0 && is_array($pricingPackage)) {
+									foreach( $pricingPackage as $packageDay ) {
+										if ( isset( $packageDay->packitemfrom ) || isset( $packageDay->packdetails ) ) {
+											printf( '
+												<div class="package-item clearfix">
+													<div class="col-sm-3"><input type="text" class="form-control" name="pricingPackage[%1$s][packitemfrom]" value="%2$s" /></div>
+													<div class="col-sm-3"><input type="text" class="form-control" name="pricingPackage[%1$s][packitemto]" value="%3$s" /></div>
+													<div class="col-sm-5"><input type="text" class="form-control" name="pricingPackage[%1$s][packdetails]" value="%4$s" /></div>
+													<div class="col-sm-1"><span class=""><a href="javascript:void(0);" class="btn btn-info btn-simple btn-nopadding btn-link remove-package"><i class="fa fa-trash"></i></a></span></div>
+												</div>
+												',
+													$c, $packageDay->packitemfrom,$packageDay->packitemto, $packageDay->packdetails, 'Xóa'
+												);
+											$c = $c +1;
+										}
+									}
+								}
+								?>
+							<div id="output-package" class="clearfix"></div>
+							<div class="col-sm-12"><a href="#" class="add_package btn btn-fill btn-primary btn-sm"><i class="fa fa-plus"></i> Thêm</a></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -135,28 +150,24 @@
         </div>
     </div>
 	
-	<script>
-	var $ =jQuery.noConflict();
-	jQuery(document).ready(function($){
-		var count = <?php echo $c; ?>;
-		$(".add_package").click(function() {
-			count = count + 1;
-			$('#output-package').append('\
-				<div class="package-item"> \
-					<table class="form-table cmb_metabox">\
-						<tbody>\
-							<tr><th>Số ngày thai kỳ:</td><th></td></tr>\
-							<tr><th style="width:150px">Từ</th><td><input type="text" name="pricingPackage['+count+'][packitemfrom]" value="" /></td></tr>\
-							<tr><th style="width:150px">Đến</th><td><input type="text" name="pricingPackage['+count+'][packitemto]" value="" /></td></tr>\
-							<tr><th style="width:150px">Giá còn</th><td><input type="text" name="pricingPackage['+count+'][packdetails]" value="" /> vnđ</td></tr>\
-						</tbody>\
-					</table>\
-					<hr>\
-					<a href="javascript:void(0);" class="remove-package"><i class="fa fa-trash"></i></a></div>');
-			return false;
-		});
-		$(document.body).on('click','.remove-package',function() {
-			$(this).parent().remove();
-		});
+<script type="text/javascript">
+var $ =jQuery.noConflict();
+//var $c = 0;
+jQuery(document).ready(function($){
+	var count = <?php echo $c-1; ?>;
+	$(".add_package").click(function() {
+		count = count + 1;
+		$('#output-package').append('\
+			<div class="package-item clearfix"> \
+				<div class="col-sm-3"><input type="text" class="form-control" name="pricingPackage['+count+'][packitemfrom]" value="" /></div>\
+				<div class="col-sm-3"><input type="text" class="form-control" name="pricingPackage['+count+'][packitemto]" value="" /></div>\
+				<div class="col-sm-5"><input type="text" class="form-control" name="pricingPackage['+count+'][packdetails]" value="" /></div>\
+				<div class="col-sm-1"><span class=""><a href="javascript:void(0);" class="btn btn-info btn-simple btn-nopadding btn-link remove-package"><i class="fa fa-trash"></i></a></span></div>\
+			</div>');
+		return false;
 	});
-	</script>
+	$(document.body).on('click','.remove-package',function() {
+		$(this).closest('div.package-item').remove();
+	});
+});
+</script>

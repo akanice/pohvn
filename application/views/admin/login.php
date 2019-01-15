@@ -47,15 +47,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><img src="<?=base_url('assets/img/logo.png')?>" width="180px"></a>
+            <a class="navbar-brand" href="#"><img src="<?=base_url('assets/img/POH_Official_Logo.png')?>" width="180px"></a>
         </div>
         <div class="collapse navbar-collapse">       
             
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                   <a href="#">
-                        Register
-                    </a>
+                   
                 </li>
             </ul>
         </div>
@@ -64,7 +62,7 @@
 
 
 <div class="wrapper wrapper-full-page">
-    <div class="full-page login-page" data-color="orange" data-image="<?=base_url('assets/img/full-screen-image-2.jpg')?>">   
+    <div class="full-page login-page" data-color="purple" data-image="<?=base_url('assets/img/full-screen-image-2.jpg')?>">   
         
     <!--   you can change the color of the filter page using: data-color="blue | azure | green | orange | red | purple" -->
         <div class="content">
@@ -132,12 +130,12 @@
                     </ul>
                 </nav>
                 <p class="copyright pull-right">
-                    © 2016 <a href="http://akanice.com">akanice</a> - Made for nhatminhlocks.com
+                    © 2018 <a href="http://akanice.com">CRTEAM</a> - Made for poh.vn
                 </p>
             </div>
         </footer>
 
-    <div class="full-page-background" style="background-image: url('<?=base_url('assets/img/full-screen-image-1.jpg')?>"></div></div>                             
+    <div class="full-page-background" style="background-image: url('<?=base_url('assets/img/full-screen-image-3.jpg')?>"></div></div>                             
        
 </div>
 

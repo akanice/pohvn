@@ -78,20 +78,20 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">Ảnh</label>
+							<label class="col-sm-2 control-label">Menu hiển thị</label>
 							<div class="col-sm-10">
-								<input type="file" accept="image" class="form-control" name="image" required=""/>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Danh mục</label>
-							<div class="col-sm-10">
-								<select class="input-large m-wrap form-control" name="category">
-									<?php foreach ($newscategory as $c) {?>
+								<select class="input-large m-wrap form-control" name="menu_id">
+									<?php foreach ($menus as $c) {?>
 										<option value="<?=@$c->id?>"><?=@$c->name?></option>
 									<?php }
 									?>
 								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Ảnh</label>
+							<div class="col-sm-10">
+								<input type="file" accept="image" class="form-control" name="image" required=""/>
 							</div>
 						</div>
 						<div class="form-group">
@@ -113,7 +113,7 @@
 					<div class="content">
 						<div class="form-group">
 							<label class="col-sm-12">Giá mặc định</label>
-							<div class="col-sm-12"><input type="text" class="form-control" name="total_price"></div>
+							<div class="col-sm-12"><input type="text" class="form-control" name="total_price" placeholder="VND"></div>
 						</div>
 						<hr />
 						<div class="form-group">

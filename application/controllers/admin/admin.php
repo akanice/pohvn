@@ -14,7 +14,7 @@ class Admin extends MY_Controller{
 		$this->load->library('auth');
 	}
     public function index(){
-        $this->data['title']    = 'Dashboard';die();
+        $this->data['title']    = 'Dashboard';
 		$this->load->model('newsmodel');
 		$this->data['news'] = $this->newsmodel->read(array(),array(),false,10);
 		$this->load->model('newscategorymodel');
