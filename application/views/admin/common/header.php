@@ -9,7 +9,7 @@
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="akanice" name="author" />
-   
+
     <link href="<?=base_url('assets/css/bootstrap.min.css')?>" rel="stylesheet">
 	<!--  <link href="<?=base_url('assets/img/favicon.ico')?>" rel="shortcut icon"> -->
     <!--  Light Bootstrap Dashboard core CSS    -->
@@ -20,7 +20,7 @@
     <!--     Fonts and icons     -->
     <link href="<?=base_url('assets/css/font-awesome.min.css')?>" rel="stylesheet">
     <link href="<?=base_url('assets/css/pe-icon-7-stroke.css')?>" rel="stylesheet">
-	
+
 	<script src="<?=base_url('assets/js/jquery.min.js')?>" type="text/javascript"></script>
 	<script src="<?=base_url('assets/js/jquery-ui.min.js')?>" type="text/javascript"></script>
 	<script src="<?=base_url('assets/js/bootstrap.min.js')?>" type="text/javascript"></script>
@@ -128,6 +128,22 @@
 						<p>Khách hàng</p>
 					</a>
 				</li>
+
+                <li class="<?php if ($suffix_uri == 'affiliate') echo 'active';?>">
+                    <a data-toggle="collapse" href="#afiliateUser">
+                        <i class="pe-7s-news-paper"></i>
+                        <p>
+                            Affiliate
+                            <b class="caret"></b>
+                        </p>
+                    </a>
+                    <div class="collapse <?php if ($suffix_uri == 'affiliate') echo 'in';?>" id="afiliateUser">
+                        <ul class="nav">
+                            <li class="<?php if ($sufix_uri3 == 'users') echo 'active'?>"><a href="<?=base_url('admin/affiliate/users')?>">Danh sách thành viên</a></li>
+                            <li class="<?php if ($sufix_uri3 == 'statistic') echo 'active'?>"><a href="<?=base_url('admin/affiliate/statistic')?>">Thống kê</a></li>
+                        </ul>
+                    </div>
+                </li>
 				
 				<li class="<?php if ($suffix_uri == 'pages') echo 'active';?>">
 					<a data-toggle="collapse" href="#tablesExamples">
