@@ -81,7 +81,7 @@
                                 <label class="col-sm-2 control-label"></label>
 								<div class="col-sm-6">
 									<input type="submit" class="btn btn-primary btn-fill btn-wd" name="submit" value="Lưu lại">
-									<a href="javascript:window.history.go(-1);" class="btn btn-default">Hủy</a>
+									<a href="javascript:window.history.go(-1);" class="btn btn-default btn-fill">Hủy</a>
 								</div>
 							</div>
                         <!-- END FORM-->
@@ -118,6 +118,13 @@
 							<div class="col-sm-10">
 								<input type="file" accept="image" class="form-control" name="image" style="width: 200px"/>
 								<image src="<?=base_url($news->image)?>" height="100px">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<input type="submit" class="btn btn-primary btn-fill btn-wd" name="submit" value="Lưu lại">
+								<a href="javascript:window.history.go(-1);" class="btn btn-default btn-fill">Hủy</a>
 							</div>
 						</div>
 					</div>

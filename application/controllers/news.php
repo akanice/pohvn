@@ -38,34 +38,41 @@ class News extends MY_Controller{
     public function index($alias){
 		// load data
 		$this->data['new'] = $this->newsmodel->read(array('alias'=>$alias),array(),true);
-		$this->data['title'] = $this->data['new']->title;
-		$categoryid = json_decode($this->data['new']->categoryid);
-		
-		foreach ($categoryid as $n=>$value) {
-			$this->data['category'][$n] = $cat_data = $this->newscategorymodel->read(array('id'=>$value),array(),true); 
-			if ($cat_data->parent_id==null or $cat_data->parent_id==0)  {$cat_chosen  = $value;}
-		}
-		$this->load->model('usersmodel');
-		$author_id = $this->data['new']->author_id;
-		$this->data['author'] = $this->usersmodel->read(array('id'=>$author_id),array(),true);
-		$this->data['most_viewed'] = $this->newsmodel->read(array(),array('count_view'=>false),false,5);
-		$this->data['related_news'] = $this->newsmodel->getRelatedNews($cat_chosen,5);
-		
-		
-		if ($this->data['new']->type == 'default') {
-			$this->load->view('home/common/header',  $this->data);
-			$this->load->view('home/news_detail');
-			$this->load->view('home/common/footer');
+		if (isset($this->data['new']) && ($this->data['new'] != '')) {
+			$new_id = $this->data['new']->id;
+			
+			if ($this->data['new']->type == 'default') {
+				$this->data['title'] = $this->data['new']->title;
+				$categoryid = json_decode($this->data['new']->categoryid);
+				
+				foreach ($categoryid as $n=>$value) {
+					$this->data['category'][$n] = $cat_data = $this->newscategorymodel->read(array('id'=>$value),array(),true); 
+					if ($cat_data->parent_id==null or $cat_data->parent_id==0)  {$cat_chosen  = $value;}
+				}
+				$this->load->model('adminsmodel');
+				$author_id = $this->data['new']->author_id;
+				$this->data['author'] = $this->adminsmodel->read(array('id'=>$author_id),array(),true);
+				$this->data['most_viewed'] = $this->newsmodel->read(array(),array('count_view'=>false),false,5);
+				$this->data['related_news'] = $this->newsmodel->getRelatedNews($cat_chosen,5);
+				$this->load->view('home/common/header',  $this->data);
+				$this->load->view('home/news_detail');
+				$this->load->view('home/common/footer');
+			} else {
+				$this->load->model('landingpagemodel');
+				$this->data['title'] = $this->data['new']->title;
+				$this->data['landing_data'] = $this->landingpagemodel->read(array('news_id'=>$new_id),array(),true);
+				$this->load->view('home/common/header_landing',  $this->data);
+				$this->load->view('home/template/landing_page');
+				$this->load->view('home/common/footer_landing');
+			}
 		} else {
-			$this->load->view('home/template/landing_page', $this->data);
+			redirect('404_override');
 		}
     }
 	
 	public function category($alias) {
         $news_category = $this->newscategorymodel->read(array('alias'=>$alias),array(),true);
-
 		$total = $this->newsmodel->readCountNew($news_category->id);
-		// print_r($total);die();
 		$per_page = 6;
 		$this->configPagination($slug='category',$per_page,$alias,$total);
         $page_number = $this->uri->segment(3);
@@ -89,6 +96,29 @@ class News extends MY_Controller{
         $this->load->view('home/common/footer');
 	}
 
+	public function news_search() {
+		//$this->data['prod_cat'] = $this->productcategorymodel->read();
+		$this->data['name'] = $this->input->get('s_keyword');
+		$total = $this->newsmodel->getCountNew($this->data['name'],'','','');
+		$per_page = 6;
+		if($this->data['name'] != ""){
+            $config['suffix'] = '?keyword='.urlencode($this->data['name']);
+        }
+        //Pagination
+        $this->configPagination($slug='search',$per_page,$alias='page',$total);
+        $page_number = $this->uri->segment(3);
+        if (empty($page_number)) $page_number = 1;
+        $start = ($page_number - 1) * $per_page;
+        $this->data['page_links'] = $this->pagination->create_links();
+        $this->data['result'] = $this->newsmodel->getNewsSearch($this->data['name'],'',$per_page,$start);
+		//print_r($this->data['result']);die();
+		$this->data['title']    = 'Search: '.$this->input->get('s_keyword');
+		
+		$this->load->view('home/common/header',$this->data);
+        $this->load->view('home/news_search');
+        $this->load->view('home/common/footer');
+    }
+	
 	private function configPagination($slug,$per_page=9,$alias,$total) {
         $this->load->library('pagination');
         $config['base_url'] = base_url().$slug.'/'.$alias;
@@ -101,16 +131,16 @@ class News extends MY_Controller{
         $config["num_tag_close"] = "</li>";
         $config["cur_tag_open"] = "<li class='active'><a href='#'>";
         $config["cur_tag_close"] = "</a></li>";
-        $config["first_link"] = "First";
+        $config["first_link"] = "Đầu";
         $config["first_tag_open"] = "<li class='first'>";
         $config["first_tag_close"] = "</li>";
-        $config["last_link"] = "Last";
+        $config["last_link"] = "Cuối";
         $config["last_tag_open"] = "<li class='last'>";
         $config["last_tag_close"] = "</li>";
-        $config["next_link"] = "Next → ";
+        $config["next_link"] = "Tiếp → ";
         $config["next_tag_open"] = "<li class='next'>";
         $config["next_tag_close"] = "</li>";
-        $config["prev_link"] = "← Prev";
+        $config["prev_link"] = "← Trước";
         $config["prev_tag_open"] = "<li class='prev'>";
         $config["prev_tag_close"] = "</li>";
         $this->pagination->initialize($config);

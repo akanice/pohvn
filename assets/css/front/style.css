@@ -778,3 +778,24 @@ h2.entry-title {
 	background: #fff;
 	padding: 15px 35px;
 }
+ul.pagination-n li {
+	float: left;
+}
+ul.pagination-n li a{
+	width: 28px;
+	height: 28px;
+	line-height: 28px;
+	border: 1px solid #0088cc;
+	border-radius: 99px;
+	color: #0088cc;
+	display: block;
+	margin: 0 3px;
+}
+ul.pagination-n li a:hover,ul.pagination-n li a:focus {
+	background: #0088cc;
+	color: #fff;
+}
+ul.pagination-n li.prev a,ul.pagination-n li.next a,ul.pagination-n li.last a{
+	width: auto;
+	padding: 0px 8px;
+}

@@ -211,4 +211,59 @@ class Ajax extends MY_Controller {
             'message' => 'Order created'
         )));
     }
+	
+	public function calculate_date() {
+		$first_date = $_POST['first_date'];
+		$id = $_POST['id'];
+		$today = time();
+		$current_date = date('d/m/Y');
+		
+		$date1			= date_create_from_format("d/m/Y",$first_date);
+		$first_date 		= date_format($date1,"Y-m-d");
+		$first_date 		= strtotime($first_date);
+		$date2			= date_create_from_format("d/m/Y",$current_date);
+		$second_date = date_format($date2,"Y-m-d");
+		$second_date = strtotime($second_date);
+		
+		$datediff = abs($first_date - $second_date);
+		
+		// calculate remain days by weaks and days
+		$weaks 					= floor($datediff / (7*60*60*24));
+		$days 						= floor(($datediff - $weaks*7*60*60*24)/ (60*60*24));
+		$remain_days			= floor($datediff / (60*60*24));
+		$duration_days		= 280 - $remain_days;
+		
+		$weaks_2 				= floor($duration_days / 7);
+		$days_2 					= floor($duration_days - $weaks_2*7);
+		
+		$response['first_date'] 		= $first_date;
+		$response['second_date'] 	= $current_date;
+		
+		// update pricing
+		$this->load->model('landingpagemodel');
+		$pricingPackage = $this->landingpagemodel->read(array('news_id'=>$id),array(),true)->step_price;
+		$pricingPackage = json_decode($pricingPackage);
+		if(is_array($pricingPackage) && count($pricingPackage)>0){
+			$counter = 0;
+			foreach ($pricingPackage as $pricingPackageItem => $pricingPackageValue) {
+				$counter++;
+				if ( in_array($duration_days, range($pricingPackageValue['packitemfrom'],$pricingPackageValue['packitemto'])) ) {
+					$response['package_1'] = $pricingPackageValue['packdetails'];
+					$response['package_2'] = $pricingPackageValue['packdetails'];
+				}
+			} 
+		}
+		
+		// print result
+		if ($weaks_2 == 0) {
+			$response['print_text'] = $days_2.' ngày ';
+		} else {
+			$response['print_text'] = $weaks_2.' tuần '. $days_2.' ngày ';
+		}
+		$response['first_date'] 			= $_POST['first_date'];
+		$response['remain_days'] 		= $remain_days;
+		$response['duration_days'] 	= $duration_days;
+		
+		exit(json_encode($response));
+	}
 }

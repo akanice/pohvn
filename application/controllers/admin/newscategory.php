@@ -11,6 +11,7 @@ class NewsCategory extends MY_Controller{
         $this->data['email_header'] = $this->session->userdata('adminemail');
         $this->data['all_user_data'] = $this->session->all_userdata();
         $this->load->model('newscategorymodel');
+        $this->load->model('configsmodel');
 		$this->load->library('auth');
 	}
     public function index(){
@@ -25,7 +26,7 @@ class NewsCategory extends MY_Controller{
         $config['base_url'] = base_url() . 'admin/newscategory/';
         $config['total_rows'] = $total;
         $config['uri_segment'] = 3;
-        $config['per_page'] = 10;
+        $config['per_page'] = 20;
         $config['num_links'] = 5;
         $config['use_page_numbers'] = TRUE;
         $config["num_tag_open"] = "<p class='paginationLink'>";
@@ -55,7 +56,7 @@ class NewsCategory extends MY_Controller{
             $this->data['list'] = $this->newscategorymodel->read(array(),array(),false,$config['per_page'],$start);
         }
 		
-		$this->data['result'] = $this->newscategorymodel->get_categories();
+		$this->data['result'] = $this->newscategorymodel->get_categories($config['per_page'],$start);
 		
         $this->data['base'] = site_url('admin/newscategory/');
         $this->load->view('admin/common/header',$this->data);
@@ -71,7 +72,28 @@ class NewsCategory extends MY_Controller{
                 "alias" => make_alias($this->input->post("title")),
                 "parent_id" => $this->input->post("parent_id"),
 			);
-            $this->newscategorymodel->create($data);
+            $id = $this->newscategorymodel->create($data);
+			$data_array = array(
+				array(
+					"term" => 'category',
+					"name" => 'slogan',
+					"term_id" => $id,
+					"value" => '&nbsp;',
+				),
+				array(
+					"term" => 'category',
+					"name" => 'banner',
+					"term_id" => $id,
+					"value" => '/assets/uploads/images/banners/3.jpg',
+				),
+				array(
+					"term" => 'category',
+					"name" => 'featured_new',
+					"term_id" => $id,
+					"value" => '',
+				),
+			);
+            $this->configsmodel->create($data_array,true);
             redirect(base_url() . "admin/newscategory");
             exit();
         }

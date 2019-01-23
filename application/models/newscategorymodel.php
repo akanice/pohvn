@@ -62,9 +62,9 @@ class NewsCategoryModel extends MY_Model {
 		}
 	}
 	
-	public function get_categories() {
+	public function get_categories($limit,$offset) {
 		$this->db->where('news_category.parent_id',0);
-		$query = $this->db->get('news_category');
+		$query = $this->db->get('news_category',$limit,$offset);
 		$return = array();
 
 		foreach ($query->result() as $category) {

@@ -49,7 +49,7 @@
                                     <select class="input-large m-wrap form-control" name="parent_id">
                                         <option value="0" selected>--- Trống ---</option>
 										<?php foreach ($categories as $c) {?>
-                                            <option value="<?=@$c->id?>"><?=@$c->name?></option>
+                                            <option value="<?=@$c->id?>"><?=@$c->title?></option>
                                         <?php } ?>
                                     </select>
                                 </div>

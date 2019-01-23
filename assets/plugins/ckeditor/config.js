@@ -15,7 +15,8 @@ CKEDITOR.editorConfig = function( config ) {
 	config.filebrowserUploadUrl = '/assets/plugins/kcfinder/upload.php?opener=ckeditor&type=files';      
 	config.filebrowserImageUploadUrl = '/assets/plugins/kcfinder/upload.php?opener=ckeditor&type=images';     
 	config.filebrowserFlashUploadUrl = '/assets/plugins/kcfinder/upload.php?opener=ckeditor&type=flash';
-
+	config.htmlEncodeOutput = false;
+	config.entities = false;
 	// The toolbar groups arrangement, optimized for two toolbar rows.
 	config.toolbarGroups = [
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },

@@ -58,9 +58,11 @@ class LandingpageModel extends MY_Model {
     }
 
     public function getLandingpage($id) {
-        $this->db->where('id', $id);
+        $this->db->select('news.*, landing_page.total_price as total_price');
+		$this->db->join('landing_page','news.id= landing_page.news_id','left');
+		$this->db->where('id', $id);
         $res = $this->db->get();
-        return $res ? ($res->result())[0] : null;
+        return $res ? ($res->result()) : null;
     }
 
 }

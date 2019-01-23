@@ -33,7 +33,7 @@ class News extends MY_Controller{
         $config['base_url'] = base_url() . 'admin/news/';
         $config['total_rows'] = $total;
         $config['uri_segment'] = 3;
-        $config['per_page'] = 10;
+        $config['per_page'] = 20;
         $config['num_links'] = 5;
         $config['use_page_numbers'] = TRUE;
         $config["num_tag_open"] = "<p class='paginationLink'>";

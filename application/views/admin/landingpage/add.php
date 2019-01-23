@@ -78,6 +78,18 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="col-sm-2 control-label">Code Header</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" name="code_header" rows="10"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Code Footer</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" name="code_footer" rows="10"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-sm-2 control-label">Menu hiển thị</label>
 							<div class="col-sm-10">
 								<select class="input-large m-wrap form-control" name="menu_id">

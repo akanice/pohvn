@@ -19,7 +19,7 @@
 						<div class="title-bar">
 							<h1><?=@$new->title?></h1>
 						</div>
-						<div class="grid-post-box-meta"> <span class="author-italic author vcard">by <a class="url fn n" href="#"><?=@$author->name?></a></span> <span><time class="entry-date published"><?=@date('d/m/Y', $new->create_time)?></time></span></div>
+						<div class="grid-post-box-meta"> <span class="author-italic author vcard">đăng bởi <a class="url fn n" href="#"><?=@$author->name?></a></span> <span><time class="entry-date published"><?=@date('d/m/Y', $new->create_time)?></time></span></div>
 						
 						<!-- Article content -->
 						<div class="article-content">

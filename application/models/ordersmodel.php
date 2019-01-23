@@ -81,9 +81,13 @@ class ordersModel extends MY_Model {
 							customers.name as customer_name,
 							customers.phone as customer_phone, 
 							customers.address as customer_address,
+							affiliate_transactions.user_id as user_id,
+							users.name as user_name,
+							users.id as user_id,
 						');
         $this->db->join('customers', 'orders.customer_id = customers.id', 'left');
-        // $this->db->join('users', 'orders.affiliate_id = users.id', 'left');
+        $this->db->join('affiliate_transactions', 'orders.affiliate_transaction_id = affiliate_transactions.id', 'left');
+        $this->db->join('users', 'affiliate_transactions.user_id = users.id', 'left');
 		$this->db->order_by('orders.create_time', 'DESC');
         if($customer){
             $this->db->like('customers.name', $customer);
@@ -140,8 +144,7 @@ class ordersModel extends MY_Model {
 							customers.firstname as customer_first_name,
 							customers.lastname as customer_last_name, 
 							users.email as user_email,
-							users.firstname as user_firstname,
-							users.lastname as user_lastname,
+							users.name as user_name,
 						');
         $this->db->join('customers', 'orders.customer_id = customers.id', 'left');
         $this->db->join('users', 'orders.staff_technique_id = users.id', 'left');

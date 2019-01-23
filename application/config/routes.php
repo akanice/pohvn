@@ -76,7 +76,8 @@ $route['admin/access_denied']               		=	'admin/main/access_denied';
 $route['admin/affiliate/statistic']               		=	'admin/affiliate/statistic';
 $route['admin/affiliate/users']               		    =	'admin/affiliate/users';
 
-$route['tim-kiem']											=	"home/tourSearch";
+$route['search']												=	"news/news_search";
+$route['search/page/(:num)']							=	"news/news_search/$1";
 $route['logout']												=	"home/logout";
 
 // Front-end routes

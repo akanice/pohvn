@@ -104,7 +104,12 @@
 												}
 												echo '<span class="'.$extra_class.'">'.$status.'</span>';
 											?></td>
-											<td style="text-align: center"><a href="<?=@base_url('admin/orders/edit/'.$item->id)?>"><i class="fa fa-pencil"></i> Xử lý</a></td>
+											<td style="text-align: center">
+												<a href="<?=@base_url('admin/orders/edit/'.$item->id)?>" class="btn btn-sm btn-fill btn-primary"><i class="fa fa-pencil"></i> Xử lý</a>
+												<?php if (($item->user_name) && ($item->status == 'confirmed')) {?>
+												<a href="<?=@base_url('admin/orders/edit/'.$item->id)?>" class="btn btn-sm btn-fill btn-danger"><i class="fa fa-pencil"></i> TT hoa hồng cho affi</a>
+												<?php } ?>
+											</td>
 										</tr>
 										<?php } ?>
 									</tbody>
@@ -112,7 +117,7 @@
 							</div>
 						</div>
 					</div>
-					<div style="padding-left: 400px"><?php echo $page_links?></div>
+					<div style="padding-left: 400px" class="clearfix pagination"><?php echo $page_links?></div>
 				</div>
 				<!-- END PAGE CONTAINER-->
 			</div>

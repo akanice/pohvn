@@ -81,7 +81,7 @@ class Landingpage extends MY_Controller{
 				"order" => 1,
 				"title" => $this->input->post("title"),
 				"alias" => make_alias($this->input->post("title")),
-				"categoryid" => 0,
+				"categoryid" => '["0"]',
 				"content" => $this->input->post("content"),
                 "image" => $image,
                 "thumb" => $image,
@@ -90,10 +90,15 @@ class Landingpage extends MY_Controller{
 				"meta_description" => $this->input->post("meta_description"),
 				"meta_keywords" => $this->input->post("meta_keywords"),
 				"menu_id" => $this->input->post("menu_id"),
-				"type" => $this->input->post("type"),
+				"type" => 'landing',
+				"count_view" => 0,
 				"create_time" => time(),
+				"original_date" => time(),
+				"author_id" => $this->session->userdata('adminid'),
 			);
+			print_r($data);
 			$news_id = $this->newsmodel->create($data);
+			die($news_id);
 			$this->newsmodel->update(array('order'=>$news_id),array('id'=>$news_id));
 			
 			$pricingPackage = $this->input->post("pricingPackage");
@@ -102,6 +107,8 @@ class Landingpage extends MY_Controller{
 				"news_id" => $news_id,
 				"total_price" => $this->input->post("total_price"),
 				"step_price" => $pricingPackage,
+				"code_header" => $this->input->post("code_header"),
+				"code_footer" => $this->input->post("code_footer"),
 			);
 			$this->landingpagemodel->create($data2);
 			redirect(base_url() . "admin/landingpage");
@@ -150,9 +157,11 @@ class Landingpage extends MY_Controller{
 			$pricingPackage = $this->input->post("pricingPackage");
 			$pricingPackage = json_encode($pricingPackage);
 			$data2 = array(
-				"news_id" => $news_id,
+				"news_id" => $id,
 				"total_price" => $this->input->post("total_price"),
 				"step_price" => $pricingPackage,
+				"code_header" => $this->input->post("code_header"),
+				"code_footer" => $this->input->post("code_footer"),
 			);
 			$this->landingpagemodel->update($data2,array('id'=>$id));
 			

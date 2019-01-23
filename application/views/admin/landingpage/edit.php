@@ -56,7 +56,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Nội dung</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control ckeditor" name="content" rows="10"><?=@$landingpage->content?></textarea>
+                                    <textarea class="form-control ckeditor" name="content" rows="10"><?php echo htmlspecialchars($landingpage->content)?></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -84,6 +84,18 @@
                                     <textarea class="form-control" name="meta_keywords"><?=@$landingpage->meta_keywords?></textarea>
                                 </div>
                             </div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Code Header</label>
+								<div class="col-sm-10">
+									<textarea class="form-control" name="code_header"><?=@$landingpage_data->code_header?></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Code Footer</label>
+								<div class="col-sm-10">
+									<textarea class="form-control" name="code_footer"><?=@$landingpage_data->code_footer?></textarea>
+								</div>
+							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">Menu hiển thị</label>
 								<div class="col-sm-10">

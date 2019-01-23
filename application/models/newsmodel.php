@@ -79,6 +79,21 @@ class NewsModel extends MY_Model {
             'nullable'  => false,
             'type'      => 'string'
         ),
+		'author_id' => array(
+            'isIndex'   => false,
+            'nullable'  => false,
+            'type'      => 'integer'
+        ),
+		'menu_id' => array(
+            'isIndex'   => false,
+            'nullable'  => false,
+            'type'      => 'integer'
+        ),
+		'original_date' => array(
+            'isIndex'   => false,
+            'nullable'  => false,
+            'type'      => 'integer'
+        ),
     );
 
     public function __construct() {
@@ -177,7 +192,7 @@ class NewsModel extends MY_Model {
 	public function getCountNew($name,$category,$limit,$offset){
         $this->db->select('news.*');
         $this->db->from($this->tableName);
-        $this->db->like('news.name', $name);
+        $this->db->like('news.title', $name);
         if($category != "") {
             $this->db->where('news.categoryid', $category);
         }
@@ -188,6 +203,22 @@ class NewsModel extends MY_Model {
         $this->db->from($this->tableName);
         $this->db->like('news.categoryid', $category_id);
         return $this->db->count_all_results();
+    }
+	public function getNewsSearch($keyword,$category,$limit="",$offset){
+        $this->db->select('news.*,admins.name as author_name');
+		$this->db->join('admins','news.author_id= admins.id','left');
+        $this->db->where('news.type', 'default');
+
+        if($keyword != "") {
+            $this->db->like('news.title', $keyword);
+            $this->db->or_like('news.content', $keyword);
+        }
+        if($limit != "") $this->db->limit($limit,$offset);
+        $query = $this->db->get('news');
+		
+		if($query->num_rows()>0) return $query->result();
+        return false;
+        //return $res ? $res->result() : false;
     }
 	
 	public function get_random_news_array($cat_array=array(),$limit=2) {
@@ -257,7 +288,7 @@ class NewsModel extends MY_Model {
 	
 	// landing page
 	public function getListLandingpage($name,$limit=15,$offset){
-        $this->db->select('news.*,landing_page.total_price as ld_pricing');
+        $this->db->select('news.*,landing_page.total_price as total_price');
         $this->db->join('landing_page','news.id= landing_page.news_id','left');
         $this->db->where('news.type', 'landing');
         $this->db->like('news.title', $name);
