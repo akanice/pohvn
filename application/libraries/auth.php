@@ -33,7 +33,7 @@ class auth {
 	}
 	function getUser(){
 		$user = array();
-		$user['id'] = $this->ci->session->userdata('userid');
+		$user['id'] = $this->ci->session->userdata('userid') ? $this->ci->session->userdata('userid') : $this->ci->session->userdata('adminid');
 		$user['username']=$this->ci->session->userdata('username');
 		$user['email'] = $this->ci->session->userdata('email');
 		$user['money'] = $this->ci->session->userdata('money');
