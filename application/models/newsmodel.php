@@ -309,4 +309,15 @@ class NewsModel extends MY_Model {
 			}
         }
     }
+	
+	function update_counter($alias) {
+		// return current article views 
+		$this->db->where('news.alias', urldecode($alias));
+		$this->db->select('news.count_view');
+		$count = $this->db->get('news')->row();
+		// then increase by one 
+		$this->db->where('news.alias', urldecode($alias));
+		$this->db->set('news.count_view', ($count->count_view + 1));
+		$this->db->update('news');
+	}
 }

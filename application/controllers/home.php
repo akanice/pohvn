@@ -296,7 +296,7 @@ class Home extends MY_Controller {
         $this->data['meta_description'] = '';
         $this->data['meta_keywords'] = '';
         $this->data['affiliate_user'] = $this->auth->getUser();
-
+		print_r($this->data['affiliate_user']);die();
         //-------------page link
         $total = 100;
         $this->load->library('pagination');
@@ -334,5 +334,4 @@ class Home extends MY_Controller {
         $this->load->view('home/affiliate_user_dashboard');
         $this->load->view('home/common/footer');
     }
-
 }

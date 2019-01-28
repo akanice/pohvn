@@ -9,6 +9,11 @@ class ordersModel extends MY_Model {
             'nullable'  => true,
             'type'      => 'integer'
         ),
+		'code' => array(
+            'isIndex'   => false,
+            'nullable'  => false,
+            'type'      => 'integer'
+        ),
         'customer_id' => array(
             'isIndex'   => false,
             'nullable'  => false,
@@ -16,7 +21,7 @@ class ordersModel extends MY_Model {
         ),
         'sale_id' => array(
             'isIndex'   => false,
-            'nullable'  => false,
+            'nullable'  => true,
             'type'      => 'integer'
         ),
         'birth_expect' => array(
@@ -26,7 +31,7 @@ class ordersModel extends MY_Model {
         ),
         'note' => array(
             'isIndex'   => false,
-            'nullable'  => false,
+            'nullable'  => true,
             'type'      => 'string'
         ),
         'affiliate_transaction_id' => array(

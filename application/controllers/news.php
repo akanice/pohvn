@@ -36,6 +36,7 @@ class News extends MY_Controller{
 		$this->load->model('newscategorymodel');
     }
     public function index($alias){
+		$this->add_count($alias);
 		// load data
 		$this->data['new'] = $this->newsmodel->read(array('alias'=>$alias),array(),true);
 		if (isset($this->data['new']) && ($this->data['new'] != '')) {
@@ -60,6 +61,7 @@ class News extends MY_Controller{
 			} else {
 				$this->load->model('landingpagemodel');
 				$this->data['title'] = $this->data['new']->title;
+				$this->data['cookies_expires'] = $this->configsmodel->read(array('term'=>'affiliate','name'=>'cookie_time'),array(),true)->value/(24*60*60);
 				$this->data['landing_data'] = $this->landingpagemodel->read(array('news_id'=>$new_id),array(),true);
 				$this->load->view('home/common/header_landing',  $this->data);
 				$this->load->view('home/template/landing_page');
@@ -144,5 +146,28 @@ class News extends MY_Controller{
         $config["prev_tag_open"] = "<li class='prev'>";
         $config["prev_tag_close"] = "</li>";
         $this->pagination->initialize($config);
+	}
+	
+	function add_count($alias) {
+		// load cookie helper
+		$this->load->helper('cookie');
+		// this line will return the cookie which has alias name
+		$check_visitor = $this->input->cookie(urldecode($alias), FALSE);
+		// this line will return the visitor ip address
+		$ip = $this->input->ip_address();
+		// if the visitor visit this article for first time then //
+		//set new cookie and update article_views column  ..
+		//you might be notice we used alias for cookie name and ip 
+		//address for value to distinguish between articles  views
+		if ($check_visitor == false) {
+			$cookie = array(
+				"name"   => urldecode($alias),
+				"value"  => "$ip",
+				"expire" =>  time() + 7200,
+				"secure" => false
+			);
+			$this->input->set_cookie($cookie);
+			$this->newsmodel->update_counter(urldecode($alias));
+		}
 	}
 }

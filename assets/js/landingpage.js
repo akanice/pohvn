@@ -2,8 +2,15 @@
 
 //vietth - Ajax calculate date 
 jQuery( document ).ready(function($) {
+		
+	// Set and Get Cookies
+	$.cookie("poh_affiliate", poh_affiliate_slug, { expires: cookies_expires });
+	// var poh_affiliate_id = $.cookie("poh_affiliate_id");	
+	$("input[name=poh_affiliate_id]").val(poh_affiliate_slug);
+	$("input[name=poh_affiliate]").val(poh_affiliate_slug);
 	
 	$(function(){
+		// Calculate Date
 		$('#calculate_date').on('submit', function(e) {
 			e.preventDefault();
 			$('.spinner').show();
@@ -20,20 +27,46 @@ jQuery( document ).ready(function($) {
 				success: function(response){
 					$('.spinner').hide();
 					$('.result_text').show();
-					$('#remain_days').html(data.print_text);
-					$('#duration_days').html(data.duration_days);
-					if (data.package_1) {
-						$('#package1_price').html(data.package_1);
-						$('#total_price').html(data.package_1);
-						$('#package_price_value').val(data.package_1);
+					$('#remain_days').html(response.print_text);
+					$('#duration_days').html(response.duration_days);
+					if (response.package_1) {
+						$('#package1_price').html(response.package_1);
+						$('#total_price').html(response.package_1);
+						$('#package_price_value').val(response.package_1);
 					}
-					$('#customer_pre_birth').val(data.first_date);
-					console.log(data);
+					$('#customer_pre_birth').val(response.first_date);
+					console.log(response);
 				}
-			})	
-			
+			});
 		});
 		
+		// Process after submit form at LandingPage
+		$('#register_course').on('submit', function(e) {
+			e.preventDefault();
+			$('.spinner_loading').show();
+			var name = $("input[name=your-name]").val();
+			var email = $("input[name=your-email]").val();
+			var phone = $("input[name=your-phone]").val();
+			var pre_birth = $("input[name=your-pre-birth]").val();
+			var address = $("input[name=your-address]").val();
+			var message = $("textarea[name=your-message]").val();
+			var poh_affiliate = $("input[name=poh_affiliate]").val();
+			var package_price_value = $("input[name=package_price_value]").val();
+			var id = post_id;
+			
+			$.ajax({
+				type: "POST",
+				url: site_url + "ajax/register_course",
+				data: { name : name, id:id, email:email, pre_birth:pre_birth, address:address, message:message, poh_affiliate:poh_affiliate, package_price_value:package_price_value, phone:phone},
+				dataType: 'JSON',
+				cache: false,
+				success: function(result){
+					$('.spinner_loading').hide();
+					$('#register_course').html('Đăng ký thành công');
+					console.log(result);
+				}
+			});		
+		});
 	});
 	
 	// add dot/(.) to numbers every three digits

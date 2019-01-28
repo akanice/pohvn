@@ -248,9 +248,8 @@ class Ajax extends MY_Controller {
             $counter = 0;
             foreach ($pricingPackage as $pricingPackageItem => $pricingPackageValue) {
                 $counter++;
-                if (in_array($duration_days, range($pricingPackageValue['packitemfrom'], $pricingPackageValue['packitemto']))) {
-                    $response['package_1'] = $pricingPackageValue['packdetails'];
-                    $response['package_2'] = $pricingPackageValue['packdetails'];
+                if (in_array($duration_days, range($pricingPackageValue->packitemfrom, $pricingPackageValue->packitemto))) {
+                    $response['package_1'] = $pricingPackageValue->packdetails;
                 }
             }
         }
@@ -267,4 +266,61 @@ class Ajax extends MY_Controller {
 
         exit(json_encode($response));
     }
+	
+	public function register_course() {
+		$result = new stdClass();
+		$result->ok = false;
+		
+		$name = @$_POST['name'];
+		$phone = @$_POST['phone'];
+		$email = @$_POST['email'];
+		$pre_birth = @$_POST['pre_birth'];
+		$address = @$_POST['address'];
+		$message = @$_POST['message'];
+		$poh_affiliate = @$_POST['poh_affiliate'];
+		$package_price_value = @$_POST['package_price_value'];
+		$id = @$_POST['id'];
+        
+		$this->load->model('ordersmodel');
+		$this->load->model('customersmodel');
+		$this->load->model('affiliatesmodel');
+		$this->load->model('usersmodel');
+		$this->load->model('landingpagemodel');
+		
+		$data1 = array (
+			"name"				=> $name,
+			"alias"				=> make_alias($name),
+			"phone"			=> $phone,
+			"birthday"		=> $pre_birth,
+			"address"			=> $address,
+			"email"				=> $email,
+			"create_time"	=> time(),
+		);
+		$customer_id = $this->customersmodel->create($data1);
+		$user_id = $this->usersmodel->read(array('user_code'=>$poh_affiliate),array(),true)->id;
+		$landing_page_id = $this->landingpagemodel->read(array('news_id'=>$id),array(),true)->id;
+		$data2 = array(
+			"user_id"			=> $user_id,
+			"amount"			=> $package_price_value,
+			"status"			=> 'pending',
+			"create_time"	=> time(),
+		);
+		$transaction_id = $this->affiliatesmodel->create($data2);
+		$data3 = array(
+			"code"									=> generateUserCode($length=10),
+			"customer_id"						=> $customer_id,
+			"birth_expect"						=> $pre_birth,
+			"note"									=> $message,
+			"affiliate_transaction_id"	=> $transaction_id,
+			"landingpage_id"					=> $landing_page_id,
+			"sale_id"								=> null,
+			"total_price"						=> $package_price_value,
+			"status"								=> 'pending',
+			"create_time"						=> time(),
+		);
+		$order_id = $this->ordersmodel->create($data3);
+		
+		$result->ok = true;
+        die();
+	}
 }

@@ -78,12 +78,13 @@ $route['admin/affiliate/users']               		    =	'admin/affiliate/users';
 
 $route['search']												=	"news/news_search";
 $route['search/page/(:num)']							=	"news/news_search/$1";
-$route['logout']												=	"home/logout";
 
 // Front-end routes
 $route['category'] 											= 	"news/cat_index";
 $route['category/(:any)']									=	"news/category/$1";
 
 $route['page/(:any)'] 										= 	"home/page";
-$route['affiliate-user']												=	"home/affiliateUserInfo";
+$route['affiliate-user']									=	"user/main/affiliateUserInfo";
+$route['dang-nhap']										=	"user/main/loginUser";
+$route['dang-xuat']											=	"user/main/logoutUser";
 $route['(:any)'] 												= 	"news/index/$1";

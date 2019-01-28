@@ -49,7 +49,7 @@ class auth {
 	}
 	function checkUserLogin(){
 		if(!$this->ci->session->userdata('userid')){
-				redirect(base_url());
+			redirect(base_url('dang-nhap'));
 		}
 	}
 	function check(){
@@ -68,6 +68,11 @@ class auth {
 		}
 		if (!$this->ci->session->userdata('adminid')){
 			redirect(site_url('admin/login'));
+		}
+	}
+	function checkUser(){
+		if (!$this->ci->session->userdata('user_id')){
+			redirect(site_url('user/login'));
 		}
 	}
 	function checkIsAdmin(){

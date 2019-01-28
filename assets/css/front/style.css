@@ -799,3 +799,16 @@ ul.pagination-n li.prev a,ul.pagination-n li.next a,ul.pagination-n li.last a{
 	width: auto;
 	padding: 0px 8px;
 }
+.white-bg {
+	background: #fff;
+}
+.affiliate-page {
+	padding: 30px 0;
+}
+.affiliate-page .tab-pane {
+	border: 1px solid #ddd;
+	padding: 15px;
+}
+.affiliate-page .tab-pane i.fa {
+	font-size: 14px;
+}
