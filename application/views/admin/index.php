@@ -37,6 +37,22 @@
 					</div>
 				</div>
 			</div>
+			
+			<div class="col-lg-4 col-md-6 col-sm-6">
+				<div class="card">
+					<div class="header">
+						<h4 class="title">Đơn hàng mới nhất trong 48h qua</h4>
+						<p class="category">Đơn hàng mới nhất chờ xử lý</p>
+					</div>
+					<div class="content">
+						<ul>
+						<?php foreach ($newest_order as $order) { ?>
+							<li><i class="fa fa-user"></i> <a href="<?=base_url('admin/order/edit/'.$order->id)?>" target="_blank"><?=$order->customer_name.' - '.$order->customer_phone?></a> - <i class="fa fa-code"></i>Mã đơn hàng: <?=$order->code;?></li>
+						<?php } ?>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
     </div>
     <!-- END PAGE CONTAINER-->

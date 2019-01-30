@@ -54,7 +54,7 @@
                                     <tbody>
                                     <?php if($users) foreach ($users as $user){ ?>
                                         <tr>
-                                            <th width=''><?php echo $user->id; ?></th>
+                                            <th width=''></th>
                                             <th width=''><?php echo $user->email; ?></th>
                                             <th width=''><?php echo $user->name; ?></th>
                                             <th width=''><?php echo $user->phone; ?></th>

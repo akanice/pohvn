@@ -173,20 +173,21 @@ class ordersModel extends MY_Model {
 		if ($query->num_rows() > 0) return $data;
 		return false;
 	}
-	
-	public function getordersToSubmit($id_user,$status='confirm') {
-		$userid = $this->session->userdata('adminid');
-		$this->db->select('orders.*,customers.firstname as customer_first_name,customers.lastname as customer_last_name,customers.phone as customer_phone');
+		
+	public function getlastdays($days="1") {
+		$time = (new \DateTime())->modify('-'.$days.' day');
+		$rs = $time->format('Y-m-d H:i:s');
+		$rs = strtotime($rs);
+
+		$this->db->select('orders.*,customers.email as customer_email,
+							customers.name as customer_name,
+							customers.phone as customer_phone, 
+						');
 		$this->db->join('customers', 'orders.customer_id = customers.id', 'left');
-		$this->db->order_by('orders.implement_date', 'DESC');
-		if($id_user){
-            $this->db->like('orders.staff_technique_id', $id_user);
-        }
-		if($status){
-            $this->db->like('orders.status', $status);
-        }
-		$query = $this->db->get('orders');
-		if ($query->num_rows() > 0) return $query->result();
-		return false;
+		$this->db->order_by('orders.create_time', 'DESC');
+		$this->db->where('orders.status', 'pending');
+		$this->db->where('orders.create_time >=',$rs);
+        $query = $this->db->get('orders');
+        return $query ? $query->result() : false;
 	}
 }

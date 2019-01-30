@@ -31,11 +31,11 @@ class Affiliate extends MY_Controller {
 		$this->data['title'] = 'Affiliate';
 		//Pagination
 		//$total = count($this->newsmodel->getListLandingpage($this->input->get('title'),"",""));
-		$total = 100;
+		$total = count($this->affiliatesmodel->read());
 		$this->load->library('pagination');
-		$config['base_url'] = base_url() . 'admin/affiliate/';
+		$config['base_url'] = base_url() . 'admin/affiliate/statistic/';
 		$config['total_rows'] = $total;
-		$config['uri_segment'] = 3;
+		$config['uri_segment'] = 4;
 		$config['per_page'] = 10;
 		$config['num_links'] = 5;
 		$config['use_page_numbers'] = TRUE;

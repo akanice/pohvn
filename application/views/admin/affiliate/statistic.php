@@ -7,14 +7,14 @@
 				<div class="card">
 					<div class="content">
 						<h3 class="page-title">
-							Quản lý affiliate
+							Thống kê giao dịch
 						</h3>
 						<ul class="breadcrumb">
 							<li>
 								<a href="<?=base_url('admin')?>">Trang chủ</a>
 							</li>
 							<li class="active">
-								Quản lý affiliate
+								Danh sách các giao dịch
 							</li>
 						</ul>
 						<!-- END PAGE TITLE & BREADCRUMB-->
@@ -26,7 +26,7 @@
                                 <table class="table table-striped table-bordered" id="sample_1">
                                     <thead>
                                     <tr>
-                                        <th width=''>Affiliate Id</th>
+                                        <th width=''>Id</th>
                                         <th width=''>Order</th>
                                         <th width=''>Số tiền hoa hồng</th>
                                         <th width=''>Người giới thiệu</th>
@@ -37,10 +37,10 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <?php if($listAffiliates) foreach ($listAffiliates as $affiliateTransaction){ ?>
+                                    <?php if($listAffiliates) foreach ($listAffiliates as $affiliateTransaction){?>
                                         <tr>
-                                            <th width=''>Affiliate Id</th>
-                                            <th width=''>Order</th>
+                                            <th width=''></th>
+                                            <th width=''><?=@$affiliateTransaction->code?></th>
                                             <th width=''>Số tiền hoa hồng</th>
                                             <th width=''>Người giới thiệu</th>
                                             <th width=''>Email</th>

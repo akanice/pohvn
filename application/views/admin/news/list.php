@@ -38,18 +38,20 @@
 								<table class="table table-striped table-bordered" id="sample_1">
 									<thead>
 									<tr>
-										<th width='5%'>ID</th>
-										<th width='35%'>Tiêu đề</th>
-										<th width='35%'>Danh mục</th>
-										<th width='15%'>Lượt xem</th>
-										<th width='25%'>Hành động</th>
+										<th>ID</th>
+										<th>Tiêu đề</th>
+										<th>Preview</th>
+										<th>Danh mục</th>
+										<th>Lượt xem</th>
+										<th>Hành động</th>
 									</tr>
 									</thead>
 									<form method="GET" action="<?=@$base?>">
 										<tr>
-											<td width='5%'></td>
-											<td width='35%'><input type="text" class="form-control" placeholder="Tiêu đề" name="name" value="<?=@$name?>"></td>
-											<td width='35%'>
+											<td></td>
+											<td'><input type="text" class="form-control" placeholder="Tiêu đề" name="name" value="<?=@$name?>"></td>
+											<td'></td>
+											<td>
 												<select class="form-control" name="category">
 													<option value="">--Chọn--</option>
 													<?php foreach ($newscategory as $c) {?>
@@ -59,7 +61,7 @@
 												</select>
 											</td>
 											<td></td>
-											<td width='25%' style="text-align: center"><button type="submit" class="btn btn-fill btn-default">Tìm kiếm</button></td>
+											<td style="text-align: center"><button type="submit" class="btn btn-fill btn-default">Tìm kiếm</button></td>
 										</tr>
 									</form>
 									<tbody>
@@ -67,6 +69,7 @@
 										<tr class="odd gradeX">
 											<td><?=@$item->id?></td>
 											<td><?=@$item->title?> <img src="<?=@base_url($item->thumb)?>" width="18px" height="18px" class="img-circle"></td>
+											<td><a href="<?=@base_url($item->alias)?>" class="btn btn-fill btn-sm btn-info"><i class="fa fa-pencil"></i> Xem</a></td>
 											<td>
 												<?php if (isset($item->categoryid) && ($item->categoryid != ''))
 													$space='';foreach ($item->categoryid as $n) { 
