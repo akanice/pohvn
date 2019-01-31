@@ -8,7 +8,7 @@
 		<?php if (isset($_GET['poh_affiliate'])) {?>
 		var poh_affiliate_slug = '<?=@$_GET['poh_affiliate']?>';
 		<?php } else { ?>
-		var poh_affiliate_id = null;
+		var poh_affiliate_slug = null;
 		<?php }?>
 		var cookies_expires = <?=@$cookies_expires;?>;
 	</script>

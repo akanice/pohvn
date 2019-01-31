@@ -44,7 +44,7 @@ class auth {
 		$admin = array();
 		$admin['id'] = $this->ci->session->userdata('adminid');
 		$admin['username'] = $this->ci->session->userdata('adminname');
-                $admin['lastlogin'] = $this->ci->session->userdata('lastlogin');
+		$admin['lastlogin'] = $this->ci->session->userdata('lastlogin');
 		return $admin;
 	}
 	function checkUserLogin(){
@@ -71,7 +71,7 @@ class auth {
 		}
 	}
 	function checkUser(){
-		if (!$this->ci->session->userdata('user_id')){
+		if (!$this->ci->session->userdata('userid')){
 			redirect(site_url('user/login'));
 		}
 	}
@@ -101,9 +101,12 @@ class auth {
                     redirect(base_url('dang-ky'));
                 }
 	}
-        function logoutAdmin(){
-            $this->ci->session->unset_userdata("adminid");
-        }
+	function logoutAdmin(){
+		$this->ci->session->unset_userdata("adminid");
+	}
+	function logoutUser(){
+		$this->ci->session->unset_userdata("userid");
+	}
 }
 
 ?>

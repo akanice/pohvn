@@ -20,7 +20,8 @@ class Admin extends MY_Controller{
 		$this->load->model('newscategorymodel');
 		$this->data['categories'] = $this->newscategorymodel->read(array(),array(),false,10); //get categories
 		$this->load->model('ordersmodel');
-		$this->data['newest_order'] = $this->ordersmodel->getlastdays(2); //get lastest orders
+		$this->data['newest_order24'] = $this->ordersmodel->getlastdays(2); //get lastest orders in 24hours
+		$this->data['newest_order'] = $this->ordersmodel->getListorders('','','pending',10,''); //get lastest orders
         $this->load->view('admin/common/header',  $this->data);
         $this->load->view('admin/index');
         $this->load->view('admin/common/footer');

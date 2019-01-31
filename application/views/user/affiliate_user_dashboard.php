@@ -6,45 +6,49 @@
 					<a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#home" role="tab" aria-controls="v-pills-home" aria-selected="true">Tổng quan</a>
 					<a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#sale" role="tab" aria-controls="v-pills-profile" aria-selected="false">Lịch sử Giao dịch</a>
 					<a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#profile" role="tab" aria-controls="v-pills-messages" aria-selected="false">Thiết lập tài khoản</a>
-					<a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="/dang-xuat" role="tab" aria-controls="v-pills-settings" aria-selected="false">Đăng xuất</a>
+					<a class="nav-link" id="v-pills-settings-tab" href="/dang-xuat">Đăng xuất</a>
 				</div>
 			</div>
 
 			<div class="col-9">
 				<div class="tab-content" id="v-pills-tabContent">
 					<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-						<h3><i class="fa fa-shekel-sign"></i> Tổng quan</h3>
+						<h3><i class="fa fa-home"></i> Tổng quan</h3>
 						<hr>
 						<div class="row">
 							<div class="col-md-4">
 								<h5>Tài khoản</h5>
-								<div class="row">
-									<div class="col-md-5">Số dư</div>
-									<div class="col-md-7"><?php echo $statisticAffiliate['total']['balance']; ?> đ</div>
-								</div>
-								<div class="row">
-									<div class="col-md-5">Đã rút</div>
-									<div class="col-md-7"><?php echo $statisticAffiliate['total']['withdraw']; ?> đ</div>
-								</div>
+								<table class="table table-bordered table-striped">
+									<tr>
+										<td>Số dư</td>
+										<td><?php echo $statisticAffiliate['total']['balance']; ?> đ</td>
+									</tr>
+									<tr>
+										<td>Đã rút</td>
+										<td><?php echo $statisticAffiliate['total']['withdraw']; ?> đ</td>
+									</tr>
+								</table>
 							</div>
 							<div class="col-md-4">
 								<h5>Hôm nay</h5>
-								<div class="row">
-									<div class="col-md-3"><?php echo $statisticAffiliate['today']['impression']; ?></div>
-									<div class="col-md-9">Lượt click</div>
-								</div>
-								<div class="row">
-									<div class="col-md-3"><?php echo $statisticAffiliate['today']['visitor']; ?></div>
-									<div class="col-md-9">Lượt ghé thăm</div>
-								</div>
-								<div class="row">
-									<div class="col-md-3"><?php echo $statisticAffiliate['today']['closed_trans']; ?></div>
-									<div class="col-md-9">Lượt chuyển đổi</div>
-								</div>
-								<div class="row">
-									<div class="col-md-3"><?php echo $statisticAffiliate['today']['revenue']; ?></div>
-									<div class="col-md-9">Hoa hồng dự kiến</div>
-								</div>
+								<table class="table table-bordered table-striped">
+									<tr>
+										<td><?php echo $statisticAffiliate['today']['impression']; ?></td>
+										<td>Lượt click</td>
+									</tr>
+									<tr>
+										<td><?php echo $statisticAffiliate['today']['visitor']; ?></td>
+										<td>Lượt ghé thăm</td>
+									</tr>
+									<tr>
+										<td><?php echo $statisticAffiliate['today']['closed_trans']; ?></td>
+										<td>Lượt chuyển đổi</td>
+									</tr>
+									<tr>
+										<td><?php echo $statisticAffiliate['today']['revenue']; ?></td>
+										<td>Hoa hồng dự kiến</td>
+									</tr>
+								</table>
 							</div>
 							<div class="col-md-4">
 								<h5>Tháng này</h5>

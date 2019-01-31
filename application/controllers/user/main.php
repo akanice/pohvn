@@ -39,12 +39,11 @@ class Main extends MY_Controller {
 		$this->auth = new Auth();
         $this->auth->checkUserLogin();
 		$this->data['affiliate_user'] = $this->auth->getUser();
-		
         $this->data['title'] = 'Dashboard';
         $this->data['meta_title'] = '';
         $this->data['meta_description'] = '';
         $this->data['meta_keywords'] = '';
-		// print_r($this->data['affiliate_user']);die();
+		
         //-------------page link
         $total = 100;
         $this->load->library('pagination');
@@ -117,7 +116,7 @@ class Main extends MY_Controller {
         $this->load->view('user/common/footer');
 	}
 	public function logoutUser() {
-		$this->auth->logoutAdmin();
-        redirect(site_url('admin'));
+		$this->auth->logoutUser();
+        redirect(site_url('/'));
 	}
 }

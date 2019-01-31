@@ -52,7 +52,7 @@
 										<th width=''>Note</th>
 										<th width=''>Affiliate</th>
 										<th width=''>Trạng thái</th>
-										<th width=''>Hành động</th>
+										<th width='200px'>Hành động</th>
 									</tr>
 									</thead>
 									<form method="GET" action="<?=@$base?>">
@@ -75,7 +75,7 @@
 										<tr class="odd gradeX">
 											<td><?=@$item->id?></td>
 											<td><?=@date('d/m/Y <b>H:i</b>', $item->create_time)?></td>
-											<td><?=@date('d/m/Y', $item->birth_expect)?></td>
+											<td><?=$item->birth_expect?></td>
 											<td><?=@$item->customer_name?></td>
 											<td><?=@$item->customer_phone?></td>
 											<td><?=@$item->customer_email?></td>
@@ -107,7 +107,7 @@
 											<td style="text-align: center">
 												<a href="<?=@base_url('admin/orders/edit/'.$item->id)?>" class="btn btn-sm btn-fill btn-primary"><i class="fa fa-pencil"></i> Xử lý</a>
 												<?php if (($item->user_name) && ($item->status == 'confirmed')) {?>
-												<a href="<?=@base_url('admin/orders/edit/'.$item->id)?>" class="btn btn-sm btn-fill btn-danger"><i class="fa fa-pencil"></i> TT hoa hồng cho affi</a>
+												<a href="<?=@base_url('admin/orders/edit/'.$item->id)?>" class="btn btn-sm btn-fill btn-danger"><i class="fa fa-cc-paypal"></i>Affiliate</a>
 												<?php } ?>
 											</td>
 										</tr>
