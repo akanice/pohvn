@@ -88,5 +88,6 @@ $route['page/(:any)'] 										= 	"home/page";
 $route['affiliate-user']									=	"user/main/affiliateUserInfo";
 $route['dang-nhap']										=	"user/main/loginUser";
 $route['dang-ky']											=	"user/main/signUpUser";
+$route['dang-ky-thanh-cong']							=	"user/main/regSuccessfully";
 $route['dang-xuat']											=	"user/main/logoutUser";
 $route['(:any)'] 												= 	"news/index/$1";

@@ -105,7 +105,17 @@ class Affiliate extends MY_Controller {
         $this->load->view('admin/affiliate/users');
         $this->load->view('admin/common/footer');
     }
-
+	
+	public function edit($id) {
+		$this->data['title'] = 'Thông tin thành viên liên kết';
+		$this->data['affi_info'] = $this->affiliatesmodel->read(array('user_id'=>$id),array(),true);
+		$this->data['user_info'] = $this->usersmodel->read(array('id'=>$id),array(),true);
+		$this->data['user_transaction'] = $this->affiliatesmodel->getAffiliateTrans($id,$limit=30);
+		$this->load->view('admin/common/header', $this->data);
+        $this->load->view('admin/affiliate/edit');
+        $this->load->view('admin/common/footer');
+	}
+	
     public function userAdd() {
 	    if(isset($_POST['user_data'])) {
 	        return $this->users();

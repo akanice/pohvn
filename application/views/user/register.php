@@ -5,7 +5,8 @@
                 <div class="row justify-content-md-center">                   
                     <div class="col-md-4 col-sm-6 py-3 px-md-5 border" style="margin:30px 0">
                         <h3 class="center">Đăng ký</h3>
-						<form method="POST" action="">
+						<form class="form-horizontal" method="POST" enctype="multipart/form-data">
+							<p><?=@$error;?></p>
 							<div class="form-group">
 								<label for="inputName">Họ tên của bạn</label>
 								<input name="name" type="text" required="" placeholder="Họ tên" class="form-control" id="inputName">
@@ -26,8 +27,7 @@
 								<label for="exampleInputPassword1">Mật khẩu</label>
 								<input name="pass" type="password" required="" placeholder="Mật khẩu" class="form-control">
 							</div>
-							<p><?=@$error;?></p>
-							<button type="submit" class="btn btn-success" style="width:100%"><i class="fa fa-clipboard"></i> Đăng ký</button>
+							<input type="submit" class="btn btn-success" name="submit" value="Lưu lại">
 						</form>
                     </div>                    
                 </div>

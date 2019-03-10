@@ -16,6 +16,7 @@ class ajax extends MY_Controller {
 		$order_note 				= $_POST['note'];
 		$order_value 				= $_POST['order_value'];
 		$order_commission	= $_POST['order_commission'];
+		$order_affiliate_id		= $_POST['order_affiliate_id'];
 		$user_approve			= $this->session->userdata('adminid');
 		$this->load->model('affiliatesmodel');
 		$this->load->model('ordersmodel');
@@ -32,6 +33,12 @@ class ajax extends MY_Controller {
 			'sale_id'		=> $user_approve,
 		);
 		$this->ordersmodel->update($data2,array('id'=>$order_id));
+		
+		// Re-calculate money account
+		$data3 = array(
+			'total_money'	=> $total_money,
+			'balance'	=> $balance,
+		)
 		
 		$result->ok = true;
 		$result->msg = 'Chuyển tiền thành công!';

@@ -133,7 +133,8 @@ class Landingpage extends MY_Controller{
 		$this->data['title'] = 'Sửa Landing Page';
 		$this->data['menus'] = $this->menustermmodel->read(array(),array(),false);
         $this->data['landingpage'] = $this->newsmodel->read(array('id'=>$id),array(),true);
-		$this->data['landingpage_data'] = $this->landingpagemodel->read(array('news_id'=>$this->data['landingpage']->id),array(),true);
+		$this->data['
+		'] = $this->landingpagemodel->read(array('news_id'=>$this->data['landingpage']->id),array(),true);
 		$this->data['landingpage_commission'] = $this->afflandingconfigmodel->read(array('landingpage_id'=>$this->data['landingpage_data']->id),array(),true);
 		$this->data['pricingPackage'] = json_decode($this->data['landingpage_data']->step_price);
         if($this->input->post('submit') != null){

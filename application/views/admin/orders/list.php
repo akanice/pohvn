@@ -110,7 +110,7 @@
 											} else { ?>
 												<a href="<?=@base_url('admin/orders/edit/'.$item->id)?>" class="btn btn-sm btn-fill btn-primary"><i class="fa fa-pencil"></i> Xử lý</a>
 												<?php if (($item->user_name) && ($item->status == 'confirmed')) {?>
-												<a href="javascript:void(0);" class="btn btn-sm btn-fill btn-danger" onclick="payAffiliate(<?=@$item->affiliate_transaction_id?>,'<?=@$item->note?>','<?=@number_format($item->total_price,0,',','.')?>','<?=@number_format($item->commission,0,',','.')?>',<?=@$item->id?>)"><i class="fa fa-cc-paypal"></i>Affiliate</a>
+												<a href="javascript:void(0);" class="btn btn-sm btn-fill btn-danger" onclick="payAffiliate(<?=@$item->affiliate_transaction_id?>,'<?=@$item->note?>','<?=@number_format($item->total_price,0,',','.')?>','<?=@number_format($item->commission,0,',','.')?>',<?=@$item->id?>,<?=@$item->user_id?>)"><i class="fa fa-cc-paypal"></i>Affiliate</a>
 												<?php } } ?>
 											</td>
 										</tr>
@@ -131,12 +131,13 @@
 
 
 <script type="text/javascript">
-    function payAffiliate(itemId,itemNote,itemValue,itemCom,rowID){
+    function payAffiliate(itemId,itemNote,itemValue,itemCom,rowID,affiliateID){
         $('#order_transid').val(itemId);
         $('#order_id').val(rowID);
 		$('#order-note').html(itemNote);
 		$('#order-value').val(itemValue);
 		$('#order-commission').val(itemCom);
+		$('#order-affiliate-id').val(affiliateID);
         $('#editOrderPopup').modal('show');
         return false;
     }
@@ -151,10 +152,11 @@
         var order_id = $('#order_id').val();
         var order_value = $('#order-value').val();
         var order_commission = $('#order-commission').val();
+        var order_affiliate_id = $('#order-affiliate-id').val();
         $.ajax({
             type: "POST",
             url: site_url + "admin/ajax/payAffiliate",
-            data: { order_id:order_id, note : note, trans_id: trans_id, order_value:order_value, order_commission:order_commission },
+            data: { order_id:order_id, note : note, trans_id: trans_id, order_value:order_value, order_commission:order_commission, order_affiliate_id:order_affiliate_id },
             dataType: 'JSON',
             cache: false,
             success: function(result){
@@ -200,6 +202,7 @@
 							<textarea name="note" class="form-control" rows="5" id="order-note2"></textarea>
 							<input type="hidden" name="trans_id" id="order_transid" value=""/>
 							<input type="hidden" name="order_id" id="order_id" value=""/>
+							<input type="hidden" name="order-affiliate-id" id="order-affiliate-id" value=""/>
 						</div>
 					</div>
 				</div>

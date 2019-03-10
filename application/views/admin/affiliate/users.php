@@ -39,6 +39,7 @@
                                     <thead>
                                     <tr>
                                         <th width=''>Id</th>
+                                        <th width=''>User Code</th>
                                         <th width=''>Email</th>
                                         <th width=''>Tên</th>
                                         <th width=''>Điện thoại</th>
@@ -54,17 +55,18 @@
                                     <tbody>
                                     <?php if($users) foreach ($users as $user){ ?>
                                         <tr>
-                                            <th width=''><?php echo $user->user_code; ?></th>
-                                            <th width=''><?php echo $user->email; ?></th>
-                                            <th width=''><?php echo $user->name; ?></th>
-                                            <th width=''><?php echo $user->phone; ?></th>
-                                            <th width=''><?php echo $user->total_visite; ?></th>
-                                            <th width=''><?php echo $user->total_click; ?></th>
-                                            <th width=''><?php echo $user->total_order; ?></th>
-                                            <th width=''><?php echo $user->withdraw; ?></th>
-                                            <th width=''><?php echo $user->balance; ?></th>
-                                            <th width=''><?php echo $user->total_money; ?></th>
-                                            <th width=''><?php echo $user->active; ?></th>
+                                            <td width=''><?php echo $user->user_id; ?></td>
+                                            <td width=''><?php echo $user->user_code; ?></td>
+                                            <td width=''><?php echo $user->email; ?></td>
+                                            <td width=''><?php echo $user->name; ?></td>
+                                            <td width=''><?php echo $user->phone; ?></td>
+                                            <td width=''><?php echo $user->total_visite; ?></td>
+                                            <td width=''><?php echo $user->total_click; ?></td>
+                                            <td width=''><?php echo $user->total_order; ?></td>
+                                            <td width=''><?php echo $user->withdraw; ?></td>
+                                            <td width=''><?php echo $user->balance; ?></td>
+                                            <td width=''><?php echo $user->total_money; ?></td>
+                                            <td width=''><?php echo $user->active; ?></td>
                                         </tr>
                                     <?php } ?>
                                     </tbody>
