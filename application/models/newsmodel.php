@@ -320,4 +320,5 @@ class NewsModel extends MY_Model {
 		$this->db->set('news.count_view', ($count->count_view + 1));
 		$this->db->update('news');
 	}
+	
 }

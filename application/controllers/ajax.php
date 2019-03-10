@@ -286,6 +286,7 @@ class Ajax extends MY_Controller {
 		$this->load->model('affiliatesmodel');
 		$this->load->model('usersmodel');
 		$this->load->model('landingpagemodel');
+		$this->load->model('afflandingconfigmodel');
 		
 		$data1 = array (
 			"name"				=> $name,
@@ -297,22 +298,39 @@ class Ajax extends MY_Controller {
 			"create_time"	=> time(),
 		);
 		$customer_id = $this->customersmodel->create($data1);
-		$user_id = $this->usersmodel->read(array('user_code'=>$poh_affiliate),array(),true)->id;
-		$landing_page_id = $this->landingpagemodel->read(array('news_id'=>$id),array(),true)->id;
-		$data2 = array(
-			"user_id"			=> $user_id,
-			"amount"			=> $package_price_value,
-			"status"			=> 'pending',
-			"create_time"	=> time(),
-		);
-		$transaction_id = $this->affiliatesmodel->create($data2);
+		if ($poh_affiliate && ($poh_affiliate !== 'null') && ($poh_affiliate !== 0)) {
+			$user_id = $this->usersmodel->read(array('user_code'=>$poh_affiliate),array(),true)->id;
+		} else {
+			$user_id = 0;
+		}
+		
+		$landing_page_data = $this->landingpagemodel->read(array('news_id'=>$id),array(),true);
+		if ($poh_affiliate && $poh_affiliate !== 'null' && $poh_affiliate !== 0) {
+			$landing_page_config = $this->afflandingconfigmodel->read(array('landingpage_id'=>$landing_page_data->id),array(),true);
+			if ($landing_page_config->type === 'percent') {
+				$amount = ($package_price_value*($landing_page_config->amount))/100;
+			} elseif ($landing_page_config->type === 'percent') {
+				$amount = $landing_page_config->amount;
+			} else {
+				$amount = 0;
+			}
+			$data2 = array(
+				"user_id"			=> $user_id,
+				"amount"			=> $amount,
+				"status"			=> 'pending',
+				"create_time"	=> time(),
+			);
+			$transaction_id = $this->affiliatesmodel->create($data2);
+		} else {
+			$transaction_id = null;
+		}
 		$data3 = array(
 			"code"									=> generateUserCode($length=10),
 			"customer_id"						=> $customer_id,
 			"birth_expect"						=> $pre_birth,
 			"note"									=> $message,
 			"affiliate_transaction_id"	=> $transaction_id,
-			"landingpage_id"					=> $landing_page_id,
+			"landingpage_id"					=> $landing_page_data->id,
 			"sale_id"								=> null,
 			"total_price"						=> $package_price_value,
 			"status"								=> 'pending',

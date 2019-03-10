@@ -812,3 +812,21 @@ ul.pagination-n li.prev a,ul.pagination-n li.next a,ul.pagination-n li.last a{
 .affiliate-page .tab-pane i.fa {
 	font-size: 14px;
 }
+.tooltip {
+	opacity: 1;
+}
+h2 .btn.btn-link {
+	width: 100%;
+	text-align:left;
+	font-size: 14px;
+}
+h2 .btn.btn-link:hover,h2 .btn.btn-link:focus {
+    color: #0056b3;
+    text-decoration: none;
+}
+.card {
+	margin-bottom: 1px;
+}
+.card-header {
+	padding: .35rem 1rem;
+}

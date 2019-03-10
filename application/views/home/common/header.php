@@ -18,11 +18,14 @@
 	<link href="<?=base_url('assets/img/favicon.ico')?>" rel="shortcut icon">
 	<link href="<?=base_url('assets/css/front/bootstrap-submenu.min.css')?>" rel="stylesheet">
 	<link href="<?=base_url('assets/css/front/style.css')?>" rel="stylesheet">
+	<link href="<?=base_url('assets/css/extra/style.css')?>" rel="stylesheet">
 	<link href="<?=base_url('assets/css/front/responsive.css')?>" rel="stylesheet">
 	
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&amp;subset=vietnamese" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Lora:400,700&amp;subset=vietnamese" rel="stylesheet">
+
+	<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5c829ea19fbe5a0017077a7f&product=sticky-share-buttons' async='async'></script>
 </head>
 
 <body>
@@ -30,9 +33,8 @@
 		<div class="inner-header d-none d-sm-block d-sm-none d-md-block">
 			<div class="container align-left-logo has-banner">
 				<div id="logo" class="d-none d-sm-block d-sm-none d-md-block">
-					<h1> <a href="#"><img src="/assets/img/POH_Official_Logo.png" alt=""></a></h1>
+					<h1> <a href="#"><img src="<?=@base_url($home_logo)?>" alt=""></a></h1>
 				</div>
-				<div class="header-banner header-style-3"> <a href="#" target="_blank"><img src="http://max.soledad.pencidesign.com/soledad-magazine/wp-content/uploads/sites/7/2018/09/banner-header2.jpg" alt="Banner"></a></div>
 			</div>
 		</div>
 		<div id="navigation-sticky-wrapper" class="sticky-wrapper" style="height: 60px;">

@@ -5,88 +5,40 @@ class ajax extends MY_Controller {
         parent::__construct();
         $this->data = array();
     }
-
-    public function widget_featured_tour() {
-        $values = array(
-            'heading'        => $this->input->post('f_tour_heading'),
-            'description'    => $this->input->post('f_tour_description'),
-            'number_display' => $this->input->post('f_tour_display'),
-            'biggest'        => $this->input->post('f_tour_biggest'),
-        );
-        $this->widget_update('featured_tour', $values);
-    }
-
-    private function widget_update($section_name, $values) {
-        $this->load->helper('url');
-        $this->load->model('widgetmodel');
-        $result = new stdClass();
+	
+	public function payAffiliate() {
+		$result = new stdClass();
         $result->ok = false;
         $result->msg = '';
-        $data = array();
-        $data = $this->widgetmodel->read(array('section_name' => $section_name));
-
-        foreach ($data as $d) {
-            $r = $this->widgetmodel->update(array('value' => $values[$d->position]), array(
-                'section_name' => $section_name,
-                'position'     => $d->position));
-        }
-        if (!$r) {
-            $result->msg = 'Có lỗi xảy ra';
-            echo json_encode($result);
-            die();
-        }
-
-        $result->ok = true;
+		
+		$order_id 					= $_POST['order_id'];
+		$trans_id 					= $_POST['trans_id'];
+		$order_note 				= $_POST['note'];
+		$order_value 				= $_POST['order_value'];
+		$order_commission	= $_POST['order_commission'];
+		$user_approve			= $this->session->userdata('adminid');
+		$this->load->model('affiliatesmodel');
+		$this->load->model('ordersmodel');
+		
+		$data = array(
+			"status"				=> 'confirmed',
+			'modify_time'		=> time(),
+			'description'			=> $order_note,
+			'user_approve'	=> $user_approve,
+		);
+		$transaction_id = $this->affiliatesmodel->update($data,array('id'=>$trans_id));
+		$data2 = array(
+			'status'		=> 'closed',
+			'sale_id'		=> $user_approve,
+		);
+		$this->ordersmodel->update($data2,array('id'=>$order_id));
+		
+		$result->ok = true;
+		$result->msg = 'Chuyển tiền thành công!';
         echo json_encode($result);
         die();
-    }
-
-    public function widget_places() {
-        $values = array(
-            'heading'          => $this->input->post('places_heading'),
-            'description'      => $this->input->post('places_description'),
-            'number_display'   => $this->input->post('places_display'),
-            'number_available' => $this->input->post('places_available'),
-        );
-        $this->widget_update('places', $values);
-    }
-
-    public function widget_blogs() {
-        $values = array(
-            'heading'          => $this->input->post('blogs_heading'),
-            'description'      => $this->input->post('blogs_description'),
-            'number_display'   => $this->input->post('blogs_display'),
-            'number_available' => $this->input->post('blogs_available'),
-        );
-        $this->widget_update('blogs', $values);
-    }
-
-    public function widget_testimonials() {
-        $values = array(
-            'heading'          => $this->input->post('testimonials_heading'),
-            'description'      => $this->input->post('testimonials_description'),
-            'number_display'   => $this->input->post('testimonials_display'),
-            'number_available' => $this->input->post('testimonials_available'),
-        );
-        $this->widget_update('testimonials', $values);
-    }
-
-    public function widget_footeruser1() {
-        $values = array(
-            'heading' => $this->input->post('footeruser1_heading'),
-            'content' => $this->input->post('footeruser1_content'),
-        );
-        $this->widget_update('footeruser1', $values);
-    }
-
-    public function widget_footeruser2() {
-        $values = array(
-            'heading' => $this->input->post('footeruser2_heading'),
-            'content' => $this->input->post('footeruser2_content'),
-        );
-        $this->widget_update('footeruser2', $values);
-    }
-
+	}
+	
     public function loadUrl() {
         if ($_POST['dataString']) {
             $type_url = $_POST['dataString'];

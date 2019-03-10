@@ -301,7 +301,8 @@ class Configs extends MY_Controller {
     }
 
     public function editSloganCategory() {
-        $this->load->model('newsmodel');
+        $this->data['title'] = 'Chỉnh sửa slogan tại mỗi category hiển thị tại trang chủ';
+		$this->load->model('newsmodel');
         $this->load->model('newscategorymodel');
         $this->data['home_cat_available'] = $this->configsmodel->read(array(
             'term' => 'home',
@@ -323,11 +324,21 @@ class Configs extends MY_Controller {
                     $data[$cid['cat_id']] = array(
                         'value' => $value,
                     );
-                    // print_r($value);
-                    $this->configsmodel->update($data[$cid['cat_id']], array(
-                        'term'    => 'category',
-                        'name'    => 'slogan',
-                        'term_id' => $cid['cat_id']));
+                    if ( $this->configsmodel->read(array('term'=> 'category','name'=> 'slogan','term_id' => $cid['cat_id'])) == null) {
+						$data1 = array(
+							'term'    => 'category',
+							'name'    => 'slogan',
+							'term_id' => $cid['cat_id'],
+							"value" => $image,
+						);
+						$this->configsmodel->create($data1);
+					} else {
+						$this->configsmodel->update($data[$cid['cat_id']], array(
+							'term'    => 'category',
+							'name'    => 'slogan',
+							'term_id' => $cid['cat_id']
+						));
+					}
                 }
             }
             // Update new data
@@ -383,10 +394,21 @@ class Configs extends MY_Controller {
                         $data[$cid['cat_id']] = array(
                             "value" => $image,
                         );
-                        $this->configsmodel->update($data[$cid['cat_id']], array(
-                            'term'    => 'category',
-                            'name'    => 'banner',
-                            'term_id' => $cid['cat_id']));
+						if ( $this->configsmodel->read(array('term'=> 'category','name'=> 'banner','term_id' => $cid['cat_id'])) == null) {
+							$data1 = array(
+								'term'    => 'category',
+								'name'    => 'banner',
+								'term_id' => $cid['cat_id'],
+								"value" => $image,
+							);
+							$this->configsmodel->create($data1);
+						} else {
+							$this->configsmodel->update($data[$cid['cat_id']], array(
+								'term'    => 'category',
+								'name'    => 'banner',
+								'term_id' => $cid['cat_id'],
+							));
+						}
                     }
                 }
             }

@@ -24,6 +24,7 @@ class Affiliate extends MY_Controller {
 		$this->data['all_user_data'] = $this->session->all_userdata();
 		$this->load->model('configsmodel');
 		$this->load->model('affiliatesmodel');
+		$this->load->model('usersmodel');
 		$this->load->library('auth');
 	}
 
@@ -67,10 +68,10 @@ class Affiliate extends MY_Controller {
 	}
 
     public function users() {
-        $this->data['title'] = 'Affiliate';
+        $this->data['title'] = 'Quản lý thành viên liên kết';
         //Pagination
-        //$total = count($this->newsmodel->getListLandingpage($this->input->get('title'),"",""));
-        $total = 100;
+        $total = count($this->usersmodel->read(array('role'=>'affiliate')));
+        
         $this->load->library('pagination');
         $config['base_url'] = base_url() . 'admin/affiliate/';
         $config['total_rows'] = $total;

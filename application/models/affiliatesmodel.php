@@ -19,6 +19,11 @@ class Affiliatesmodel extends MY_Model {
             'nullable' => false,
             'type'     => 'integer'
         ),
+		'modify_time'  => array(
+            'isIndex'  => false,
+            'nullable' => false,
+            'type'     => 'integer'
+        ),
         'approve_time' => array(
             'isIndex'  => false,
             'nullable' => false,

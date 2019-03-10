@@ -39,6 +39,11 @@ class UsersModel extends MY_Model {
             'nullable' => false,
             'type'     => 'string'
         ),
+		'role'        => array(
+            'isIndex'  => false,
+            'nullable' => false,
+            'type'     => 'string'
+        ),
 		'user_code'     => array(
             'isIndex'  => false,
             'nullable' => false,

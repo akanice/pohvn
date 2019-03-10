@@ -50,13 +50,13 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Mô tả ngắn</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" name="description"  required="" ></textarea>
+                                    <textarea class="form-control" name="description" ></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Nội dung</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control ckeditor" name="content" rows="10"></textarea>
+                                    <textarea class="form-control ckeditor" name="content" rows="20"></textarea>
                                 </div>
                             </div>
 							<div class="form-group">

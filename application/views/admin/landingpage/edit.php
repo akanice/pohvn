@@ -33,7 +33,7 @@
 					</div>
 					<div class="content">
                             <div class="form-group">
-                                <label class="col-sm-2">Tiêu đề</label>
+                                <label class="col-sm-2 control-label">Tiêu đề</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="title" value="<?=@$landingpage->title?>"/>
                                 </div>
@@ -154,6 +154,27 @@
 								?>
 							<div id="output-package" class="clearfix"></div>
 							<div class="col-sm-12"><a href="#" class="add_package btn btn-fill btn-primary btn-sm"><i class="fa fa-plus"></i> Thêm</a></div>
+						</div>
+						<hr />
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Loại hoa hồng</label>
+							<div class="col-sm-8">
+								<select class="form-control" name="commission_type">
+									<option value="percent" <?php if($landingpage_commission->type=='percent'){echo 'selected="selected" ';}?>>Phần trăm (%)</option>
+									<option value="fixed" <?php if($landingpage_commission->type=='fixed'){echo 'selected="selected" ';}?>>Cố định</option>
+								<select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Giá trị</label>
+							<div class="col-sm-8"><input type="text" class="form-control" name="commission_value" placeholder="" value="<?=@$landingpage_commission->amount?>"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<input type="submit" class="btn btn-primary btn-fill btn-wd" name="submit" value="Lưu lại">
+								<a href="javascript:window.history.go(-1);" class="btn btn-default btn-fill">Hủy</a>
+							</div>
 						</div>
 					</div>
 				</div>

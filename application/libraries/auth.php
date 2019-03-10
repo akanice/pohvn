@@ -52,20 +52,26 @@ class auth {
 			redirect(base_url('dang-nhap'));
 		}
 	}
-	function check(){
-		if (($_COOKIE['siteAuth_username']) && ($_COOKIE['siteAuth_password'])) {
-			$email = $_COOKIE['siteAuth_username'];
-			$pass = $_COOKIE['siteAuth_password'];
-			
-			// $admin = $this->AdminModel->read(array('email'=>$email),array(),true);
-			// if($admin){
-                // if($pass === $admin->password){
-                    // $this->auth->login($admin);					
-                    // redirect(site_url('admin'));
-                // }
-            // }
+	function isUserLogin(){
+		if($this->ci->session->userdata('userid')){
 			return true;
 		}
+		return false;
+	}
+	function check(){
+		// if (($_COOKIE['siteAuth_username']) && ($_COOKIE['siteAuth_password'])) {
+			// $email = $_COOKIE['siteAuth_username'];
+			// $pass = $_COOKIE['siteAuth_password'];
+			
+			// // $admin = $this->AdminModel->read(array('email'=>$email),array(),true);
+			// // if($admin){
+                // // if($pass === $admin->password){
+                    // // $this->auth->login($admin);					
+                    // // redirect(site_url('admin'));
+                // // }
+            // // }
+			// return true;
+		// }
 		if (!$this->ci->session->userdata('adminid')){
 			redirect(site_url('admin/login'));
 		}

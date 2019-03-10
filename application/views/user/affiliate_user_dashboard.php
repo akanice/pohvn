@@ -5,6 +5,7 @@
 				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 					<a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#home" role="tab" aria-controls="v-pills-home" aria-selected="true">Tổng quan</a>
 					<a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#sale" role="tab" aria-controls="v-pills-profile" aria-selected="false">Lịch sử Giao dịch</a>
+					<a class="nav-link" id="v-pills-guide-tab" data-toggle="pill" href="#guide" role="tab" aria-controls="v-pills-guide" aria-selected="false">Lấy link affiliate</a>
 					<a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#profile" role="tab" aria-controls="v-pills-messages" aria-selected="false">Thiết lập tài khoản</a>
 					<a class="nav-link" id="v-pills-settings-tab" href="/dang-xuat">Đăng xuất</a>
 				</div>
@@ -109,7 +110,7 @@
 						</div>
 						<!--<div style="padding-top: 1em;padding-bottom: 2.5em;"><?php /*echo $page_links */?></div>-->
 					</div>
-					<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+					<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
 						<div class="row">
 							<div class="col-6 px-4">
 								<form method="POST" action="">
@@ -137,6 +138,18 @@
 									<li>- Điền đầy đủ thông tin ngân hàng</li>
 								</ul><br>
 								<p><button class="btn btn-success"><i class="fa fa-money-check-alt"></i> Yêu cầu rút tiền</button></p>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="guide" role="tabpanel" aria-labelledby="v-pills-guide-tab">
+						<div class="row">
+							<div class="col-12" style="min-height:600px">
+								Hướng dẫn: thêm đoạn mã sau vào mỗi link trên website để chia sẻ 
+								<input class="form-control" readonly value="?poh=<?=@$user_profile->user_code?>">
+								<p>Ví dụ:<br>
+								Link trang: <?=base_url('khoa-thuc-hanh-thai-giao')?><br>
+								Link affiliate để chia sẻ: <?=base_url('khoa-thuc-hanh-thai-giao?poh='.@$user_profile->user_code)?>
+								</p>
 							</div>
 						</div>
 					</div>

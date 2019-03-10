@@ -74,8 +74,8 @@
                                         <ul class="row clearfix">
                                             <?php if ($section_news['child_cat']) foreach ($section_news['child_cat'] as $item) { ?>
                                                 <li class="col-md-6 col-sm-12 col-xs-12"><a
-                                                        href="<?= base_url('category/') . $section_news['parent_cat']->alias . '/' . $item->alias ?>"><i
-                                                            class="fa fa-angle-right"></i> <?php echo $item->title ?></a></li>
+                                                        href="<?= base_url('category/') .  $item->alias ?>"><i
+                                                        class="fa fa-angle-right"></i> <?php echo $item->title ?></a></li>
                                             <?php } ?>
                                         </ul>
                                     </div>

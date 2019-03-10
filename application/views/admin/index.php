@@ -1,3 +1,4 @@
+
 <div class="content">
     <!-- BEGIN PAGE CONTAINER-->
     <div class="container-fluid">
@@ -20,7 +21,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row clearfix">
 			<div class="col-lg-4 col-md-6 col-sm-6">
 				<div class="card">
 					<div class="header">
@@ -66,6 +67,123 @@
 							<li><i class="fa fa-user"></i> <a href="<?=base_url('admin/orders/edit/'.$order->id)?>" target="_blank"><?=$order->customer_name.' - '.$order->customer_phone?></a> - <i class="fa fa-code"></i>Mã đơn hàng: <?=$order->code;?></li>
 						<?php } ?>
 						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row clearfix">
+			<div class="col-lg-6 col-md-6 col-sm-6">
+				<div class="card">
+					<div class="header">
+						<h4 class="title">Doanh thu 10 ngày gần nhất</h4>
+						<p class="category"><small><i>Dự tính dựa trên số đơn hàng nhận được</i></small></p>
+					</div>
+					<div class="content" >
+						<canvas id="myChart" width="" height="160"></canvas>
+						<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js" type="text/javascript"></script>
+						<script>
+						var ctx = document.getElementById("myChart");
+						var myLineChart = new Chart(ctx, {
+							type: 'line',
+							data: {
+								labels: <?=$data_label?>,
+								datasets: [{
+									label: 'Doanh thu',
+									data: <?=@$data_revenue?>,
+									borderColor: '#c0392b',
+									backgroundColor:  '#c0392b',
+									fill: true,
+									borderWidth: 1
+								}]
+							},
+							options: {
+								responsive: true,
+								aspectRatio: 2,
+								tooltips: {
+									mode: 'index',
+									intersect: false,
+								},
+								hover: {
+									mode: 'nearest',
+									intersect: true
+								},
+								scales: {
+									xAxes: [{
+										display: true,
+										scaleLabel: {
+											display: true,
+											labelString: '10 ngày gần nhất'
+										}
+									}],
+									yAxes: [{
+										display: true,
+										scaleLabel: {
+											display: true,
+											labelString: 'Đơn vị: vnđ'
+										}
+									}]
+								}
+							}
+						});
+						</script>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-lg-6 col-md-6 col-sm-6">
+				<div class="card">
+					<div class="header">
+						<h4 class="title">Thống kê đơn hàng 10 ngày gần nhất</h4>
+						<p class="category"><small><i>Dự tính dựa trên số đơn hàng nhận được</i></small></p>
+					</div>
+					<div class="content" >
+						<canvas id="myChartOrder" width="" height="160"></canvas>
+						<script>
+						var ctx = document.getElementById("myChartOrder");
+						var myLineChart = new Chart(ctx, {
+							type: 'line',
+							data: {
+								labels: <?=$data_label?>,
+								datasets: [{
+									label: 'Số đơn hàng',
+									data: <?=@$data_orders?>,
+									borderColor: '#8e44ad',
+									backgroundColor:  '#8e44ad',
+									fill: true,
+									borderWidth: 1
+								}]
+							},
+							options: {
+								responsive: true,
+								aspectRatio: 2,
+								tooltips: {
+									mode: 'index',
+									intersect: false,
+								},
+								hover: {
+									mode: 'nearest',
+									intersect: true
+								},
+								scales: {
+									xAxes: [{
+										display: true,
+										scaleLabel: {
+											display: true,
+											labelString: '10 ngày gần nhất'
+										}
+									}],
+									yAxes: [{
+										display: true,
+										scaleLabel: {
+											display: true,
+											labelString: 'Đơn vị: đơn'
+										}
+									}]
+								}
+							}
+						});
+						</script>
 					</div>
 				</div>
 			</div>

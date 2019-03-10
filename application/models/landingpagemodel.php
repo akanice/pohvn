@@ -64,5 +64,4 @@ class LandingpageModel extends MY_Model {
         $res = $this->db->get();
         return $res ? ($res->result()) : null;
     }
-
 }

@@ -1,0 +1,416 @@
+/*
+Theme Name: POH Theme
+Theme URI: http://www.thaigiao.com
+Author: CRTeam
+Author URI: http://crteamvn.com
+Template: ninezeroseven
+Description: POH Thai Giao
+Version: 1.0
+License: GNU General Public License
+License URI: license.txt
+Tags: black,white
+*/
+
+@import url("../ninezeroseven/style.css");
+
+
+/************************************************************************
+* Custom CSS code below
+*************************************************************************/
+a:hover,a:focus {
+	text-decoration: none;
+}
+h1,h2,h3,h4,h5,h6 {
+	/* line-height: 1.6; */
+}
+.img-holder {
+	width: 100%;
+}
+.align-right {
+	text-align: right;
+}
+.center {
+	text-align: center;
+}
+.select2-container--default .select2-selection--single, .select2-container .select2-choice, input[type="text"], input[type="password"], input[type="email"], input[type="search"], input[type="tel"], textarea, select {
+	border: 1px solid rgba(0,0,0,0.1);
+	border-radius: 3px;
+}
+.cat-post-item img {
+	border-radius: 50%;
+}
+.cat-post-item p {
+	font-size: 15px;
+}
+.cat-post-item, #category-posts-3-internal .cat-post-item {
+	/* border-bottom: 1px dashed #ddd; */
+	border: 0;
+	margin: 0 !important;
+    padding: 5px 15px !important;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+}
+.wpb_row.parallax-section.poh-bg, .wpb_row.video-section.poh-bg {
+	background-attachment: unset;
+	background-size: auto;
+}
+.main-content-area.full-width-template {
+	padding: 0;
+}
+.extra-content {
+	padding: 60px 0;
+}
+.white-color {
+	color: #fff;
+}
+.subcat ul,.subcat li {
+	margin: 0;
+	padding: 0;
+}
+.subcat li {
+	list-style: none;
+}
+.subcat .inner {
+	background: #fff;
+	padding: 15px;
+	border: 1px solid #eee;
+	border-radius: 5px;
+	margin-bottom: 30px;
+}
+.subcat li {
+	padding: 10px 0;
+	display: block;
+	border-bottom: 1px dashed #eee;
+}
+.subcat li:last-child {
+	border-bottom: 0;
+}
+.subcat .post-thumb {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+#category-posts-3-internal .cat-post-title {
+	height: 48px;
+    display: inherit;
+    padding-top: 10px;
+	color:#3a3a3a;
+}
+.vc_separator h4 {
+	color: #00c1cf;
+}
+.poh-img-download {
+	width: 200px;
+}
+@media (max-width: 480px) {
+	.poh-img-download {
+		width: 160px;
+	}
+	#category-posts-3-internal .cat-post-title {
+		padding-top: 5px;
+	}
+}
+.header-inner {
+	min-height: 48px;
+}
+/* landing page css */
+.content .pull-left {
+    max-width: 200px;
+    padding-right: 25px;
+}
+.pull-left {
+    float: left;
+}
+.content .text {
+    margin: 15px 0;
+}
+.content .person {
+    color: #999;
+    font-size: 18px;
+}
+.content .person > strong {
+    font-weight: bold;
+    color: #00c1cf;
+}
+.content .extra {
+    color: #999;
+}
+.col-inner-content.wpb_row {
+	margin-bottom: 30px;
+}
+.col-inner-content .vc_column-inner {
+	background-color: #fff;
+	/* background-image: url('/wp-content/uploads/2018/05/landing-bg-nuoidaycon.jpg'); */
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: right bottom;
+	margin: 15px;
+	padding: 15px;
+	border-radius: 5px;
+	width: auto;
+}
+.vc_tta-panel-title {
+	font-size: 16px;
+}
+.wbc-testimonial .testimonial-message {
+	font-size: 15px;
+}
+.poh-landing .vc_cta3-content-header h2 {
+	font-size: 28px;
+}
+.old-price {
+	text-decoration: line-through;
+	color: #999;
+	font-size: 18px;
+}
+.sale-price {
+	font-size: 28px;
+	color: red;
+	font-weight: bold;
+}
+@media (max-width: 480px) {
+	.col-inner-content.wpb_row {
+		margin-bottom: auto;
+	}
+	.poh-landing .vc_cta3-content-header h2 {
+		font-size: 18px;
+	}
+}
+/* end landing page css */
+.wpcf7-form {
+	margin-top: 15px;
+}
+.wpcf7-form label,.wpcf7-form input[type="text"] {
+	color: #333;
+	font-size: 14px;
+}
+.result_text {
+	display: none;
+}
+#remain_days,#duration_days {
+	color: orange;
+}
+
+/* Countdown clock css */
+.clock_countdown {
+	position: relative;
+	margin: 20px auto;
+}
+#countdown{
+	/* width: 465px; */
+	/* height: 112px; */
+	text-align: center;
+	/* background: #222; */
+	/* background-image: -webkit-linear-gradient(top, #222, #333, #333, #222);  */
+	/* background-image:    -moz-linear-gradient(top, #222, #333, #333, #222); */
+	/* background-image:     -ms-linear-gradient(top, #222, #333, #333, #222); */
+	/* background-image:      -o-linear-gradient(top, #222, #333, #333, #222); */
+	/* border: 1px solid #111; */
+	/* box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.6); */
+	margin: auto;
+	border-radius: 5px;
+	padding: 24px 0;
+	/* position: absolute; */
+	top: 0; bottom: 0; left: 0; right: 0;
+}
+
+#countdown #clock_countdown_title{
+	position: relative;
+	z-index: 1;
+}
+
+#countdown #clock_countdown_title > span{
+	width: 92px;
+	max-width: 92px;
+	font: bold 48px 'Droid Sans', Arial, sans-serif;
+	text-align: center;
+	color: #111;
+	background-color: #ddd;
+	background-image: -webkit-linear-gradient(top, #bbb, #eee); 
+	background-image:    -moz-linear-gradient(top, #bbb, #eee);
+	background-image:     -ms-linear-gradient(top, #bbb, #eee);
+	background-image:      -o-linear-gradient(top, #bbb, #eee);
+	border-top: 1px solid #fff;
+	border-radius: 3px;
+	box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.7);
+	margin: 0 7px;
+	padding: 18px 0;
+	display: inline-block;
+	position: relative;
+	z-index: 3;
+}
+
+#countdown #clock_countdown_title > span:before{
+	content:"";
+	/* width: 100%; */
+	height: 13px;
+	background: #111;
+	display: block;
+	padding: 0 3px;
+	position: absolute;
+	top: 41%; left: -3px;
+	z-index: -1;
+}
+
+#countdown #clock_countdown_title > span:after{
+	content:"";
+	width: 100%;
+	height: 1px;
+	background: #eee;
+	border-top: 1px solid #999;
+	display: block;
+	position: absolute;
+	top: 48%; left: 0;
+	z-index: -1;
+}
+#countdown .labels{
+	width: 100%;
+	height: 25px;
+	text-align: center;
+	margin-top: 10px;
+	bottom: 8px;
+}
+
+#countdown .labels li{
+	width: 102px;
+	font: bold 15px 'Droid Sans', Arial, sans-serif;
+	color: #333;
+	text-align: center;
+	text-transform: uppercase;
+	display: inline-block;
+}
+@media (max-width: 480px) {
+	#countdown #clock_countdown_title > span{
+		width: 68px;
+		max-width: 68px;
+		margin: 0 7px;
+		padding: 5px 0;
+	}
+	#countdown .labels li {
+		width: 80px;
+	}
+}
+/* End countdown clock css*/
+.button.button-next, .button.button-back {
+	background: #f90;
+	border: 0;
+	padding: 8px 12px;
+	font-size: 13px;
+}
+#calculate_date .form-control {
+	border-radius: 3px;
+}
+.btn-calculate {
+	background: #f90;
+	padding: 10px 16px;
+	font-size: 14px;
+	border: 0;
+	border-radius: 3px;
+	color: #fff;
+}
+@media (max-width: 480px) {
+	.btn-calculate {
+		display: block;
+		margin-top:  5px;
+		width: 100%;
+	}
+	.wpcf7-form-control.wpcf7-submit {
+		display: block;
+		margin-top:  5px;
+		width: 100%;
+	}
+}
+#form-dang-ky .wpcf7-form {
+	margin-top: 0;
+}
+.wpcf7-form h3 {
+	font-size: 16px;
+    margin: 0;
+}
+.poh_landing_ul {
+	margin: 0;
+	padding: 0;
+}
+.poh_landing_ul li {
+	list-style: none;
+}
+.poh_landing_ul .fa {
+	font-size: 10px;
+}
+.poh-highlight {
+	display: inline-block;
+	margin: 10px 0 5px;
+	font-weight: bold;
+}
+.hl-red {
+	color: #e74c3c;
+}
+.hl-green {
+	color: #27ae60;
+}
+.hl-blue {
+	color: #3498db;
+}
+.spinner {
+	display: none;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+	border-top: 0;
+}
+.mobile-nav-menu .wbc_menu a {
+	border-bottom: 1px dashed #dedede;
+}
+.tooltip {
+    position: relative;
+    display: block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 300px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -75px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+.btn-full {
+	width: 100%;
+	margin-top: 5px;
+}
+.has-transparent-menu .menu-bar-wrapper:not(.is-sticky), .has-transparent-menu .menu-bar-wrapper:not(.is-sticky) .menu-icon, .has-transparent-menu .menu-bar-wrapper:not(.is-sticky) .wbc_menu > li > a, .has-transparent-menu .menu-bar-wrapper:not(.is-sticky) .mobile-nav-menu .wbc_menu a {
+    color: #696969;
+}
+.poh-banner-top {
+	margin-bottom: 15px;
+}
+.poh-banner-bottom {
+	margin-top: 15px;
+}
+.post-featured .wbc-image-wrap.center {
+	display: none !important;
+}

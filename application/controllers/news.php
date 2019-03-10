@@ -4,7 +4,13 @@ class News extends MY_Controller{
     private $data;
     function __construct() {
         parent::__construct();
-        
+        $this->load->library('auth');
+		$this->auth = new Auth();
+        if ($this->auth->isUserLogin()) {
+			$this->data['affiliate_user'] = $this->auth->getUser();
+			$this->load->model('usersmodel');
+			$this->data['user_profile'] = $this->usersmodel->read(array('id'=>$this->data['affiliate_user']['id']),array(),true);
+		}
 		//Get Menu 
         $this->load->model('menusmodel');
 		
@@ -73,7 +79,7 @@ class News extends MY_Controller{
     }
 	
 	public function category($alias) {
-        $news_category = $this->newscategorymodel->read(array('alias'=>$alias),array(),true);
+        $this->data['news_category'] = $news_category = $this->newscategorymodel->read(array('alias'=>$alias),array(),true);
 		$total = $this->newsmodel->readCountNew($news_category->id);
 		$per_page = 6;
 		$this->configPagination($slug='category',$per_page,$alias,$total);
@@ -81,15 +87,15 @@ class News extends MY_Controller{
         if (empty($page_number)) $page_number = 1;
         $start = ($page_number - 1) * $per_page;
         $this->data['page_links'] = $this->pagination->create_links();
-
-        $this->data['news'] = $this->newsmodel->read(array('categoryid'=>$news_category->id),array(),false,$per_page,$start);
-	
-        if (empty($this->data['products'])) {
-			$this->data['title'] = 'Sản phẩm'	;
+        $this->data['news'] = $this->newsmodel->getListNews('',$news_category->id,$per_page,$start);
+        if (empty($news_category->title)) {
+			$this->data['title'] = 'Chuyên mục'	;
 		} else {
-			$this->data['title'] = 'Sản phẩm | '.$this->data['current_category']->name;
+			$this->data['title'] = 'Chuyên mục- '.$news_category->title;
 		}
-		
+
+		$this->data['most_viewed'] = $this->newsmodel->read(array(),array('count_view'=>false),false,5);
+				
 		$this->data['meta_keywords']    = $news_category->meta_keywords;
 		$this->data['meta_description']	= $news_category->meta_description;
 		
@@ -129,9 +135,9 @@ class News extends MY_Controller{
         $config['per_page'] = $per_page;
         $config['num_links'] = 5;
         $config['use_page_numbers'] = TRUE;
-        $config["num_tag_open"] = "<li>";
+        $config["num_tag_open"] = "<li class='page-item'>";
         $config["num_tag_close"] = "</li>";
-        $config["cur_tag_open"] = "<li class='active'><a href='#'>";
+        $config["cur_tag_open"] = "<li class='active page-item'><a href='#' class='page-link'>";
         $config["cur_tag_close"] = "</a></li>";
         $config["first_link"] = "Đầu";
         $config["first_tag_open"] = "<li class='first'>";
@@ -145,6 +151,7 @@ class News extends MY_Controller{
         $config["prev_link"] = "← Trước";
         $config["prev_tag_open"] = "<li class='prev'>";
         $config["prev_tag_close"] = "</li>";
+		$config['attributes'] = array('class' => 'page-link');
         $this->pagination->initialize($config);
 	}
 	

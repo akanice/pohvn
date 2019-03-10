@@ -115,6 +115,8 @@ class Orders extends MY_Controller{
         $this->data['id'] = $id;
         $this->data['order'] = $this->ordersmodel->read(array('id' => $id), array(), true);
 		$this->data['admin_id'] = $this->session->userdata('adminid');
+		
+		$this->data['title'] = 'Cập nhật trạng thái đơn hàng';
 		if($this->input->post('submit') != null) {	
             $data = array(
                 "sale_id" => $this->data['admin_id'],
@@ -243,7 +245,10 @@ class Orders extends MY_Controller{
 		$this->load->view('admin/common/footer');
 	} 
 	
-    public function delete($id){
+    public function payAffiliate($id) {
+		
+	}
+	public function delete($id){
         if(isset($id)&&($id>0)&&is_numeric($id)){
             $this->ordersmodel->delete(array('id'=>$id));
             redirect(base_url() . "admin/orders");

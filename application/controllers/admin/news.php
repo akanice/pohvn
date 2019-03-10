@@ -71,6 +71,7 @@ class News extends MY_Controller{
     }
 
     public function add() {
+		$this->data['title']    = 'Thêm mới bài viết';
 		$this->data['list_cat_id'] = $this->newscategorymodel->getSortedCategories();
 		if($this->input->post('submit') != null){
             $uploaddir = '/assets/uploads/images/articles/';
@@ -135,6 +136,7 @@ class News extends MY_Controller{
     }
 
     public function edit($id) {
+		$this->data['title']    = 'Sửa bài viết';
 		$this->data['newscategory'] = $this->newscategorymodel->getSortedCategories();
         $this->data['news'] = $this->newsmodel->read(array('id'=>$id),array(),true);
 		$this->data['news']->categoryid = json_decode($this->data['news']->categoryid);

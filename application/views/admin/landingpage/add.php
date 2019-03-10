@@ -141,6 +141,19 @@
 						</div>
 						<hr />
 						<div class="form-group">
+							<label class="col-sm-3 control-label">Loại hoa hồng</label>
+							<div class="col-sm-8">
+								<select class="form-control" name="commission_type">
+									<option value="percent">Phần trăm (%)</option>
+									<option value="fixed">Cố định</option>
+								<select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Giá trị</label>
+							<div class="col-sm-8"><input type="text" class="form-control" name="commission_value" placeholder=""></div>
+						</div>
+						<div class="form-group">
 							<div class="col-sm-12">
 								<input type="submit" class="btn btn-primary btn-fill btn-wd" name="submit" value="Lưu lại">
 								<a href="javascript:window.history.go(-1);" class="btn btn-default btn-fill">Hủy</a>

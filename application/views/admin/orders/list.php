@@ -82,7 +82,7 @@
 											<td><?=@$item->customer_address?></td>
 											<td><?=@$item->note?></td>
 											<td><a href="<?=@base_url('admin/affiliate/viewUser/'.$item->user_id)?>"><?=@$item->user_name?></a></td>
-											<td><?php 
+											<td id="td_status_<?=@$item->id?>"><?php 
 												switch ($item->status) {
 													case 'pending':
 														$status = 'Mới';$extra_class = 'color_green';
@@ -91,7 +91,7 @@
 														$status =  'Đang xử lý';$extra_class = 'color_blue';
 														break;
 													case 'confirmed':
-														$status =  'Thành công';$extra_class = 'color_red';
+														$status =  'Đã thanh toán';$extra_class = 'color_red';
 														break;
 													case 'closed':
 														$status =  'Đã hoàn thành';$extra_class = 'color_grey';
@@ -104,11 +104,14 @@
 												}
 												echo '<span class="'.$extra_class.'">'.$status.'</span>';
 											?></td>
-											<td style="text-align: center">
+											<td style="text-align: center" id="td_<?=@$item->id?>">
+											<?php if (($item->status == 'closed') or ($item->status == 'cancelled')) {
+												echo '&nbsp';
+											} else { ?>
 												<a href="<?=@base_url('admin/orders/edit/'.$item->id)?>" class="btn btn-sm btn-fill btn-primary"><i class="fa fa-pencil"></i> Xử lý</a>
 												<?php if (($item->user_name) && ($item->status == 'confirmed')) {?>
-												<a href="<?=@base_url('admin/orders/edit/'.$item->id)?>" class="btn btn-sm btn-fill btn-danger"><i class="fa fa-cc-paypal"></i>Affiliate</a>
-												<?php } ?>
+												<a href="javascript:void(0);" class="btn btn-sm btn-fill btn-danger" onclick="payAffiliate(<?=@$item->affiliate_transaction_id?>,'<?=@$item->note?>','<?=@number_format($item->total_price,0,',','.')?>','<?=@number_format($item->commission,0,',','.')?>',<?=@$item->id?>)"><i class="fa fa-cc-paypal"></i>Affiliate</a>
+												<?php } } ?>
 											</td>
 										</tr>
 										<?php } ?>
@@ -128,62 +131,40 @@
 
 
 <script type="text/javascript">
-    function editOrder(itemId,itemNote){
-        $('#orderId').val(itemId);
+    function payAffiliate(itemId,itemNote,itemValue,itemCom,rowID){
+        $('#order_transid').val(itemId);
+        $('#order_id').val(rowID);
 		$('#order-note').html(itemNote);
+		$('#order-value').val(itemValue);
+		$('#order-commission').val(itemCom);
         $('#editOrderPopup').modal('show');
         return false;
     }
-	
-	function delayedOrder(itemId,itemNote) {
-		$('#orderId2').val(itemId);
-		$('#order-note2').html(itemNote);
-        $('#delayedOrderPopup').modal('show');
-	}
+
 	var site_url = '<?=site_url();?>';
-    function assignOrder(event){
-        event.preventDefault();
-        var staff_technique_id = $('#staff_technique').val();
-        var note =  $('#order-note').val();
-        var order_id = $('#orderId').val();
-        $.ajax({
-            type: "POST",
-            url: 'ajax/assignOrder',
-            data: { staff_technique_id : staff_technique_id, note : note, order_id: order_id },
-            dataType: 'JSON',
-            cache: false,
-            success: function(result){
-                if (result.ok){
-                    alert("Bạn đã gán đơn hàng thành công!");
-                    $('#editOrderPopup').modal('hide');
-					$('#order_change_'+result.item_id).html("<a href=\"javascript:void(0);\" class=\"btn btn-info btn-sm\" onclick=\"editOrder("+result.item_id+",'"+result.item_note+"')\">"+result.staff_lastname + "&nbsp;" + result.staff_firstname+"</a>");
-					$('#extra_buttons_'+result.item_id).html("<a href=\""+site_url+"admin/orders/confirm/"+result.item_id+"\" class=\"btn btn-sm bg-maroon\" onclick=\"return confirm('Bạn chắc chắn kết thúc đơn hàng này?')\"><i class=\"fa fa-print\"></i> Chốt đơn</a>&nbsp;" +
-						"<a href=\"javascript:void(0);\" class=\"btn btn-sm bg-primary\" onclick=\"delayedOrder("+result.item_id+",'"+result.item_note+"')\"> Báo hoãn</a>");
-                } else {
-                    alert(result.msg);
-                }
-            }
-        });
-    };
 	
 	function backOrder(event){
         event.preventDefault();
+		$('#loading_spinner').show();
         var note =  $('#order-note2').val();
-        var order_id = $('#orderId2').val();
+        var trans_id = $('#order_transid').val();
+        var order_id = $('#order_id').val();
+        var order_value = $('#order-value').val();
+        var order_commission = $('#order-commission').val();
         $.ajax({
             type: "POST",
-            url: 'ajax/backOrder',
-            data: {note : note, order_id: order_id },
+            url: site_url + "admin/ajax/payAffiliate",
+            data: { order_id:order_id, note : note, trans_id: trans_id, order_value:order_value, order_commission:order_commission },
             dataType: 'JSON',
             cache: false,
             success: function(result){
                 if (result.ok){
-					console.log(result.item_id);
-                    alert("Bạn đã báo hoãn đơn hàng thành công!");
-                    $('#delayedOrderPopup').modal('hide');
-					$('#order_change_'+result.item_id).html('<a href="javascript:void(0);" class="btn btn-info btn-sm" onclick="editOrder(' + result.item_id + ',"' + result.item_note + '")"><i class="fa fa-user"></i> Gán đơn hàng</a>');
-					$('#extra_buttons_'+result.item_id).html('');
-                }else{
+					$('#loading_spinner').hide();
+					$('#editOrderPopup').modal('hide');
+					alert(result.msg);
+					$('#td_'+order_id).html('&nbsp;');
+					$('#td_status_'+order_id).html('Đã hoàn thành');
+                } else {
                     alert(result.msg);
 					console.log(result.item_id);
                 }
@@ -191,67 +172,47 @@
         });
     };
 </script>
-	<div class="modal fade" id="editOrderPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
+	
+	<div class="modal fade" id="editOrderPopup" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" style="display: none">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">Gán đơn hàng</h4>
+					<h4 class="modal-title" id="myModalLabel2">Thanh toán hoa hồng cho Affiliate</h4>
 				</div>
+				<form class="form-horizontal" method="POST" onsubmit="backOrder(event)">
 				<div class="modal-body">
-					<form class="form-horizontal" method="POST" onsubmit="assignOrder(event)">
-						<div class="form-group">
-							<label class="col-sm-3 control-label" for="staff_technique">Nhân viên kĩ thuật</label>
-							<div class="col-sm-9">
-								<select class="form-control" id="staff_technique" name="staff_technique" required="">
-									<?php foreach ($staff_techniques as $value) {?>
-										<option value="<?=$value->id?>"><?=$value->lastname?> <?=$value->firstname?> - <?=$value->phone?></option>
-									<?php } ?>
-								</select>
-								<input type="hidden" name="id" id="orderId2"/>
-							</div>
+					<div class="form-group">
+						<label for="reason" class="col-sm-4 control-label">Giá trị đơn hàng:</label>
+						<div class="col-sm-5">
+							<input name="orderValue" id="order-value" value="" class="form-control">
 						</div>
-						<div class="form-group">
-							<label for="reason" class="col-sm-3 control-label">Ghi chú</label>
-							<div class="col-sm-9">
-								<textarea name="note" class="form-control" rows="5" id="order-note"></textarea>
-							</div>
+					</div>
+					<div class="form-group">
+						<label for="reason" class="col-sm-4 control-label">Hoa hồng cho affiliate:</label>
+						<div class="col-sm-5">
+							<input name="orderCommission" id="order-commission" value="" class="form-control">
 						</div>
+					</div>
+					<div class="form-group">
+						<label for="reason" class="col-sm-4 control-label">Ghi chú</label>
+						<div class="col-sm-8">
+							<textarea name="note" class="form-control" rows="5" id="order-note2"></textarea>
+							<input type="hidden" name="trans_id" id="order_transid" value=""/>
+							<input type="hidden" name="order_id" id="order_id" value=""/>
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Lưu lại</button>
+					<p>Bạn đồng ý thanh toán hoa hồng đơn hàng này cho affiliate?</p>
+					<button type="button" class="btn btn-secondary btn-fill" data-dismiss="modal">Hủy</button>
+					<button type="submit" class="btn btn-primary btn-fill"><img src="<?=base_url('assets/img/loading.gif')?>" id="loading_spinner" style="display:none"> Đồng ý</button>
 				</div>
 				</form>
 			</div>
 		</div>
 	</div>
 	
-	<div class="modal fade" id="delayedOrderPopup" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" style="display: none">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel2">Gán đơn hàng</h4>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal" method="POST" onsubmit="backOrder(event)">
-						<div class="form-group">
-							<label for="reason" class="col-sm-3 control-label">Ghi chú</label>
-							<div class="col-sm-9">
-								<textarea name="note" class="form-control" rows="5" id="order-note2"></textarea>
-								<input type="hidden" name="id" id="orderId"/>
-							</div>
-						</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Lưu lại</button>
-				</div>
-				</form>
-			</div>
-		</div>
-	</div>
 </div><!-- ./wrapper -->
 <style>
 .box .box-header .order_tabs {padding: 7px;}

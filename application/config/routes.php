@@ -82,9 +82,11 @@ $route['search/page/(:num)']							=	"news/news_search/$1";
 // Front-end routes
 $route['category'] 											= 	"news/cat_index";
 $route['category/(:any)']									=	"news/category/$1";
+$route['category/(:any)/(:num)']						=	"news/category/$1/$2";
 
 $route['page/(:any)'] 										= 	"home/page";
 $route['affiliate-user']									=	"user/main/affiliateUserInfo";
 $route['dang-nhap']										=	"user/main/loginUser";
+$route['dang-ky']											=	"user/main/signUpUser";
 $route['dang-xuat']											=	"user/main/logoutUser";
 $route['(:any)'] 												= 	"news/index/$1";

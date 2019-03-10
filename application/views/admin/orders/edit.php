@@ -12,7 +12,7 @@
 								<a href="<?=base_url('admin')?>">Trang chủ</a>
 							</li>
 							<li>
-								<a href="<?=base_url('admin/news')?>">Quản lý đơn hàng</a>
+								<a href="<?=base_url('admin/orders')?>">Quản lý đơn hàng</a>
 							</li>
 							<li class="active">
 								Cập nhật đơn hàng

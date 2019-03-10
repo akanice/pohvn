@@ -1,31 +1,20 @@
 $(document).ready(function() {
-	var owl = $('#owl-carousel');
-	owl.owlCarousel({
-		items:6,
-		loop:true,
-		margin:10,
-		autoplay:true,
-		autoplayTimeout:1500,
-		autoplayHoverPause:true,
-		responsiveClass:true,
-		responsive:{
-			0:{
-				items:1,
-			},
-			600:{
-				items:3,
-			},
-			1000:{
-				items:6,
-			}
-		}
-	});
-	$('.play').on('click',function(){
-		owl.trigger('play.owl.autoplay',[1000])
-	})
-	$('.stop').on('click',function(){
-		owl.trigger('stop.owl.autoplay')
-	})
+
+	$('#share_link_input').val(share_link);
+	url = share_link;
+	$('.sharethis-inline-share-buttons').attr('data-url', share_link);
 }); 
 
+function copyClipboard() {
+	var copyText = document.getElementById("share_link_input");
+	copyText.select();
+	document.execCommand("copy");
 
+	var tooltip = document.getElementById("myTooltip");
+	tooltip.innerHTML = "Copied: " + copyText.value;
+}
+
+function outFunc() {
+	var tooltip = document.getElementById("myTooltip");
+	tooltip.innerHTML = "Copy to clipboard";
+}

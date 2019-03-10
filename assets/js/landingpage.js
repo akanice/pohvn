@@ -2,12 +2,26 @@
 
 //vietth - Ajax calculate date 
 jQuery( document ).ready(function($) {
-		
+	$('#share_link_input').val(share_link) ;
 	// Set and Get Cookies
-	$.cookie("poh_affiliate", poh_affiliate_slug, { expires: cookies_expires });
-	// var poh_affiliate_id = $.cookie("poh_affiliate_id");	
-	$("input[name=poh_affiliate_id]").val(poh_affiliate_slug);
-	$("input[name=poh_affiliate]").val(poh_affiliate_slug);
+	if (typeof poh_affiliate_slug === 'undefined' || poh_affiliate_slug === null) {
+		poh_affiliate_cookie = $.cookie('poh_affiliate');
+		console.log(poh_affiliate_cookie);
+		if (typeof poh_affiliate_cookie === 'undefined' || poh_affiliate_cookie === null) {			
+			$.cookie("poh_affiliate", null, { expires: cookies_expires });
+			$("input[name=poh_affiliate_id]").val(0);
+			$("input[name=poh_affiliate]").val(0);
+		} else {
+			$("input[name=poh_affiliate_id]").val(poh_affiliate_cookie);
+			$("input[name=poh_affiliate]").val(poh_affiliate_cookie);
+		}
+	} else {
+		$.cookie("poh_affiliate", poh_affiliate_slug, { expires: cookies_expires });
+		// var poh_affiliate_id = $.cookie("poh_affiliate_id");	
+		$("input[name=poh_affiliate_id]").val(poh_affiliate_slug);
+		$("input[name=poh_affiliate]").val(poh_affiliate_slug);
+	}
+
 	
 	$(function(){
 		// Calculate Date

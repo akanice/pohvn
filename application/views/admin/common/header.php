@@ -5,7 +5,7 @@
 <!-- BEGIN HEAD -->
 <head>
 	<meta charset="utf-8" />
-	<title>Thai giáo POH - Admin CP</title>
+	<title><?php if ($title == '' or $title == null) {echo 'Thai giáo POH - Admin CP';} else {echo $title;}?></title>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="akanice" name="author" />

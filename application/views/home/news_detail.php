@@ -20,18 +20,42 @@
 							<h1><?=@$new->title?></h1>
 						</div>
 						<div class="grid-post-box-meta"> <span class="author-italic author vcard">đăng bởi <a class="url fn n" href="#"><?=@$author->name?></a></span> <span><time class="entry-date published"><?=@date('d/m/Y', $new->create_time)?></time></span></div>
-						
+						<div class="sharethis-inline-share-buttons"></div>
 						<!-- Article content -->
 						<div class="article-content">
 							<?=@$new->content?>
 						</div>
 						<hr />
 						<div class="share-socials">
-							
+							<div class="sharethis-inline-share-buttons" data-url="" id="sharethis-inline-share-buttons"></div>
+						</div>
+						<hr />
+						<div class="share_article_url">
+                             Chia sẻ link bài viết: 
+                            <input class="form-control" type="text" value="" readonly="" style="cursor:text" id="share_link_input">
+                            <div class="tooltip">
+                                <button class="btn btn-calculate btn-full" onclick="copyClipboard()" onmouseout="outFunc()">
+									<span class="tooltiptext" id="myTooltip">Sao chép tới clipboard</span>Sao chép
+                                </button>
+                            </div>
 						</div>
 						<hr />
 						<div class="related-articles">
-						
+							<div class="box-sidebar menu-sidebar">
+							<h3 class="sidebar-heading">Bài viết cùng chuyên mục</h3>
+							<ul>
+								<?php foreach ($related_news as $item) { ?>
+								<li class="clearfix">
+									<div class="fleft article-thumb">
+										<a href="<?=@base_url($item->alias)?>" class="image-holder fix-size" style="background-image:url('<?=@base_url($item->thumb)?>');display:inline-block"></a>
+									</div>
+									<div class="article-title">
+										<a href="<?=@base_url($item->alias)?>"><h4 class="article-title"><?=@$item->title?></h4></a>
+									</div>
+								</li>
+								<?php } ?>
+							</ul>
+						</div>
 						</div>
 					</div>	
 				</div>
@@ -53,7 +77,7 @@
 							</ul>
 						</div>
 						<div class="box-sidebar menu-sidebar">
-							<h3 class="sidebar-heading">Nhiều người  quan tâm nhất</h3>
+							<h3 class="sidebar-heading">Cùng chuyên mục</h3>
 							<ul>
 								<?php foreach ($related_news as $item) { ?>
 								<li class="clearfix">

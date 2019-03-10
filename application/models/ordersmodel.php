@@ -36,7 +36,7 @@ class ordersModel extends MY_Model {
         ),
         'affiliate_transaction_id' => array(
             'isIndex'   => false,
-            'nullable'  => false,
+            'nullable'  => true,
             'type'      => 'integer'
         ),
         'landingpage_id' => array(
@@ -87,6 +87,7 @@ class ordersModel extends MY_Model {
 							customers.phone as customer_phone, 
 							customers.address as customer_address,
 							affiliate_transactions.user_id as user_id,
+							affiliate_transactions.amount as commission,
 							users.name as user_name,
 							users.id as user_id,
 						');
@@ -174,7 +175,7 @@ class ordersModel extends MY_Model {
 		return false;
 	}
 		
-	public function getlastdays($days="1") {
+	public function getOrderlastNdays($days="1") {
 		$time = (new \DateTime())->modify('-'.$days.' day');
 		$rs = $time->format('Y-m-d H:i:s');
 		$rs = strtotime($rs);
@@ -189,5 +190,45 @@ class ordersModel extends MY_Model {
 		$this->db->where('orders.create_time >=',$rs);
         $query = $this->db->get('orders');
         return $query ? $query->result() : false;
+	}
+	
+	public function getLastNdays($days=10) {
+		for ($i = $days-1; $i >= 0; $i--) {
+			$date_array[] = ( date('d/m',strtotime(date('d-m-Y').' -'.$i.' days'))." "); 
+		}
+		return json_encode($date_array);
+	}
+	// $firstDate = $firstDateTimeObj->format('Y-m-d');
+	// $secondDate = $secondDateTimeObj->format('Y-m-d');
+	public function getRevenue($days=10) {
+		for ($i = $days-1; $i >= 0; $i--) {
+			$early = strtotime(date('d-m-Y 0:0:0').' -'.$i.' days');
+			$late = strtotime(date('d-m-Y 24:0:0').' -'.($i).' days');
+			
+			$this->db->select_sum('orders.total_price');
+			$this->db->where('orders.create_time >=',$early);
+			$this->db->where('orders.create_time <',$late);
+			$query = $this->db->get('orders');
+			if ($query->row_array()['total_price'] == null) {
+				$rs[] = 0;
+			} else {
+				$rs[] = $query->row_array()['total_price'];
+			}
+		}
+		return json_encode($rs);
+	}
+	
+	public function getOrdersNumber($days=10) {
+		for ($i = $days-1; $i >= 0; $i--) {
+			$early = strtotime(date('d-m-Y 0:0:0').' -'.$i.' days');
+			$late = strtotime(date('d-m-Y 24:0:0').' -'.($i).' days');
+			
+			$this->db->select('orders.*');
+			$this->db->where('orders.create_time >=',$early);
+			$this->db->where('orders.create_time <',$late);
+			$query = $this->db->get('orders');    
+			$rs[] = $query->num_rows();
+		}
+		return json_encode($rs);
 	}
 }
