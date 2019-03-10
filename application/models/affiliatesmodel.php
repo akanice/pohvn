@@ -19,7 +19,7 @@ class Affiliatesmodel extends MY_Model {
             'nullable' => false,
             'type'     => 'integer'
         ),
-		'modify_time'  => array(
+        'modify_time'  => array(
             'isIndex'  => false,
             'nullable' => false,
             'type'     => 'integer'
@@ -227,7 +227,15 @@ class Affiliatesmodel extends MY_Model {
         $transaction['user_approve'] = $userApprove;
         $transaction['approve_time'] = date_timestamp_get(date_create());
         $transaction['status'] = $approveStatus === 'confirmed' ? 'confirmed' : 'cancelled';
-        return $this->db->update($transaction, array(
+        //+ tiền cho user
+        $user = $this->getAffiliateUser($transaction['user_id']);
+        if (!$user) return false;
+        $amount = intval($transaction['amount']);
+        $user['total_money'] = intval($user['total_money']) + $amount;
+        $user['balance'] = intval($user['balance']) + $amount;
+        $this->db->where('id', $user['id']);
+        $this->db->update('affiliate_user_info', $user);
+        return $this->update($transaction, array(
             'id' => $transactionId
         ));
     }
