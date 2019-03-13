@@ -140,6 +140,7 @@
                     <div class="collapse <?php if ($suffix_uri == 'affiliate') echo 'in';?>" id="afiliateUser">
                         <ul class="nav">
                             <li class="<?php if ($sufix_uri3 == 'users') echo 'active'?>"><a href="<?=base_url('admin/affiliate/users')?>">Danh sách thành viên</a></li>
+                            <li class="<?php if ($sufix_uri3 == 'transaction') echo 'active'?>"><a href="<?=base_url('admin/affiliate/transaction')?>">Tất cả giao dịch</a></li>
                             <li class="<?php if ($sufix_uri3 == 'statistic') echo 'active'?>"><a href="<?=base_url('admin/affiliate/statistic')?>">Thống kê</a></li>
                         </ul>
                     </div>

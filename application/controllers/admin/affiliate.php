@@ -67,6 +67,45 @@ class Affiliate extends MY_Controller {
 		$this->load->view('admin/common/footer');
 	}
 
+	public function transaction() {
+		$this->data['title'] = 'Tất cả giao dịch';
+		//Pagination
+		//$total = count($this->newsmodel->getListLandingpage($this->input->get('title'),"",""));
+		$total = count($this->affiliatesmodel->read());
+		$this->load->library('pagination');
+		$config['base_url'] = base_url() . 'admin/affiliate/statistic/';
+		$config['total_rows'] = $total;
+		$config['uri_segment'] = 4;
+		$config['per_page'] = 10;
+		$config['num_links'] = 5;
+		$config['use_page_numbers'] = TRUE;
+		$config["num_tag_open"] = "<p class='paginationLink'>";
+		$config["num_tag_close"] = '</p>';
+		$config["cur_tag_open"] = "<p class='currentLink'>";
+		$config["cur_tag_close"] = '</p>';
+		$config["first_link"] = "First";
+		$config["first_tag_open"] = "<p class='paginationLink'>";
+		$config["first_tag_close"] = '</p>';
+		$config["last_link"] = "Last";
+		$config["last_tag_open"] = "<p class='paginationLink'>";
+		$config["last_tag_close"] = '</p>';
+		$config["next_link"] = "Next";
+		$config["next_tag_open"] = "<p class='paginationLink'>";
+		$config["next_tag_close"] = '</p>';
+		$config["prev_link"] = "Back";
+		$config["prev_tag_open"] = "<p class='paginationLink'>";
+		$config["prev_tag_close"] = '</p>';
+		$this->pagination->initialize($config);
+		$page_number = $this->uri->segment(4);
+		if (empty($page_number)) $page_number = 1;
+		$start = ($page_number - 1) * $config['per_page'];
+		$this->data['page_links'] = $this->pagination->create_links();
+		$this->data['listAffiliates'] = $this->affiliatesmodel->getListAffiliateTransaction($start, $config['per_page']);
+		$this->load->view('admin/common/header', $this->data);
+		$this->load->view('admin/affiliate/transaction');
+		$this->load->view('admin/common/footer');
+	}
+	
     public function users() {
         $this->data['title'] = 'Quản lý thành viên liên kết';
         //Pagination

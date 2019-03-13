@@ -110,7 +110,7 @@
 											} else { ?>
 												<a href="<?=@base_url('admin/orders/edit/'.$item->id)?>" class="btn btn-sm btn-fill btn-primary"><i class="fa fa-pencil"></i> Xử lý</a>
 												<?php if (($item->user_name) && ($item->status == 'confirmed')) {?>
-												<a href="javascript:void(0);" class="btn btn-sm btn-fill btn-danger" onclick="payAffiliate(<?=@$item->affiliate_transaction_id?>,'<?=@$item->note?>','<?=@number_format($item->total_price,0,',','.')?>','<?=@number_format($item->commission,0,',','.')?>',<?=@$item->id?>,<?=@$item->user_id?>)"><i class="fa fa-cc-paypal"></i>Affiliate</a>
+												<a href="javascript:void(0);" class="btn btn-sm btn-fill btn-danger" onclick="payAffiliate(<?=@$item->affiliate_transaction_id?>,'<?=@$item->note?>','<?=@$item->total_price;?>','<?=@$item->commission?>',<?=@$item->id?>,<?=@$item->user_id?>)"><i class="fa fa-cc-paypal"></i>Affiliate</a>
 												<?php } } ?>
 											</td>
 										</tr>

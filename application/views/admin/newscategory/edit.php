@@ -54,6 +54,18 @@
                                     </select>
                                 </div>
                             </div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Banner top code</label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control ckeditor" name="banner_top_display"><?=@$newscategory->banner_top_display?></textarea>
+                                </div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Banner bottom code</label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control ckeditor" name="banner_bottom_display"><?=@$newscategory->banner_bottom_display?></textarea>
+                                </div>
+							</div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label"></label>
 								<div class="col-sm-6">

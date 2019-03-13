@@ -21,6 +21,8 @@ class Main extends MY_Controller{
             $email = $this->input->post('email');
             $email = $this->db->escape_str($email);
             $pass = $this->input->post('pass');
+			$remember_me = $this->input->post('remember_me');
+			// print_r($remember_me);die();
             $admin = $this->AdminModel->read(array('email'=>$email),array(),true);
             if($admin){
                 for($i = 0; $i < 50; $i++){
@@ -34,6 +36,7 @@ class Main extends MY_Controller{
 							
 				    $this->input->set_cookie('siteAuth_username',$admin->email,$cookie_time);
 				    $this->input->set_cookie('siteAuth_password',$admin->password,$cookie_time);
+				    $this->input->set_cookie('remember_me','true',$cookie_time,site_url(),site_url(),'/');
 					
                     redirect(site_url('admin'));
                 }

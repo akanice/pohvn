@@ -7,7 +7,7 @@ class Admin extends MY_Controller{
 		parent::__construct();
         $this->auth = new Auth();
         $this->auth->check();
-		$this->checkCookies();
+		// $this->checkCookies();
         $this->data['email_header'] = $this->session->userdata('adminemail');
         $this->data['all_user_data'] = $this->session->all_userdata();
         $this->load->model('adminsmodel');

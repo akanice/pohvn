@@ -274,7 +274,7 @@ class MY_Model extends CI_Model {
 		// Set up mega menu
         $config["nav_tag_open"]				= '<ul class="navbar-nav mr-auto">';     
 		$config["parentl1_tag_open"]		= '<li class="nav-item dropdown">';
-		$config["parentl1_anchor"]			= '<a tabindex="0" class="nav-link dropdown-toggle" data-toggle="dropdown" href="%s">%s<span class="caret"></span></a>';
+		$config["parentl1_anchor"]			= '<a  class="nav-link dropdown-toggle" href="%s">%s<span class="caret"></span></a>';
 		$config["parent_tag_open"]			= '<li class="dropdown-submenu">'; 
 		$config["parent_anchor"]				= '<a href="%s" data-toggle="dropdown" class="nav-link">%s</a>'; 
 		$config["children_tag_open"]			= '<ul class="dropdown-menu">';

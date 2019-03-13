@@ -112,23 +112,29 @@ class Orders extends MY_Controller{
     }
 
     public function edit($id) {
-        $this->data['id'] = $id;
-        $this->data['order'] = $this->ordersmodel->read(array('id' => $id), array(), true);
 		$this->data['admin_id'] = $this->session->userdata('adminid');
-		
-		$this->data['title'] = 'Cập nhật trạng thái đơn hàng';
-		if($this->input->post('submit') != null) {	
-            $data = array(
-                "sale_id" => $this->data['admin_id'],
-                "status" => $this->input->post("status"),
-            );
-			
-			$this->ordersmodel->update($data, array('id' => $id));
-            redirect(base_url() . "admin/orders");
-            exit();
+		$this->data['id'] = $id;
+        $this->data['order'] = $this->ordersmodel->read(array('id' => $id), array(), true);
+		if ($this->data['order']->status !== 'closed') {
+			$this->data['title'] = 'Cập nhật trạng thái đơn hàng';
+			if($this->input->post('submit') != null) {	
+				$data = array(
+					"sale_id" => $this->data['admin_id'],
+					"status" => $this->input->post("status"),
+				);
+				
+				$this->ordersmodel->update($data, array('id' => $id));
+				redirect(base_url() . "admin/orders");
+				exit();
+			} else {
+				$this->load->view('admin/common/header',$this->data);
+				$this->load->view('admin/orders/edit');
+				$this->load->view('admin/common/footer');
+			}
 		} else {
+			$this->data['title'] = 'Đơn hàng đã được đóng lại';
 			$this->load->view('admin/common/header',$this->data);
-			$this->load->view('admin/orders/edit');
+			$this->load->view('admin/orders/closed');
 			$this->load->view('admin/common/footer');
 		}
     }

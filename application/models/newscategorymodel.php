@@ -44,7 +44,17 @@ class NewsCategoryModel extends MY_Model {
             'isIndex'   => false,
             'nullable'  => false,
             'type'      => 'string'
-        )
+        ),
+		'banner_top_display' => array(
+            'isIndex'   => false,
+            'nullable'  => true,
+            'type'      => 'string'
+        ),
+		'banner_bottom_display' => array(
+            'isIndex'   => false,
+            'nullable'  => true,
+            'type'      => 'string'
+        ),
     );
 
     public function __construct() {
@@ -64,6 +74,7 @@ class NewsCategoryModel extends MY_Model {
 	
 	public function get_categories($limit,$offset) {
 		$this->db->where('news_category.parent_id',0);
+		$this->db->order_by('id','desc');
 		$query = $this->db->get('news_category',$limit,$offset);
 		$return = array();
 

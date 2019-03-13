@@ -49,8 +49,7 @@ class Admins extends MY_Controller{
         $this->load->view('admin/common/footer');
     }
 
-    public function add()
-    {
+    public function add() {
         if($this->input->post('submit') != null){
             $this->form_validation->set_rules('repassword', 'Nhập lại mật khẩu', 'trim|required|matches[password]|md5');
             $this->form_validation->set_message('required', 'Không được bỏ trống');

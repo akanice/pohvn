@@ -57,8 +57,9 @@ class Affiliatesmodel extends MY_Model {
     }
 
     public function getListAffiliateTransaction($start, $perPage) {
-        $this->db->select('orders.*,affiliate_transactions.*');
+        $this->db->select('orders.*,affiliate_transactions.*,users.*,orders.id as order_id');
         $this->db->join('affiliate_transactions', 'orders.affiliate_transaction_id = affiliate_transactions.id', 'INNER');
+        $this->db->join('users', 'users.id = affiliate_transactions.user_id', 'left');
         $query = $this->db->get('orders', $perPage, $start);
         return $query ? $query->result() : $query;
     }
@@ -95,23 +96,24 @@ class Affiliatesmodel extends MY_Model {
         $affiUser = $this->getAffiliateUser($user['id']);
         if (!is_array($affiUser)) return false;
         $affiUser = sizeof($affiUser) > 0 ? $affiUser[0] : false;
+		//print_r($affiUser);die();
         if ($affiUser) {
-            $res['total']['balance'] = $affiUser['balance'];
-            $res['total']['withdraw'] = $affiUser['withdraw'];
-            $res['today']['impression'] = $affiUser['today_click'];
-            $res['today']['visitor'] = $affiUser['today_visite'];
-            $res['today']['closed_trans'] = $affiUser['today_order'];
+            $res['total']['balance'] = $affiUser->balance;
+            $res['total']['withdraw'] = $affiUser->withdraw;
+            $res['today']['impression'] = $affiUser->today_click;
+            $res['today']['visitor'] = $affiUser->today_visite;
+            $res['today']['closed_trans'] = $affiUser->today_order;
             $res['today']['revenue'] = 0;
-            $res['this_month']['impression'] = $affiUser['this_month_click'];
-            $res['this_month']['visitor'] = $affiUser['this_month_visite'];
-            $res['this_month']['closed_trans'] = $affiUser['this_month_order'];
+            $res['this_month']['impression'] = $affiUser->this_month_click;
+            $res['this_month']['visitor'] = $affiUser->this_month_visite;
+            $res['this_month']['closed_trans'] = $affiUser->this_month_order;
             $res['this_month']['revenue'] = 0;
         }
         return $res;
     }
 
     public function getAffiliateUser($id) {
-        $this->db->where('id', $id);
+        $this->db->where('user_id', $id);
         $res = $this->db->get('affiliate_user_info');
         return $res ? $res->result() : false;
     }
@@ -119,6 +121,7 @@ class Affiliatesmodel extends MY_Model {
     public function getListAffiliateUsers($start, $perPage) {
         $this->db->select('users.*,affiliate_user_info.*');
         $this->db->join('affiliate_user_info', 'users.id = affiliate_user_info.user_id', 'LEFT');
+        $this->db->order_by('create_time','desc');
         $query = $this->db->get('users', $start, $perPage);
         return $query ? $query->result() : $query;
     }
@@ -239,6 +242,19 @@ class Affiliatesmodel extends MY_Model {
             'id' => $transactionId
         ));
     }
+	
+	public function approveCommissionForAffiliate($affiliate_id,$commission) {
+		$query = $this->db->get('affiliate_user_info')->row();
+		$data = $this->getAffiliateUser($affiliate_id);
+		
+		$total_money = intval($data[0]->total_money) + $commission;
+        $balance = intval($data[0]->balance) + $commission;
+		$this->db->where('user_id', $affiliate_id);
+        $this->db->update('affiliate_user_info', array(
+			'total_money' => $total_money,
+			'balance' => $balance,
+		));
+	}
 
     private function getTransaction($id) {
         $this->db->where('id', $id);

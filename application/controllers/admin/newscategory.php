@@ -51,9 +51,9 @@ class NewsCategory extends MY_Controller{
         $start = ($page_number - 1) * $config['per_page'];
         $this->data['page_links'] = $this->pagination->create_links();
         if($this->data['title'] != ""){
-            $this->data['list'] = $this->newscategorymodel->read(array('title'=>'%'.$this->data['title'].'%'),array(),false,$config['per_page'],$start);
+            $this->data['list'] = $this->newscategorymodel->read(array('title'=>'%'.$this->data['title'].'%'),array('id'=>true),false,$config['per_page'],$start);
         }else{
-            $this->data['list'] = $this->newscategorymodel->read(array(),array(),false,$config['per_page'],$start);
+            $this->data['list'] = $this->newscategorymodel->read(array(),array('id'=>true),false,$config['per_page'],$start);
         }
 		
 		$this->data['result'] = $this->newscategorymodel->get_categories($config['per_page'],$start);
@@ -65,12 +65,15 @@ class NewsCategory extends MY_Controller{
     }
 
     public function add() {
-		$this->data['categories'] = $this->newscategorymodel->read(array(),array(),false);
+		$this->data['title'] = 'Thêm mới chuyên mục bài viết';
+		$this->data['categories'] = $this->newscategorymodel->get_categories('','');
 		if($this->input->post('submit') != null){
             $data = array(
                 "title" => $this->input->post("title"),
                 "alias" => make_alias($this->input->post("title")),
                 "parent_id" => $this->input->post("parent_id"),
+                "banner_top_display" => $this->input->post("banner_top_display"),
+                "banner_bottom_display" => $this->input->post("banner_bottom_display"),
 			);
             $id = $this->newscategorymodel->create($data);
 			$data_array = array(
@@ -105,7 +108,8 @@ class NewsCategory extends MY_Controller{
     }
 
     public function edit($id) {
-		$this->data['categories'] = $this->newscategorymodel->get_categories();
+		$this->data['title'] = 'Sửa chuyên mục bài viết';
+		$this->data['categories'] = $this->newscategorymodel->get_categories('','');
 		$this->data['newscategory'] = $this->newscategorymodel->read(array('id'=>$id),array(),true);
 		
         if($this->input->post('submit') != null){
@@ -113,6 +117,8 @@ class NewsCategory extends MY_Controller{
                 "title" => $this->input->post("title"),
                 "parent_id" => $this->input->post("parent_id"),
                 "alias" => make_alias($this->input->post("title")),
+				"banner_top_display" => $this->input->post("banner_top_display"),
+                "banner_bottom_display" => $this->input->post("banner_bottom_display"),
 			);
             $this->newscategorymodel->update($data,array('id'=>$id));
             redirect(base_url() . "admin/newscategory");

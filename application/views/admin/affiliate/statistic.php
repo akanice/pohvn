@@ -7,67 +7,32 @@
 				<div class="card">
 					<div class="content">
 						<h3 class="page-title">
-							Thống kê giao dịch
+							Thống kê
 						</h3>
 						<ul class="breadcrumb">
 							<li>
 								<a href="<?=base_url('admin')?>">Trang chủ</a>
 							</li>
 							<li class="active">
-								Danh sách các giao dịch
+								Thống kê thông tin affiliate
 							</li>
 						</ul>
-						<!-- END PAGE TITLE & BREADCRUMB-->
-                        <div class="widget red">
+						<div class="widget red">
                             <div class="widget-title">
-                                <h4>Danh sách affiliate</h4>
+                                <h4></h4>
                             </div>
                             <div class="widget-body">
-                                <table class="table table-striped table-bordered" id="sample_1">
-                                    <thead>
-                                    <tr>
-                                        <th width=''>Id</th>
-                                        <th width=''>Order</th>
-                                        <th width=''>Số tiền hoa hồng</th>
-                                        <th width=''>Người giới thiệu</th>
-                                        <th width=''>Email</th>
-                                        <th width=''>Ngày lập order</th>
-                                        <th width=''>Trạng thái</th>
-                                        <th width=''>Chi tiết</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php if($listAffiliates) foreach ($listAffiliates as $affiliateTransaction){?>
-                                        <tr>
-                                            <th width=''></th>
-                                            <th width=''><?=@$affiliateTransaction->code?></th>
-                                            <th width=''>Số tiền hoa hồng</th>
-                                            <th width=''>Người giới thiệu</th>
-                                            <th width=''>Email</th>
-                                            <th width=''>Ngày lập order</th>
-                                            <th width=''>Trạng thái</th>
-                                            <th width=''>Chi tiết</th>
-                                        </tr>
-                                    <?php } ?>
-                                    </tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div style="padding-top: 1em;padding-bottom: 2.5em;"><?php echo $page_links?></div>
+								<div class="line">Tổng số affiliate: 29</div>
+								<div class="line">Tổng hoa hồng affiliate trong 30 ngày gần nhất: 12.000.000 đ</div>
+								<div class="line">Tổng tài khoản affiliate: 5.000.000 đ</div>
+								<div class="line">Tổng tiền affiliate đã rút: 7.000.000 đ</div>
+								<div class="line">Tổng số affiliate: 29</div>
+								<div class="line">Tổng số affiliate: 29</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-12">
-				<div class="card">
-
-				</div>
-				<!-- END PAGE CONTAINER-->
-			</div>
-			<!-- END PAGE -->
 		</div>
 	</div>
 </div>

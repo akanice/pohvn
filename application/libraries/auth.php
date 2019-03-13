@@ -17,15 +17,17 @@ class auth {
 		$this->ci->session->set_userdata('upload_image_file_manager',true);
         $this->ci->session->set_userdata('admingroup',$admin->group);
         $this->ci->session->set_userdata('username',$admin->name);
+		$this->ci->session->set_userdata('remember_me', true);
 		//$this->ci->session->set_userdata('adminemail',$admin->email);
 		//$this->ci->session->set_userdata('adminisadmin',$admin->isAdmin);
 		//$this->ci->session->set_userdata('admindomain',$admin->domain_id);
 	}
 	function loginUser($user){
-            $this->ci->session->set_userdata('userid',$user->id);
-            $this->ci->session->set_userdata('email',$user->email);
-            $this->ci->session->set_userdata('name',$user->name);
-			$this->ci->session->set_userdata('upload_image_file_manager',true);
+		$this->ci->session->set_userdata('userid',$user->id);
+		$this->ci->session->set_userdata('email',$user->email);
+		$this->ci->session->set_userdata('name',$user->name);
+		$this->ci->session->set_userdata('remember_me', true);
+		$this->ci->session->set_userdata('upload_image_file_manager',true);
 	}
 	
 	function logout(){
@@ -109,6 +111,7 @@ class auth {
 	}
 	function logoutAdmin(){
 		$this->ci->session->unset_userdata("adminid");
+		$this->ci->session->sess_destroy();
 	}
 	function logoutUser(){
 		$this->ci->session->unset_userdata("userid");

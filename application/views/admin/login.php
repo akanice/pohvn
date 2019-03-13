@@ -86,7 +86,7 @@
                                     <div class="form-group">
                                         <label class="checkbox">
                                             <span class="icons"><span class="first-icon fa fa-square-o"></span><span class="second-icon fa fa-check-square-o"></span></span>
-											<input type="checkbox" data-toggle="checkbox" value="" name="remember_me">
+											<input type="checkbox" data-toggle="checkbox" value="remember_me" name="remember_me">
                                             Remember me
                                         </label>    
                                     </div>

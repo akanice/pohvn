@@ -53,6 +53,7 @@ class News extends MY_Controller {
         $this->add_count($alias);
         // load data
         $this->data['new'] = $this->newsmodel->read(array('alias' => $alias), array(), true);
+		$post_id = $this->data['new']->id;
         $content = $this->data['new']->content;
         //TODO - do short code here
         foreach($arrShortCode as $shortCodeStr => $funcName) {
@@ -60,7 +61,7 @@ class News extends MY_Controller {
             if($shortCodePos !== false) {
                 do {
                     $contentBefore = substr($content, 0, $shortCodePos);
-                    $contentShortCode = $this->$funcName();
+                    $contentShortCode = $this->$funcName($post_id);
                     $contentAfter = substr($content, $shortCodePos + strlen($shortCodeStr));
                     $content = $contentBefore.$contentShortCode.$contentAfter;
                     $shortCodePos = strrpos($content, $shortCodeStr);
@@ -205,10 +206,18 @@ class News extends MY_Controller {
         $this->load->view('home/common/footer');
     }
 
-    private function banner_bottom() {
-        return '-------banner bottom---------';
+    private function banner_bottom($post_id) {
+        $cat_id = json_decode($this->newsmodel->read(array('id'=>$post_id),array(),true)->categoryid);
+		$k = array_rand($cat_id);
+		$category_id = $cat_id[$k];
+		$html = $this->newscategorymodel->read(array('id'=>$category_id),array(),true)->banner_bottom_display;
+		return $html;
     }
-    private function banner_top() {
-        return '-------banner top---------';
+    private function banner_top($post_id) {
+        $cat_id = json_decode($this->newsmodel->read(array('id'=>$post_id),array(),true)->categoryid);
+		$k = array_rand($cat_id);
+		$category_id = $cat_id[$k];
+		$html = $this->newscategorymodel->read(array('id'=>$category_id),array(),true)->banner_top_display;
+		return $html;
     }
 }

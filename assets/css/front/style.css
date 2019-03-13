@@ -538,7 +538,7 @@ img {
 #sidebar_mobile ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: #6d7fcc;
+    /* background: #6d7fcc; */
 }
 
 a[data-toggle="collapse"] {

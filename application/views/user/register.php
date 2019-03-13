@@ -27,7 +27,7 @@
 								<label for="exampleInputPassword1">Mật khẩu</label>
 								<input name="pass" type="password" required="" placeholder="Mật khẩu" class="form-control">
 							</div>
-							<input type="submit" class="btn btn-success" name="submit" value="Lưu lại">
+							<input type="submit" class="btn btn-success" name="submit" value="Đăng ký" style="width:100%">
 						</form>
                     </div>                    
                 </div>

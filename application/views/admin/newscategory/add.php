@@ -47,18 +47,35 @@
                                 <label class="col-sm-3 control-label">Danh mục cha</label>
                                 <div class="col-sm-9">
                                     <select class="input-large m-wrap form-control" name="parent_id">
-                                        <option value="0" selected>--- Trống ---</option>
+										<option value="0">--- Trống ---</option>
 										<?php foreach ($categories as $c) {?>
-                                            <option value="<?=@$c->id?>"><?=@$c->title?></option>
-                                        <?php } ?>
+                                        <option value="<?=$c->id?>"><?=$c->title?>
+											<?php if(!empty($c->sub_cat)) { 
+												echo '</option>';
+												foreach ($c->sub_cat as $sub)  {?>
+													<option value="<?=$sub->id?>">--- <?=$sub->title?></option>
+											<?php } }?>
+										<?php } ?>
                                     </select>
                                 </div>
                             </div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Banner top code</label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control ckeditor" name="banner_top_display"></textarea>
+                                </div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Banner bottom code</label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control ckeditor" name="banner_bottom_display"></textarea>
+                                </div>
+							</div>
                             <div class="form-group">
 								<label class="col-sm-3 control-label"></label>
 								<div class="col-sm-6">
 									<input type="submit" class="btn btn-primary btn-fill btn-wd" name="submit" value="Lưu lại">
-									<a href="javascript:window.history.go(-1);" class="btn btn-default">Hủy</a>
+									<a href="javascript:window.history.go(-1);" class="btn btn-default btn-fill">Hủy</a>
 								</div>
 							</div>
                         </form>

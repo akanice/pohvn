@@ -27,7 +27,7 @@
 		<div class="inner-header d-none d-sm-block d-sm-none d-md-block">
 			<div class="container align-left-logo has-banner">
 				<div id="logo">
-					<h1> <a href="#"><img src="<?=@base_url($home_logo)?>" alt=""></a></h1>
+					<h1> <a href="<?=site_url()?>"><img src="<?=@base_url($home_logo)?>" alt=""></a></h1>
 				</div>
 				
 			</div>

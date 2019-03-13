@@ -34,11 +34,7 @@ class ajax extends MY_Controller {
 		);
 		$this->ordersmodel->update($data2,array('id'=>$order_id));
 		
-		// Re-calculate money account
-		$data3 = array(
-			'total_money'	=> $total_money,
-			'balance'	=> $balance,
-		)
+		$this->affiliatesmodel->approveCommissionForAffiliate($order_affiliate_id,$order_commission);
 		
 		$result->ok = true;
 		$result->msg = 'Chuyển tiền thành công!';
