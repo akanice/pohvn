@@ -31,7 +31,7 @@ class UsersModel extends MY_Model {
         ),
         'city'        => array(
             'isIndex'  => false,
-            'nullable' => false,
+            'nullable' => true,
             'type'     => 'string'
         ),
         'address'     => array(

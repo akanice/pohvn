@@ -136,7 +136,7 @@ class Affiliatesmodel extends MY_Model {
     public function createNewAffiliateUser($userId) {
         $data = array(
             'user_id'           => $userId,
-            'active'            => 'active',
+            'active'            => 'pending',
             'total_visite'      => 0,
             'total_click'       => 0,
             'total_order'       => 0,
@@ -247,18 +247,18 @@ class Affiliatesmodel extends MY_Model {
         return sizeof($result) > 0 ? $result[0] : null;
     }
 
-    private function getAffiliateTrans($userId, $type) {
-        $from = strtotime(date('Y-m-d 00:00:01'));
-        $to = strtotime(date('Y-m-d 23:59:59'));
-        if ($type === 'this_month') {
-            $from = strtotime(date('Y-m-01 00:00:01'));
-            $to = strtotime(date('Y-m-t 23:59:59'));
-        }
+    public function getAffiliateTrans($userId, $limit) {
+        // $from = strtotime(date('Y-m-d 00:00:01'));
+        // $to = strtotime(date('Y-m-d 23:59:59'));
+        // if ($type === 'this_month') {
+            // $from = strtotime(date('Y-m-01 00:00:01'));
+            // $to = strtotime(date('Y-m-t 23:59:59'));
+        // }
         $this->db->select('affiliate_transactions.*');
-        $this->db->where('create_time >=', $from);
-        $this->db->where('create_time <=', $to);
+        // $this->db->where('create_time >=', $from);
+        // $this->db->where('create_time <=', $to);
         $this->db->where('user_id', $userId);
-        $res = $this->db->get();
+        $res = $this->db->get('affiliate_transactions',$limit);
         $result = $res ? $res->result() : array();
         return sizeof($result) > 0 ? $result : array();
     }

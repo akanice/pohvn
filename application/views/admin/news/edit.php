@@ -33,7 +33,7 @@
 					</div>
 					<div class="content">
                             <div class="form-group">
-                                <label class="col-sm-2">Tiêu đề</label>
+                                <label class="col-sm-2 control-label">Tiêu đề</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="title" value="<?=@$news->title?>"/>
                                 </div>

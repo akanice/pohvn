@@ -123,7 +123,6 @@ class Main extends MY_Controller {
         $data['error'] = '';
 		
 		if($this->input->post('submit') != null){
-			die('---');
             $email = $this->input->post('email');
             $email = $this->db->escape_str($email);
 			$name = $this->input->post('name');
@@ -131,34 +130,55 @@ class Main extends MY_Controller {
 			$city = $this->input->post('city');
 			$phone = $this->input->post('phone');
             $password = $this->input->post('pass');
-			
             $this->load->model('usersmodel');
-            $userdata = $this->usersmodel->read(array('email'=>$email),array(),true);die();redirect(site_url('affiliate-user'));
+            $userdata = $this->usersmodel->read(array('email'=>$email),array(),true);
+			// print_r($userdata);die();
             if($userdata){
                 $this->data['error'] = "Email này đã được sử dụng, vui lòng thử email khác hoặc ấn vào Quên mật khẩu";
+				$this->load->view('user/common/header',$this->data);
+				$this->load->view('user/register');
+				$this->load->view('user/common/footer');
             } else {
 				$data = array(
 					"name" 					=> $this->input->post("name"),
 					"email"						=> $this->input->post("email"),
 					"phone" 					=> $this->input->post("phone"),
 					"address" 				=> $this->input->post("address"),
-					"city" 						=> $this->input->post("city"),
+					"city" 						=> '',
 					"password" 				=> $this->_password_encrypt($email, $password),
 					"user_code" 			=> generateUserCode($length=8),
-					"role" 						=> 'affiliate',
+					"role" 						=> 'normal',
 					"create_time" 			=> time(),
 				);
-				$this->usersmodel->create($data);
-				redirect(site_url('affiliate-user'));exit();
+				$user_id = $this->usersmodel->create($data);
+				$this->load->model('affiliatesmodel');
+				$this->affiliatesmodel->createNewAffiliateUser($user_id);
+				redirect(site_url('dang-ky-thanh-cong'));exit();
 			}
-        }
+        } else {
+			$this->load->view('user/common/header',$this->data);
+			$this->load->view('user/register');
+			$this->load->view('user/common/footer');
+		}
+	}
+	
+	public function regSuccessfully() {
+		$this->data['title'] = 'Đăng ký thành công';
 		$this->load->view('user/common/header',$this->data);
-        $this->load->view('user/register');
-        $this->load->view('user/common/footer');
+		$this->load->view('user/reg_successfully');
+		$this->load->view('user/common/footer');
 	}
 	
 	public function logoutUser() {
 		$this->auth->logoutUser();
         redirect(site_url('/'));
 	}
+	
+	private function _password_encrypt($email='',$password=''){
+        $str = $password;
+        for ($i=0;$i<(100+strlen($email));$i++){
+            $str = md5($email.'|'.$str);
+        }
+        return $str;
+    }
 }
