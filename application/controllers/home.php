@@ -32,7 +32,13 @@ class Home extends MY_Controller {
         $this->data['link_gplus'] = @$options['link_gplus']->value;
         $this->data['link_instagram'] = @$options['link_instagram']->value;
         $this->data['tour_banner'] = @$options['tour_banner']->value;
-
+        $this->data['global_header_code'] = @$options['global_header_code']->value;
+        $this->data['global_footer_code'] = @$options['global_footer_code']->value;
+		
+		$this->load->model('landingpagemodel');
+		$this->data['cookies_expires'] = $this->configsmodel->read(array(
+				'term' => 'affiliate',
+				'name' => 'cookie_time'), array(), true)->value / (24 * 60 * 60);
     }
 
     public function index() {
@@ -82,6 +88,10 @@ class Home extends MY_Controller {
             $this->data['section_news']['slogan'] = $this->configsmodel->read(array(
                 "term"    => "category",
                 "name"    => "slogan",
+                "term_id" => $item), array(), true);
+			$this->data['section_news']['banner'] = $this->configsmodel->read(array(
+                "term"    => "category",
+                "name"    => "banner",
                 "term_id" => $item), array(), true);
             $this->data['section_news_content'] = $this->load->view('home/template/section_news', $this->data);
         }

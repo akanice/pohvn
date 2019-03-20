@@ -26,7 +26,7 @@ class NewsCategory extends MY_Controller{
         $config['base_url'] = base_url() . 'admin/newscategory/';
         $config['total_rows'] = $total;
         $config['uri_segment'] = 3;
-        $config['per_page'] = 20;
+        $config['per_page'] = 4;
         $config['num_links'] = 5;
         $config['use_page_numbers'] = TRUE;
         $config["num_tag_open"] = "<p class='paginationLink'>";
@@ -93,7 +93,7 @@ class NewsCategory extends MY_Controller{
 					"term" => 'category',
 					"name" => 'featured_new',
 					"term_id" => $id,
-					"value" => '',
+					"value" => '["0"]',
 				),
 			);
             $this->configsmodel->create($data_array,true);
@@ -134,6 +134,27 @@ class NewsCategory extends MY_Controller{
     public function delete($id){
         if(isset($id)&&($id>0)&&is_numeric($id)){
             $this->newscategorymodel->delete(array('id'=>$id));
+			// $data_array = array(
+				// array(
+					// "term" => 'category',
+					// "name" => 'slogan',
+					// "term_id" => $id,
+					// "value" => '&nbsp;',
+				// ),
+				// array(
+					// "term" => 'category',
+					// "name" => 'banner',
+					// "term_id" => $id,
+					// "value" => '/assets/uploads/images/banners/3.jpg',
+				// ),
+				// array(
+					// "term" => 'category',
+					// "name" => 'featured_new',
+					// "term_id" => $id,
+					// "value" => '["0"]',
+				// ),
+			// );
+			// $this->newscategorymodel->delete(array('term_id'=>$id,'term'=>'category));
             redirect(base_url() . "admin/newscategory");
             exit();
         }

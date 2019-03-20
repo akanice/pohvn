@@ -299,7 +299,8 @@ class Ajax extends MY_Controller {
 		);
 		$customer_id = $this->customersmodel->create($data1);
 		if ($poh_affiliate && ($poh_affiliate !== 'null') && ($poh_affiliate !== 0)) {
-			$user_id = $this->usersmodel->read(array('user_code'=>$poh_affiliate),array(),true)->id;
+			$user_data = $this->usersmodel->read(array('user_code'=>$poh_affiliate),array(),true);
+			$user_id = $user_data->id;
 		} else {
 			$user_id = 0;
 		}
@@ -337,8 +338,44 @@ class Ajax extends MY_Controller {
 			"create_time"						=> time(),
 		);
 		$order_id = $this->ordersmodel->create($data3);
+		//$this->sendmail($name,$phone,$email,$pre_birth,$address,$message,$user_data->name,$package_price_value);
 		
 		$result->ok = true;
         die();
+	}
+	
+	public function sendmail($name,$phone,$email,$pre_birth,$address,$message,$poh_affiliate,$package_price_value) {
+		$this->load->config('a4r_mail', TRUE);
+        $this->load->library('email');
+        $config['protocol'] = $this->config->item('protocol', 'a4r_mail');
+        $config['smtp_host'] = $this->config->item('smtp_host', 'a4r_mail');
+        $config['smtp_port'] = $this->config->item('smtp_port', 'a4r_mail');
+        $config['smtp_user'] = $this->config->item('smtp_user', 'a4r_mail');
+        $config['smtp_pass'] = $this->config->item('smtp_pass', 'a4r_mail');
+        $config['mailtype'] = $this->config->item('mailtype', 'a4r_mail');
+        $this->email->initialize($config);
+        $this->email->set_newline("\r\n");
+        $this->email->from($this->config->item('admin_email', 'a4r_mail'), $this->config->item('site_title', 'a4r_mail'));
+        $datamail = array(
+            'name'    => $name,
+            'phone'    => $phone,
+            'email'   => $email,
+            'pre_birth'   => $pre_birth,
+            'address'   => $address,
+            'message'   => $message,
+            'poh_affiliate' => $poh_affiliate,
+            'package_price_value' => $package_price_value
+		);
+        $list = array(
+            'hoangviet11088@gmail',
+        );
+        $this->email->to($list);
+        $this->email->subject($this->config->item('email_register_subject', 'a4r_mail'));
+        $message = $this->load->view($this->config->item('email_templates', 'a4r_mail') . $this->config->item('email_contact', 'a4r_mail'), $datamail, true);
+        $this->email->message($message);
+        if ($this->email->send()) {
+            return true;
+        }
+		return false;
 	}
 }

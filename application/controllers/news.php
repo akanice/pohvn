@@ -38,9 +38,16 @@ class News extends MY_Controller {
         $this->data['link_gplus'] = @$options['link_gplus']->value;
         $this->data['link_instagram'] = @$options['link_instagram']->value;
         $this->data['tour_banner'] = @$options['tour_banner']->value;
+		$this->data['global_header_code'] = @$options['global_header_code']->value;
+        $this->data['global_footer_code'] = @$options['global_footer_code']->value;
 
         $this->load->model('newsmodel');
         $this->load->model('newscategorymodel');
+		
+		$this->load->model('landingpagemodel');
+		$this->data['cookies_expires'] = $this->configsmodel->read(array(
+				'term' => 'affiliate',
+				'name' => 'cookie_time'), array(), true)->value / (24 * 60 * 60);
     }
 
     public function index($alias) {
@@ -53,6 +60,9 @@ class News extends MY_Controller {
         $this->add_count($alias);
         // load data
         $this->data['new'] = $this->newsmodel->read(array('alias' => $alias), array(), true);
+		if (!isset($this->data['new']) || $this->data['new']== null) {
+			redirect(base_url());
+		}
 		$post_id = $this->data['new']->id;
         $content = $this->data['new']->content;
         //TODO - do short code here
@@ -68,7 +78,7 @@ class News extends MY_Controller {
                 } while ($shortCodePos !== false);
             }
         }
-        $this->data['new']->content = $content;
+        
         if (isset($this->data['new']) && ($this->data['new'] != '')) {
             $new_id = $this->data['new']->id;
 
@@ -91,11 +101,7 @@ class News extends MY_Controller {
                 $this->load->view('home/news_detail');
                 $this->load->view('home/common/footer');
             } else {
-                $this->load->model('landingpagemodel');
                 $this->data['title'] = $this->data['new']->title;
-                $this->data['cookies_expires'] = $this->configsmodel->read(array(
-                        'term' => 'affiliate',
-                        'name' => 'cookie_time'), array(), true)->value / (24 * 60 * 60);
                 $this->data['landing_data'] = $this->landingpagemodel->read(array('news_id' => $new_id), array(), true);
                 $this->load->view('home/common/header_landing', $this->data);
                 $this->load->view('home/template/landing_page');

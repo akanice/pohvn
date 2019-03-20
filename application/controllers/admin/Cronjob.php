@@ -1,7 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-
-class News extends MY_Controller{
+class Cronjob extends MY_Controller{
     private $data;
     function __construct() {
         parent::__construct();
@@ -13,61 +12,57 @@ class News extends MY_Controller{
         // }
         $this->data['email_header'] = $this->session->userdata('adminemail');
         $this->data['all_user_data'] = $this->session->all_userdata();
-        $this->load->model('newsmodel');
-        $this->load->model('newscategorymodel');
-		//$this->load->library('auth');
 	}
     public function index(){
-        $this->data['title']    = 'Quản lý tin tức';
-		//$test = $this->newsmodel->getListNews($this->input->get('name'),$this->input->get('category'),"","");
-		$this->data['newscategory'] = $this->newscategorymodel->read();
+		$this->load->model('newsmodel');
+		$this->load->model('newscategorymodel');
+		$this->load->model('configsmodel');
+		$news_data = $this->newsmodel->read(array(),array(),false);
+		$cats_data = $this->newscategorymodel->read(array(),array(),false);
+		// Chỉ được chạy 1 lần duy nhất
+		// foreach ($news_data as $item) {
+			// $thumb = $item->image;
+			// $this->newsmodel->update(array('thumb'=>$thumb),array('id'=>$item->id));
+			// echo $item->id.'---';
+		// }
 		
-		$total = count($this->newsmodel->getListNews($this->input->get('title'),$this->input->get('category'),"",""));
-        $this->data['title'] = $this->input->get('title');
-        $this->data['category'] = $this->input->get('category');
-        if($this->data['title'] != "" || $this->data['category'] != ""){
-            $config['suffix'] = '?title='.urlencode($this->data['title']).'&category='.urlencode($this->data['category']);
-        }
-        //Pagination
-        $this->load->library('pagination');
-        $config['base_url'] = base_url() . 'admin/news/';
-        $config['total_rows'] = $total;
-        $config['uri_segment'] = 3;
-        $config['per_page'] = 20;
-        $config['num_links'] = 5;
-        $config['use_page_numbers'] = TRUE;
-        $config["num_tag_open"] = "<p class='paginationLink'>";
-        $config["num_tag_close"] = '</p>';
-        $config["cur_tag_open"] = "<p class='currentLink'>";
-        $config["cur_tag_close"] = '</p>';
-        $config["first_link"] = "First";
-        $config["first_tag_open"] = "<p class='paginationLink'>";
-        $config["first_tag_close"] = '</p>';
-        $config["last_link"] = "Last";
-        $config["last_tag_open"] = "<p class='paginationLink'>";
-        $config["last_tag_close"] = '</p>';
-        $config["next_link"] = "Next";
-        $config["next_tag_open"] = "<p class='paginationLink'>";
-        $config["next_tag_close"] = '</p>';
-        $config["prev_link"] = "Back";
-        $config["prev_tag_open"] = "<p class='paginationLink'>";
-        $config["prev_tag_close"] = '</p>';
-        $this->pagination->initialize($config);
-        $page_number = $this->uri->segment(3);
-        if (empty($page_number)) $page_number = 1;
-        $start = ($page_number - 1) * $config['per_page'];
-        $this->data['page_links'] = $this->pagination->create_links();
-        if($this->data['title'] != "" || $this->data['category'] != ""){
-            $this->data['list'] = $this->newsmodel->getListNews($this->input->get('title'),$this->input->get('category'),$config['per_page'],$start);
-        }else{
-            $this->data['list'] = $this->newsmodel->getListNews("","",$config['per_page'],$start);
-        }
+		// foreach ($news_data as $item) {
+			// $cat_id = $item->categoryid;
+			// $new_cat_id = explode(',', $cat_id);
+			// $new_cat_id = json_encode($new_cat_id);
+			// $this->newsmodel->update(array('categoryid'=>$new_cat_id),array('id'=>$item->id));
+			// echo $item->id.'---';
+		// }
 		
-        $this->data['base'] = site_url('admin/news/');
-        $this->data['newscategory'] = $this->newscategorymodel->read(array(),array(),false);
-        $this->load->view('admin/common/header',$this->data);
-        $this->load->view('admin/news/list');
-        $this->load->view('admin/common/footer');
+		// foreach ($cats_data as $item) {
+			// $data_array = array(
+				// array(
+					// "term" => 'category',
+					// "name" => 'slogan',
+					// "term_id" => $item->id,
+					// "value" => '&nbsp;',
+				// ),
+				// array(
+					// "term" => 'category',
+					// "name" => 'banner',
+					// "term_id" => $item->id,
+					// "value" => '/assets/uploads/images/banners/3.jpg',
+				// ),
+				// array(
+					// "term" => 'category',
+					// "name" => 'featured_new',
+					// "term_id" => $item->id,
+					// "value" => '["0"]',
+				// ),
+			// );
+            // $this->configsmodel->create($data_array,true);
+			// echo $item->id.'---';
+		// }
+		phpinfo();
+		echo 'Hiện giờ là: '.date('Y-m-d H:i:s', time());
+		echo '<hr>';
+		
+        $this->load->view('admin/cronjob/index');
     }
 
     public function add() {
@@ -75,20 +70,9 @@ class News extends MY_Controller{
 		$this->data['list_cat_id'] = $this->newscategorymodel->getSortedCategories();
 		if($this->input->post('submit') != null){
             $uploaddir = '/assets/uploads/images/articles/';
-			
-			// if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir, 0777, true);
-                    // $this->load->library("upload");
-                    // $from = $_FILES['banner_' . $cid['cat_id']]['tmp_name'];
-					// $to = $_SERVER['DOCUMENT_ROOT'] . $uploaddir . '/' . basename($_FILES['banner_' . $cid['cat_id']]['name']);
-                    // if (move_uploaded_file($from, $to)) {
-						// $image = $uploaddir . '/' . $_FILES['banner_' . $cid['cat_id']]['name'];
-                        // $data[$cid['cat_id']] = array(
-                            // "value" => $image,
-                        // );
-			
             if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
             $this->load->library("upload");
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].$uploaddir . basename($_FILES['image']['name']))) {
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $uploaddir . basename($_FILES['image']['name']))) {
                 $image = $uploaddir . $_FILES['image']['name'];
             }
             else{
@@ -115,8 +99,8 @@ class News extends MY_Controller{
 					$image_thumb = $dir_thumb.basename($_FILES['image']['name'], '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION)) . '_thumb.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
 				}
 			} else {
-				$image = '/assets/uploads/sample_thumb.png';
-				$image_thumb = '/assets/uploads/sample_thumb.png';
+				$image = 'assets/uploads/sample_thumb.png';
+				$image_thumb = 'assets/uploads/sample_thumb.png';
 			}
 			$categories = $this->input->post("category");
             $data = array(
@@ -131,9 +115,9 @@ class News extends MY_Controller{
 				"meta_description" => $this->input->post("meta_description"),
 				"meta_keywords" => $this->input->post("meta_keywords"),
 				"type" => $this->input->post("type"),
-				"create_time" => date('Y-m-d H:i:s', time()),
+				"create_time" => time(),
 			);
-			print_r($data);die();
+			//print_r($data);die();
 			$news_id = $this->newsmodel->create($data);
 			$this->newsmodel->update(array('order'=>$news_id),array('id'=>$news_id));
 			
@@ -156,7 +140,7 @@ class News extends MY_Controller{
 			if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
 			$this->load->library("upload");
 			if(isset($_FILES['image']) && count($_FILES['image']) > 0 && $_FILES['image']['name'] != "") {
-				if (move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].$uploaddir . basename($_FILES['image']['name']))) {
+				if (move_uploaded_file($_FILES['image']['tmp_name'], $uploaddir . basename($_FILES['image']['name']))) {
 					$image = $uploaddir . $_FILES['image']['name'];
 				} else{
 					$image = $this->data['news']->image;
@@ -199,7 +183,7 @@ class News extends MY_Controller{
 				"meta_description" => $this->input->post("meta_description"),
 				"meta_keywords" => $this->input->post("meta_keywords"),
 				"type" => $this->input->post("type"),
-				"create_time" => date('Y-m-d H:i:s', time()),
+				"create_time" => time(),
 			);
             $this->newsmodel->update($data,array('id'=>$id));
             redirect(base_url() . "admin/news");

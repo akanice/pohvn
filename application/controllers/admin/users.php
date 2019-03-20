@@ -20,7 +20,7 @@ class Users extends MY_Controller{
 		$this->data['logo_img'] = $this->optionsmodel->getOptionsItem(2);			//load Logo
     }
     public function index(){
-        $this->data['title']    = 'Users';
+        $this->data['title']    = 'Quản lý người dùng';
         $total = $this->usersmodel->readCount(array('email'=>'%'.$this->input->get('email').'%','name'=>'%'.$this->input->get('name').'%','address'=>'%'.$this->input->get('address').'%'));
         $this->data['email'] = $this->input->get('email');
         $this->data['name'] = $this->input->get('name');
@@ -59,9 +59,9 @@ class Users extends MY_Controller{
         $start = ($page_number - 1) * $config['per_page'];
         $this->data['page_links'] = $this->pagination->create_links();
         if($this->data['email'] != "" || $this->input->get('name') != "" || $this->input->get('address') != ""){
-            $this->data['list'] = $this->usersmodel->read(array('email'=>'%'.$this->input->get('email').'%','name'=>'%'.$this->input->get('name').'%','address'=>'%'.$this->input->get('address').'%'),array(),false,$config['per_page'],$start);
+            $this->data['list'] = $this->usersmodel->read(array('email'=>'%'.$this->input->get('email').'%','name'=>'%'.$this->input->get('name').'%','address'=>'%'.$this->input->get('address').'%','role'=>'normal'),array(),false,$config['per_page'],$start);
         }else{
-            $this->data['list'] = $this->usersmodel->read(array(),array(),false,$config['per_page'],$start);
+            $this->data['list'] = $this->usersmodel->read(array('role'=>'normal'),array(),false,$config['per_page'],$start);
         }
         $this->data['base'] = site_url('admin/users/');
         $this->load->view('admin/common/header',$this->data);
@@ -103,9 +103,12 @@ class Users extends MY_Controller{
 	
 	private function _password_encrypt($email='',$password=''){
         $str = $password;
-        for ($i=0;$i<(100+strlen($email));$i++){
-            $str = md5($email.'|'.$str);
-        }
+        // for ($i=0;$i<(100+strlen($email));$i++){
+            // $str = md5($email.'|'.$str);
+        // }
+		for($i = 0; $i < 50; $i++){
+			$str = md5($str);
+		}
         return $str;
     }
 }
