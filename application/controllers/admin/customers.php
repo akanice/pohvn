@@ -64,98 +64,110 @@ class Customers extends MY_Controller{
     }
 
     public function add() {
-        $this->db->select('name,id');
-        $this->db->from('device');
-        $this->data['names'] = $this->db->get()->result();
-		$user_id = $this->session->userdata('adminid');
-        if($this->input->post('submit') != null){
-            $uploaddir = 'assets/uploads/customers/';
-            if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
-            $this->load->library("upload");
+		$user_group = $this->adminsmodel->read(array('id'=>$this->session->userdata('adminid')),array(),true)->group;
+        if ($user_group == 'admin') {
+			$this->data['title']    = 'POH - Quản lý data khách hàng';
+			$this->db->select('name,id');
+			$this->db->from('device');
+			$this->data['names'] = $this->db->get()->result();
+			$user_id = $this->session->userdata('adminid');
+			if($this->input->post('submit') != null){
+				$uploaddir = 'assets/uploads/customers/';
+				if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
+				$this->load->library("upload");
 
-            //Upload cover image
-            if (move_uploaded_file($_FILES['avatar']['tmp_name'], $uploaddir . basename($_FILES['avatar']['name']))) {
-                $avatar = $uploaddir . $_FILES['avatar']['name'];
-            }
-            else{
-                $avatar = '';
-            }
-            //Create avatar thumb
-            if ($avatar != '') {
-                $dir_thumb = 'assets/uploads/thumb/customers/';
-                if (!file_exists($dir_thumb) || !is_dir($dir_thumb)) mkdir($dir_thumb,0777,true);
-                $this->load->library('image_lib');
-                $config2 = array();
-                $config2['image_library'] = 'gd2';
-                $config2['source_image'] = $avatar;
-                $config2['new_image'] = $dir_thumb;
-                $config2['create_thumb'] = TRUE;
-                $config2['maintain_ratio'] = TRUE;
-                $config2['width'] = 300;
-                $config2['height'] = 300;
-                $this->image_lib->clear();
-                $this->image_lib->initialize($config2);
-                if(!$this->image_lib->resize()){
-                    print $this->image_lib->display_errors();
-                }
-            }
-            $birthday = $this->input->post("birthday");
-            $date = DateTime::createFromFormat('d/m/Y', $birthday);
-            $birthday = $date->format('Y-m-d');
-            $data = array(
-                "name" 		=> $this->input->post("name"),
-                "lastname" 			=> $this->input->post("lastname"),
-                "avatar" 	    	=> $avatar,
-                "phone" 			=> $this->input->post("phone"),
-                "address" 			=> $this->input->post("address"),
-                "address2" 			=> $this->input->post("address2"),
-                "email" 		    => $this->input->post("email"),
-                "sex" 		        => $this->input->post("sex"),
-                "birthday" 		    => strtotime($birthday),
-                "type" 		        => $this->input->post("type"),
-                "id_device" 		=> implode($this->input->post("id_device"),','),
-				"staff_create_id"	=> $this->session->userdata('adminid'),
-                "time_call" 		=> time(),
-                "qrcode" 		    => $this->input->post("qrcode"),
-            );
-            $id = $this->customersmodel->create($data);
-            for($i = 1; $i <= 50; $i++){
-                $code = md5($id);
-            }
-            $this->customersmodel->update(array('customer_code' => $code),array('id'=>$id));
-            redirect(base_url() . "admin/customers");
-            exit();
-        } else {
-            $this->load->view('admin/common/header',$this->data);
-            $this->load->view('admin/customers/add');
-            $this->load->view('admin/common/footer');
-        }
+				//Upload cover image
+				if (move_uploaded_file($_FILES['avatar']['tmp_name'], $uploaddir . basename($_FILES['avatar']['name']))) {
+					$avatar = $uploaddir . $_FILES['avatar']['name'];
+				}
+				else{
+					$avatar = '';
+				}
+				//Create avatar thumb
+				if ($avatar != '') {
+					$dir_thumb = 'assets/uploads/thumb/customers/';
+					if (!file_exists($dir_thumb) || !is_dir($dir_thumb)) mkdir($dir_thumb,0777,true);
+					$this->load->library('image_lib');
+					$config2 = array();
+					$config2['image_library'] = 'gd2';
+					$config2['source_image'] = $avatar;
+					$config2['new_image'] = $dir_thumb;
+					$config2['create_thumb'] = TRUE;
+					$config2['maintain_ratio'] = TRUE;
+					$config2['width'] = 300;
+					$config2['height'] = 300;
+					$this->image_lib->clear();
+					$this->image_lib->initialize($config2);
+					if(!$this->image_lib->resize()){
+						print $this->image_lib->display_errors();
+					}
+				}
+				$birthday = $this->input->post("birthday");
+				$date = DateTime::createFromFormat('d/m/Y', $birthday);
+				$birthday = $date->format('Y-m-d');
+				$data = array(
+					"name" 		=> $this->input->post("name"),
+					"lastname" 			=> $this->input->post("lastname"),
+					"avatar" 	    	=> $avatar,
+					"phone" 			=> $this->input->post("phone"),
+					"address" 			=> $this->input->post("address"),
+					"address2" 			=> $this->input->post("address2"),
+					"email" 		    => $this->input->post("email"),
+					"sex" 		        => $this->input->post("sex"),
+					"birthday" 		    => strtotime($birthday),
+					"type" 		        => $this->input->post("type"),
+					"id_device" 		=> implode($this->input->post("id_device"),','),
+					"staff_create_id"	=> $this->session->userdata('adminid'),
+					"time_call" 		=> time(),
+					"qrcode" 		    => $this->input->post("qrcode"),
+				);
+				$id = $this->customersmodel->create($data);
+				for($i = 1; $i <= 50; $i++){
+					$code = md5($id);
+				}
+				$this->customersmodel->update(array('customer_code' => $code),array('id'=>$id));
+				redirect(base_url() . "admin/customers");
+				exit();
+			} else {
+				$this->load->view('admin/common/header',$this->data);
+				$this->load->view('admin/customers/add');
+				$this->load->view('admin/common/footer');
+			}
+		} else {
+			redirect(base_url()."admin/access_denied");
+		}
     }
 
     public function edit($id) {
-        $this->data['customer'] = $customer = $this->customersmodel->read(array('id'=>$id),array(),true);
-        if($this->input->post('submit') != null){
-            // $birthday = $this->input->post("birthday");
-            // $date = DateTime::createFromFormat('d/m/Y', $birthday);
-            // $birthday = $date->format('Y-m-d');
-            $data = array(
-                "name"					=> $this->input->post("name"),
-                "alias"					=> make_alias($this->input->post("name")),
-                "phone"				=> $this->input->post("phone"),
-                "address" 			=> $this->input->post("address"),
-                "avatar"				=> '',
-                "email"					=> $this->input->post("email"),
-                //"birthday"			=> strtotime($birthday),
-                "create_time" 		=> time(),
-            );
-            $this->customersmodel->update($data,array('id'=>$id));
-            redirect(base_url() . "admin/customers");
-            exit();
-        } else {
-            $this->load->view('admin/common/header',$this->data);
-            $this->load->view('admin/customers/edit');
-            $this->load->view('admin/common/footer');
-        }
+        $user_group = $this->adminsmodel->read(array('id'=>$this->session->userdata('adminid')),array(),true)->group;
+        if ($user_group == 'admin') {
+			$this->data['title']    = 'POH - Quản lý data khách hàng';
+			$this->data['customer'] = $customer = $this->customersmodel->read(array('id'=>$id),array(),true);
+			if($this->input->post('submit') != null){
+				// $birthday = $this->input->post("birthday");
+				// $date = DateTime::createFromFormat('d/m/Y', $birthday);
+				// $birthday = $date->format('Y-m-d');
+				$data = array(
+					"name"					=> $this->input->post("name"),
+					"alias"					=> make_alias($this->input->post("name")),
+					"phone"				=> $this->input->post("phone"),
+					"address" 			=> $this->input->post("address"),
+					"avatar"				=> '',
+					"email"					=> $this->input->post("email"),
+					//"birthday"			=> strtotime($birthday),
+					"create_time" 		=> time(),
+				);
+				$this->customersmodel->update($data,array('id'=>$id));
+				redirect(base_url() . "admin/customers");
+				exit();
+			} else {
+				$this->load->view('admin/common/header',$this->data);
+				$this->load->view('admin/customers/edit');
+				$this->load->view('admin/common/footer');
+			}
+		} else {
+			redirect(base_url()."admin/access_denied");
+		}
     }
 
     public function delete($id){

@@ -47,6 +47,9 @@ class Main extends MY_Controller{
     }
 	
 	public function access_denied() {
+		$this->data['email_header'] = $this->session->userdata('adminemail');
+        $this->data['all_user_data'] = $this->session->all_userdata();
+		$this->data['title'] = 'Từ chối truy cập';
 		$this->load->view('admin/common/header',$this->data);
 		$this->load->view('admin/access_denied');
 		$this->load->view('admin/common/footer');

@@ -43,10 +43,11 @@ class Menus extends MY_Controller{
 			case "t_cat":
 				$this->load->model('newscategorymodel');
 				$cat_data = $this->newscategorymodel->read(array('id'=>$slug),array(),true);
-				if ($cat_data->parent != 0) {$cat_alias = $cat_data->alias;} else {
-					$cat_parent_data = $this->newscategorymodel->read(array('id'=>$cat_data->parent_id),array(),true);
-					$cat_alias = $cat_parent_data->alias.'/'.$cat_data->alias;
-				}
+				// if ($cat_data->parent != 0) {$cat_alias = $cat_data->alias;} else {
+					//$cat_parent_data = $this->newscategorymodel->read(array('id'=>$cat_data->parent_id),array(),true);
+					//$cat_alias = $cat_parent_data->alias.'/'.$cat_data->alias;
+				// }
+				$cat_alias = $cat_data->alias;
 				$slug = 'category/'.$cat_alias;
 				break;
 			case "t_page":
