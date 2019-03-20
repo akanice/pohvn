@@ -1,18 +1,11 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-	<title><?php if ($title == '' or $title == null) {echo 'POH - Thai giáo';} else {echo $title;}?></title>
+	<title><?php if ($title == '' or $title == null) {echo 'POH - Khóa thực hành thai giáo';} else {echo $title;}?></title>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta property="fb:admins" content="100000039015050"/>
 	<meta property="fb:app_id" content="473175002856410" />
-	<meta name="title" content="<?=@$new->meta_title?>" />
-	<meta name="copyright" content="Copyright © 2015 by poh.vn" />
-	<meta name="keywords" content="<?=@$new->meta_keywords?>" />
-	<meta name="description" content="<?=@$new->meta_description?>" />
-	<meta name="og:title" content="<?php if ($new->meta_title == '' or $new->meta_title == null) {echo 'POH - Thai giáo';} else {echo $new->meta_title;}?>" />
-	<meta name="og:keywords" content="<?=@$new->meta_keywords?>" />
-	<meta name="og:description" content="<?=@$new->meta_description?>" />
 	
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<link href="<?=base_url('assets/css/front/bootstrap-submenu.min.css')?>" rel="stylesheet">
@@ -67,7 +60,7 @@
 				</div>
 
 				<div class="sidebar-header">
-					<h3>Menu</h3>
+					<h3></h3>
 				</div>
 				
 				<?php 

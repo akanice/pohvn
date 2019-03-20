@@ -1,6 +1,3 @@
-<!DOCTYPE HTML>
-<html lang="en">
-
 	
 	<!--<div class="container">
 		<div class="row clearfix">
@@ -9,5 +6,3 @@
 			<!--</div>
 		</div>
 	</div>-->
-
-</html>

@@ -25,7 +25,7 @@
 }
 @media only screen and (max-width: 1169px) and (min-width: 961px) {
 	.penci-grid li.list-post .item .content-list-right {
-		padding-left: 321px;
+		padding-left: 185px;
 	}
 }
 @media only screen and (max-width: 960px) {
@@ -71,11 +71,10 @@
 		width: 90%;
 	}
 	.penci-grid li.list-post .item > .thumbnail {
-		width: 100%;
+		width: 35%;
 		display: block;
 		height: auto;
 		min-height: 0;
-		float: none;
 		max-width: 100%;
 	}
 	.penci-grid li.list-post .item>.thumbnail {
@@ -91,7 +90,7 @@
 		padding-bottom: 15px;
 	}
 	.penci-grid li.list-post .item .content-list-right {
-		padding: 0;
+		padding-left: 38%;
 	}
 	.archive-box {
 		margin: 0 0 0 0;
@@ -132,7 +131,8 @@
 	#sidebar_mobile ul li a {
 		font-family: Tahoma;
 		/* font-weight: bold; */
-		color: #364379;
+		color: #cacaca;
+		border-bottom: 1px solid #585858;
 	}
 	.tooltip .tooltiptext {
 		width: auto;
@@ -140,6 +140,9 @@
 	}
 	.btn-calculate {
 	    white-space: normal;
+	}
+	.pages .btn-outline-success {
+		width: 100%;
 	}
 }
 @media (min-width: 992px) {

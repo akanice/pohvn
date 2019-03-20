@@ -26,6 +26,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Lora:400,700&amp;subset=vietnamese" rel="stylesheet">
 
 	<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5c829ea19fbe5a0017077a7f&product=sticky-share-buttons' async='async'></script>
+	<?=@$global_header_code;?>
 </head>
 
 <body>
@@ -72,7 +73,7 @@
 				</div>
 
 				<div class="sidebar-header">
-					<h3>Menu</h3>
+					<h3></h3>
 				</div>
 				
 				<?php 

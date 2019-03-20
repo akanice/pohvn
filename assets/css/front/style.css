@@ -5,7 +5,7 @@ body {
     width: 100%;
     height: 100%;
     /* font-family: 'Open Sans', sans-serif; */
-	font-family: 'Lora', serif;
+	/* font-family: 'Lora', serif; */
 	/* font-family: Tahoma, Arial, san-serif; */
     color: #2f2f2f;
 	font-size: 15px;
@@ -171,6 +171,7 @@ img {
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
+	border-radius: 3px;
     overflow: hidden;
 }
 .penci-owl-carousel .owl-item .owl-lazy {
@@ -396,7 +397,7 @@ img {
 	font-size: 15px;
 	font-weight: 400;
 	margin-bottom: 5px;
-	color: #5f5f5f;
+	color: #212121;
 }
 .article-title a:hover h4 {
 	color: #333;
@@ -464,7 +465,7 @@ img {
     left: -250px;
     height: 100vh;
     z-index: 999;
-    background: #7386D5;
+    background: #545454;
     color: #fff;
     transition: all 0.3s;
     overflow-y: scroll;
@@ -475,18 +476,20 @@ img {
 }
 
 #dismiss {
-    width: 35px;
-    height: 35px;
-    line-height: 35px;
+	width: 48px;
+    height: 48px;
+    line-height: 48px;
     text-align: center;
-    background: #7386D5;
+    background: #383838;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 20px;
     cursor: pointer;
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
     transition: all 0.3s;
+	border: 1px solid #2f2f2f;
+    border-radius: 99999px;
 }
 
 #dismiss:hover {
@@ -511,7 +514,7 @@ img {
 
 #sidebar_mobile .sidebar-header {
     padding: 20px;
-    background: #6d7fcc;
+    background: #4a4a4a;
 }
 
 #sidebar_mobile ul.components {
@@ -617,13 +620,14 @@ a.article:hover {
     display: inline-block;
     position: relative;
 	margin: 0;
-    width: 48.052%;
+    width: 20%;
     float: left;
     max-width: 370px;
+	border-radius: 5px;
 }
 .penci-grid li.list-post .item .content-list-right {
     margin: 0;
-    padding-left: 400px;
+    padding-left: 200px;
 }
 .list-post .header-list-style {
     position: relative;
@@ -741,6 +745,9 @@ h2.entry-title {
 .article-content h3 {font-size: 20px;}
 .article-content h4 {font-size: 18px;}
 .article-content h5 {font-size: 16px;}
+.article-content a {
+	color: #27ae60;
+}
 .home-featured-block {
 	margin-bottom: 30px;
 }
@@ -752,7 +759,7 @@ h2.entry-title {
 .nav-item >.dropdown-menu>li>a {
     display: block;
     width: 100%;
-    padding: .25rem 1.5rem;
+    padding: 8px 15px;
     clear: both;
     font-weight: 400;
     color: #212529;
@@ -761,10 +768,13 @@ h2.entry-title {
     background-color: transparent;
     border: 0;
 }
+.dropdown-menu {
+	border: 1px solid rgba(97, 97, 97, 0.15);
+}
 .nav-item >.dropdown-menu>li>a:focus, .nav-item >.dropdown-menu>li>a:hover {
     color: #16181b;
     text-decoration: none;
-    background-color: #f8f9fa;
+    background-color: #d0d0d0;
 }
 .box-sidebar.menu-sidebar {
     background: #fff;
@@ -788,7 +798,7 @@ ul.pagination-n li a{
 	border: 1px solid #0088cc;
 	border-radius: 99px;
 	color: #0088cc;
-	display: block;
+	display: inline;
 	margin: 0 3px;
 }
 ul.pagination-n li a:hover,ul.pagination-n li a:focus {
@@ -796,8 +806,8 @@ ul.pagination-n li a:hover,ul.pagination-n li a:focus {
 	color: #fff;
 }
 ul.pagination-n li.prev a,ul.pagination-n li.next a,ul.pagination-n li.last a{
-	width: auto;
-	padding: 0px 8px;
+	/* width: auto; */
+	/* padding: 0px 8px; */
 }
 .white-bg {
 	background: #fff;
@@ -829,4 +839,19 @@ h2 .btn.btn-link:hover,h2 .btn.btn-link:focus {
 }
 .card-header {
 	padding: .35rem 1rem;
+}
+.navbar-nav.mr-auto {
+	margin-top: 15px;
+}
+.next .page-link {
+	padding: .5rem .75rem;
+}
+.page-item:first-child .page-link {
+    margin-left: 0;
+    border-top-left-radius: 99px;
+    border-bottom-left-radius: 99px;
+}
+.btn-outline-success {
+	background: #28a745;
+	color: #fff;
 }

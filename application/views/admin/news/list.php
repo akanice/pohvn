@@ -49,8 +49,8 @@
 									<form method="GET" action="<?=@$base?>">
 										<tr>
 											<td></td>
-											<td'><input type="text" class="form-control" placeholder="Tiêu đề" name="name" value="<?=@$name?>"></td>
-											<td'></td>
+											<td><input type="text" class="form-control" placeholder="Tiêu đề" name="title" value="<?=@$name?>"></td>
+											<td></td>
 											<td>
 												<select class="form-control" name="category">
 													<option value="">--Chọn--</option>

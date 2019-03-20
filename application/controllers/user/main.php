@@ -110,12 +110,17 @@ class Main extends MY_Controller {
 					
                     redirect(site_url('affiliate-user'));
                 }
+				$this->data['error'] = "Tên đăng nhập hoặc mật khẩu không đúng";
             }
             $this->data['error'] = "Tên đăng nhập hoặc mật khẩu không đúng";
-        }
-        $this->load->view('user/common/header',$this->data);
-        $this->load->view('user/login');
-        $this->load->view('user/common/footer');
+			$this->load->view('user/common/header',$this->data);
+			$this->load->view('user/login');
+			$this->load->view('user/common/footer');
+        } else {
+			$this->load->view('user/common/header',$this->data);
+			$this->load->view('user/login');
+			$this->load->view('user/common/footer');
+		}
 	}
 	public function signUpUser() {
 		$this->data['title'] = 'Đăng ký trở thành thành viên liên kết với POH';
@@ -171,14 +176,17 @@ class Main extends MY_Controller {
 	
 	public function logoutUser() {
 		$this->auth->logoutUser();
-        redirect(site_url('/'));
+        redirect(site_url('/dang-nhap'));
 	}
 	
 	private function _password_encrypt($email='',$password=''){
         $str = $password;
-        for ($i=0;$i<(100+strlen($email));$i++){
-            $str = md5($email.'|'.$str);
-        }
+        // for ($i=0;$i<(100+strlen($email));$i++){
+            // $str = md5($email.'|'.$str);
+        // }
+		for($i = 0; $i < 50; $i++){
+			$str = md5($str);
+		}
         return $str;
     }
 }

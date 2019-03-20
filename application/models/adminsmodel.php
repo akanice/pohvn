@@ -14,6 +14,11 @@ class AdminsModel extends MY_Model {
             'nullable'  => false,
             'type'      => 'string'
         ),
+		'name' => array(
+            'isIndex'   => false,
+            'nullable'  => false,
+            'type'      => 'string'
+        ),
         'password' => array(
             'isIndex'   => false,
             'nullable'  => false,

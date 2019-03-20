@@ -6,6 +6,7 @@
                     <div class="col-md-4 col-sm-6 py-3 px-md-5 border" style="margin:30px 0">
                         <h3 class="center">Đăng nhập</h3>
 						<form method="POST" action="">
+							<p><?=@$error;?></p>
 							<div class="form-group">
 								<label for="exampleInputEmail1">Email</label>
 								<input name="email" type="email" required="" placeholder="Email" class="form-control">

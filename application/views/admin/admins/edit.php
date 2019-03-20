@@ -3,82 +3,94 @@
         color: #ff0000;
     }
 </style>
-<div id="main-content">
-    <!-- BEGIN PAGE CONTAINER-->
-    <div class="container-fluid">
-        <!-- BEGIN PAGE HEADER-->
-        <div class="row-fluid">
-            <div class="span12">
-                <h3 class="page-title">
-                    Quản lý admin
-                </h3>
-                <ul class="breadcrumb">
-                    <li>
-                        <a href="<?=base_url('admin')?>">Trang chủ</a>
-                        <span class="divider">/</span>
-                    </li>
-                    <li>
-                        <a href="<?=base_url('admin/admins')?>">Quản lý admin</a>
-                        <span class="divider">/</span>
-                    </li>
-                    <li class="active">
-                        Cập nhật
-                    </li>
-                </ul>
-                <!-- END PAGE TITLE & BREADCRUMB-->
+<style type="text/css">
+    .help-inline{
+        color: #ff0000;
+    }
+</style>
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+            <div class="col-md-12">
+				<div class="card">
+					<div class="content">
+						<h3 class="page-title">
+							Quản lý quản trị viên
+						</h3>
+						<ul class="breadcrumb">
+							<li>
+								<a href="<?=base_url('admin')?>">Trang chủ</a>
+							</li>
+							<li>
+								<a href="<?=base_url('admin/admins')?>">Quản lý quản trị viên</a>
+							</li>
+							<li class="active">
+								Thêm mới quản trị viên
+							</li>
+						</ul>
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
             </div>
         </div>
 
-        <div class="row-fluid">
-            <div class="span12">
-                <!-- BEGIN VALIDATION STATES-->
-                <div class="widget red">
-                    <div class="widget-title">
-                        <h4>Cập nhật thông tin người quản trị </h4>
-                    </div>
-                    <div class="widget-body form">
-                        <!-- BEGIN FORM-->
-                        <form class="form-horizontal" method="POST">
-                            <div class="control-group">
-                                <label class="control-label">Email</label>
-                                <div class="controls">
-                                    <input type="email" class="span6" name="email" value="<?=@$admin->email?>" required=""/>
-                                    <span class="help-inline "><?=@$error_email?></span>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">Mật khẩu</label>
-                                <div class="controls">
-                                    <input type="password" class="span6" name="password" required=""/>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">Nhập lại mật khẩu</label>
-                                <div class="controls">
-                                    <input type="password" class="span6" name="repassword" required=""/>
-                                    <span class="help-inline"><?php echo form_error('repassword'); ?></span>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">Quyền</label>
-                                <div class="controls">
-                                    <select class="input-large m-wrap" name="group" required="">
-                                        <option value="admin" <?php if($admin->group=="admin"){echo 'selected="selected" ';}?>>Admin</option>
-                                        <option value="mod" <?php if($admin->group=="mod"){echo 'selected="selected" ';}?>>Mod</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-actions">
-                                <input type="submit" class="btn btn-success" name="submit" value="Cập nhật">
-                                <a href="javascript:window.history.go(-1);" class="btn btn-default">Hủy</a>
-                            </div>
-                        </form>
-                        <!-- END FORM-->
+		<div class="row">
+			<form class="form-horizontal" method="POST" enctype="multipart/form-data">
+			<div class="col-md-8 col-lg-8">
+				<div class="card">
+					<div class="header">
+						<h4 class="title"></h4>
+					</div>
+					<div class="content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Email</label>
+							<div class="col-sm-10">
+								<input type="email" class="form-control" name="email" value="<?=@$admin->email?>" required="" readonly />
+								<span class="help-inline "><?=@$error_email?></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tên</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" name="name" value="<?=@$admin->name?>" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Mật khẩu mới</label>
+							<div class="col-sm-8">
+								<input type="password" class="form-control" name="password" required="" id="password" disabled />
+								<span class="help-inline "><?php echo form_error('password'); ?></span>
+							</div>
+							<div class="col-sm-2">
+								<button class="btn btn-info btn-fill btn-wd" id="editpassword">Sửa mật khẩu</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Quyền</label>
+							<div class="col-sm-5">
+								<select class="form-control" name="group" required="">
+									<option value="admin">Admin</option>
+									<option value="mod">Mod</option>
+								</select>
+							</div>
+						</div>
+                        <div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-6">
+								<input type="submit" class="btn btn-primary btn-fill btn-wd" name="submit" value="Lưu lại">
+								<a href="javascript:window.history.go(-1);" class="btn btn-default btn-fill">Hủy</a>
+							</div>
+						</div>
                     </div>
                 </div>
-                <!-- END VALIDATION STATES-->
             </div>
-            <!-- END PAGE CONTAINER-->
+			</form>
         </div>
-        <!-- END PAGE -->
     </div>
+</div>
+<script>
+	$("#editpassword").click(function(event){
+	   event.preventDefault();
+	   $('#password').removeAttr("disabled");
+	});
+</script>

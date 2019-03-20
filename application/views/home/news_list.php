@@ -22,7 +22,7 @@
 										<li class="list-post clearfix">
 											<article id="post-904" class="item hentry">
 												<div class="thumbnail">
-													<a class="penci-image-holder penci-lazy" href="#" title="This flagship coffee shop is about to disappear from the Bullring" style="display: inline-block; background-image: url('/assets/img/sample_image-2.jpg');">
+													<a class="penci-image-holder penci-lazy" href="#" title="<?=@$item->title;?>" style="display: inline-block; background-image: url('<?=@base_url($item->thumb)?>');">
 													</a>
 												</div>
 												<div class="content-list-right content-list-center">
@@ -34,7 +34,7 @@
 														<?php $space=', ';} ?>
 													</a></span>
 														<h2 class="entry-title grid-title"><a href="<?=@base_url($item->alias)?>"><?=@$item->title?></a></h2>
-														<div class="grid-post-box-meta"> <span class="author-italic author vcard">by <a class="url fn n" href="#">Kiên</a></span> <span><time class="entry-date published">July 11, 2017</time></span></div>
+														<div class="grid-post-box-meta"> <span><time class="entry-date published"><?php echo date_format(date_create($item->create_time),"d/m/Y"); ?></time></span></div>
 													</div>
 													<div class="item-content entry-content">
 														<p><?=@$item->description?></p>

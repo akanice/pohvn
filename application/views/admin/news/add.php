@@ -25,7 +25,7 @@
         </div>
 
 		<div class="row">
-			 <form class="form-horizontal" method="POST" enctype="multipart/form-data">
+			<form class="form-horizontal" method="POST" enctype="multipart/form-data">
 			<div class="col-md-8 col-lg-8">
 				<div class="card">
 					<div class="header">
@@ -81,7 +81,7 @@
                                 <label class="col-sm-2 control-label"></label>
 								<div class="col-sm-6">
 									<input type="submit" class="btn btn-primary btn-fill btn-wd" name="submit" value="Lưu lại">
-									<a href="javascript:window.history.go(-1);" class="btn btn-default">Hủy</a>
+									<a href="javascript:window.history.go(-1);" class="btn btn-default btn-fill">Hủy</a>
 								</div>
 							</div>
                     </div>
@@ -119,8 +119,8 @@
 						</div>
 						<div class="form-group">
 							<div class="col-sm-12">
-								<input type="submit" class="btn btn-primary btn-fill btn-wd" name="submit" value="Lưu lại">
-								<a href="javascript:window.history.go(-1);" class="btn btn-default">Hủy</a>
+								<input type="submit" class="btn btn-primary btn-fill btn-wd btn-sm" name="submit" value="Lưu lại">
+								<a href="javascript:window.history.go(-1);" class="btn btn-default btn-fill btn-sm">Hủy</a>
 							</div>
 						</div>
 					</div>

@@ -30,7 +30,7 @@
 				<div class="col-md-12 col-lg-8">
 					<div class="card">
 						<div class="header">
-							<h4 class="title">Sửa nội dung tin tức</h4>
+							<h4 class="title">Sửa thông tin khách hàng</h4>
 						</div>
 						<div class="content">
 							<div class="form-group">

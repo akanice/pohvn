@@ -5,7 +5,7 @@
 <!-- BEGIN HEAD -->
 <head>
 	<meta charset="utf-8" />
-	<title><?php if ($title == '' or $title == null) {echo 'Thai giáo POH - Admin CP';} else {echo $title;}?></title>
+	<title><?php if (!isset($title)) {echo 'Thai giáo POH - Admin CP';} else {echo $title;}?></title>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="akanice" name="author" />
@@ -86,7 +86,8 @@
 				</div>
 			</div>
 			
-			<?php if(($this->session->userdata('admingroup') == "admin")){ $suffix_uri = $this->uri->segment(2); $sufix_uri3 = $this->uri->segment(3)?>
+			<?php //if(($this->session->userdata('admingroup') == "admin")){ 
+			$suffix_uri = $this->uri->segment(2); $sufix_uri3 = $this->uri->segment(3)?>
 			<ul class="nav">
 				<li>
 					<a href="<?=base_url('admin')?>">
@@ -122,16 +123,18 @@
 					</a>
 				</li>
 				
+				<?php if ($all_user_data['admingroup'] == 'admin') {?>
 				<li class="<?php if (($suffix_uri == 'customers')) echo 'active';?>">
 					<a href="<?=base_url('admin/customers')?>">
 						<i class="pe-7s-users"></i>
 						<p>Khách hàng</p>
 					</a>
 				</li>
+				<?php } ?>
 
                 <li class="<?php if ($suffix_uri == 'affiliate') echo 'active';?>">
                     <a data-toggle="collapse" href="#afiliateUser">
-                        <i class="pe-7s-news-paper"></i>
+                        <i class="pe-7s-world"></i>
                         <p>
                             Affiliate
                             <b class="caret"></b>
@@ -176,7 +179,14 @@
 						</ul>
 					</div>
 				</li>
-
+				<?php if ($all_user_data['admingroup'] == 'admin') {?>
+				<li class="<?php if (($suffix_uri == 'admins')) echo 'active';?>">
+					<a href="<?=base_url('admin/admins')?>">
+						<i class="pe-7s-light"></i>
+						<p>Danh sách quản trị viên</p>
+					</a>
+				</li>
+				<?php } ?>
 				<li>
 					<a href="#">
 						<i class="pe-7s-graph1"></i>
@@ -187,7 +197,7 @@
 					<br><br>
 				</li>
 			</ul>
-			<?php } ?>
+			<?php //} ?>
 		</div>
 		<div class="sidebar-background" style="background-image: url('/assets/img/full-screen-image-3.jpg') "></div>
 	</div>

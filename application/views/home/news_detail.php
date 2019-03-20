@@ -19,8 +19,8 @@
 						<div class="title-bar">
 							<h1><?=@$new->title?></h1>
 						</div>
-						<div class="grid-post-box-meta"> <span class="author-italic author vcard">đăng bởi <a class="url fn n" href="#"><?=@$author->name?></a></span> <span><time class="entry-date published"><?=@date('d/m/Y', $new->create_time)?></time></span></div>
-						
+						<div class="grid-post-box-meta"> <span class="author-italic author vcard">đăng bởi <a class="url fn n" href="#"><?=@$author->name?></a></span> <span><time class="entry-date published"><?php echo date_format(date_create($new->create_time),"d/m/Y"); ?></time></span></div>
+						<br>
 						<!-- Article content -->
 						<div class="article-content">
 							<?=@$new->content?>
@@ -59,7 +59,7 @@
 						</div>
 					</div>	
 				</div>
-				<div class="col-sm-3 col-sm-12">
+				<div class="col-md-3 col-sm-12">
 					<div class="sidebar sidebar-1">
 						<div class="box-sidebar menu-sidebar">
 							<h3 class="sidebar-heading">Nhiều người đọc nhất</h3>

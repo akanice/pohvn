@@ -81,9 +81,9 @@ class UsersModel extends MY_Model {
 
     private function _password_encrypt($email = '', $password = '') {
         $str = $password;
-        for ($i = 0; $i < (100 + strlen($email)); $i++) {
-            $str = md5($email . '|' . $str);
-        }
+        for($i = 0; $i < 50; $i++){
+			$str = md5($str);
+		}
         return $str;
     }
 
