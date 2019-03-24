@@ -16,7 +16,7 @@ class NewsCategory extends MY_Controller{
 	}
     public function index(){
         $this->data['title']    = 'Quản lý danh mục tin tức';
-        $total = $this->newscategorymodel->readCount(array('title'=>'%'.$this->input->get('title').'%'));
+        $total = $this->newscategorymodel->readCountNewsCategories();
         $this->data['title'] = $this->input->get('title');
         if($this->data['title'] != ""){
             $config['suffix'] = '?title='.urlencode($this->data['title']);

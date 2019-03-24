@@ -106,5 +106,12 @@ class NewsCategoryModel extends MY_Model {
         $this->_nForLoop($this->db->get('news_category')->result_array());
         return $this->_sortedCategories;
     }
+
+    public function readCountNewsCategories() {
+        $this->db->select('*');
+        $this->db->from($this->tableName);
+        $this->db->where('news_category.parent_id', 0);
+        return $this->db->count_all_results();
+    }
 		
 }
