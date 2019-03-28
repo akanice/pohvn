@@ -77,13 +77,23 @@ class Cronjob extends MY_Controller{
 			// );
 			// $this->newsordermodel->create($data);
 		// }
-
+		$text = "Youtube long url: https://www.youtube.com/watch?v=waIkasvAVGo\n\nYoutube short url: http://youtu.be/waIkasvAVGo";
+		$text2 = "https://www.youtube.com/embed/qR1-3uuTT2c";
+		echo $this->convertYoutube($text2);
+		echo '<br>';
 		echo 'Hiện giờ là: '.date('Y-m-d H:i:s', time());
 		echo '<hr>';
 		
         $this->load->view('admin/cronjob/index');
     }
-
+	function convertYoutube($string) {
+		return preg_replace(
+			"/\s*[a-zA-Z\/\/:\.]*youtu(be.com\/embed\/|.be\/)([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i",
+			"<div class='embed-responsive embed-responsive-16by9'><iframe  class='embed-responsive-item'  src=\"//www.youtube.com/embed/$2\" allowfullscreen></iframe></div>",
+			$string
+		);
+	}
+	
     public function add() {
 		$this->data['title']    = 'Thêm mới bài viết';
 		$this->data['list_cat_id'] = $this->newscategorymodel->getSortedCategories();

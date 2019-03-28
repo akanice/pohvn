@@ -65,6 +65,7 @@ class News extends MY_Controller {
 		}
 		$post_id = $this->data['new']->id;
         $content = $this->data['new']->content;
+		$content = $this->convertYoutube($content);
         //TODO - do short code here
         foreach($arrShortCode as $shortCodeStr => $funcName) {
             $shortCodePos = strrpos($content, $shortCodeStr);

@@ -97,7 +97,14 @@ class MY_Controller extends MX_Controller {
 			}
 		}
 	}
-
+	
+	public function convertYoutube($string) {
+		return preg_replace(
+			"/\s*[a-zA-Z\/\/:\.]*youtu(be.com\/embed\/|.be\/)([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i",
+			"<div class='embed-responsive embed-responsive-16by9'><iframe  class='embed-responsive-item'  src=\"//www.youtube.com/embed/$2\" allowfullscreen></iframe></div>",
+			$string
+		);
+	}
 }
 
 ?>

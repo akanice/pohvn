@@ -154,27 +154,68 @@ class NewsModel extends MY_Model {
 		if ($news_array) {
 			$news_array_sql = '(' . implode(',', $news_array) .')';
 			$news_array_pure = implode(',', $news_array);
+
+			if ($category) {
+				$query = $this->db->query("
+					(select news.*, admins.name as author_name, 0 as Priority
+					from news
+					left join news_category on news.categoryid= news_category.id
+					left join admins on news.author_id = admins.id
+					where news.type = 'default' and news.id in " . $news_array_sql . " and news.categoryid like '%"  . $category . "%')
+				union
+					(select news.*, admins.name as author_name, 1 as Priority
+					from news
+					left join news_category on news.categoryid= news_category.id
+					left join admins on news.author_id = admins.id
+					where news.type = 'default' and news.id not in ". $news_array_sql . " and news.categoryid like '%"  . $category . "%')
+					ORDER BY Priority,FIELD( id," . $news_array_pure . ")
+				limit " . $limit . " offset " . $offset);
+			} else {
+				$query = $this->db->query("
+					(select news.*, admins.name as author_name, 0 as Priority
+					from news
+					left join news_category on news.categoryid= news_category.id
+					left join admins on news.author_id = admins.id
+					where news.type = 'default' and news.id in " . $news_array_sql . ")
+				union
+					(select news.*, admins.name as author_name, 1 as Priority
+					from news
+					left join news_category on news.categoryid= news_category.id
+					left join admins on news.author_id = admins.id
+					where news.type = 'default' and news.id not in ". $news_array_sql . ")
+					ORDER BY Priority,FIELD( id," . $news_array_pure . ")
+				limit " . $limit . " offset " . $offset);
+			}
 		} else {
-			$news_array_sql  = 0;
-			$news_array_pure = 0;
+			$this->db->select('news.*');
+			$this->db->join('news_category', 'news.categoryid= news_category.id', 'left');
+			$this->db->where('news.type', 'default');
+			$this->db->like('news.title', $title);
+			$this->db->order_by("news.id", "desc");
+			if ($category != "") {
+				$this->db->like('news.categoryid', $category);
+			}
+			$query = $this->db->get('news', $limit, $offset);
 		}
         // Method 2
-		$query = $this->db->query("
-				(select news.*, admins.name as author_name, 0 as Priority
-				from news
-				left join news_category on news.categoryid= news_category.id
-				left join admins on news.author_id = admins.id
-				where news.type = 'default' and news.id in " . $news_array_sql . " and news.categoryid like '%"  . $category . "%')
-			union
-				(select news.*, admins.name as author_name, 1 as Priority
-				from news
-				left join news_category on news.categoryid= news_category.id
-				left join admins on news.author_id = admins.id
-				where news.type = 'default' and news.id not in". $news_array_sql . " and news.categoryid like '%"  . $category . "%')
-				ORDER BY Priority,FIELD( id," . $news_array_pure . ")
-			limit " . $limit . " offset " . $offset);
+		// $query = $this->db->query("
+				// (select news.*, admins.name as author_name, 0 as Priority
+				// from news
+				// left join news_category on news.categoryid= news_category.id
+				// left join admins on news.author_id = admins.id
+				// where news.type = 'default' and news.id in " . $news_array_sql . " and news.categoryid like '%"  . $category . "%')
+			// union
+				// (select news.*, admins.name as author_name, 1 as Priority
+				// from news
+				// left join news_category on news.categoryid= news_category.id
+				// left join admins on news.author_id = admins.id
+				// where news.type = 'default' and news.id not in ". $news_array_sql . " and news.categoryid like '%"  . $category . "%')
+				// ORDER BY Priority,FIELD( id," . $news_array_pure . ")
+			// limit " . $limit . " offset " . $offset);
+			
 			// print_r($this->db->last_query());  
-
+			
+		$result[] = array();
 		$rs_array = $query->result();	
 		if ($rs_array) {
             foreach ($rs_array as $n => $value) {
