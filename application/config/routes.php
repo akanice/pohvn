@@ -61,6 +61,7 @@ $route['admin']												=	'admin/admin/index';
 $route['admin/admins/(:num)']						= 	'admin/admins/index/$1';
 $route['admin/users/(:num)']							=	'admin/users/index/$1';
 $route['admin/news/(:num)']             				=	'admin/news/index/$1';
+$route['admin/newscategory/setorder/(:num)'] = 'admin/newscategory/setorder/$1';
 $route['admin/newscategory/(:num)']			=	'admin/newscategory/index/$1';
 $route['admin/landingpage/(:num)']				=	'admin/landingpage/index/$1';
 $route['admin/pages/(:num)']							=	'admin/pages/index/$1';

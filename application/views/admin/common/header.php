@@ -11,7 +11,8 @@
 	<meta content="akanice" name="author" />
 
     <link href="<?=base_url('assets/css/bootstrap.min.css')?>" rel="stylesheet">
-	<!--  <link href="<?=base_url('assets/img/favicon.ico')?>" rel="shortcut icon"> -->
+	<link rel="icon" href="<?=base_url('wp-content/uploads/2018/06/favicon.png')?>" sizes="32x32" />
+	<link rel="apple-touch-icon-precomposed" href="<?=base_url('wp-content/uploads/2018/06/favicon.png')?>" />
     <!--  Light Bootstrap Dashboard core CSS    -->
     <link href="<?=base_url('assets/css/light-bootstrap-dashboard.css')?>" rel="stylesheet">
     <link href="<?=base_url('assets/css/chosen.css')?>" rel="stylesheet">
@@ -106,6 +107,7 @@
 						<ul class="nav">
 							<li class="<?php if ($suffix_uri == 'newscategory') echo 'active'?>"><a href="<?=base_url('admin/newscategory')?>">Chuyên mục</a></li>
 							<li class="<?php if ($suffix_uri == 'news') echo 'active'?>"><a href="<?=base_url('admin/news')?>">Bài viết</a></li>
+							<li class="<?php if ($suffix_uri == 'newscategory' && $sufix_uri3=='setorder') echo 'active'?>"><a href="<?=base_url('admin/newscategory/setorder')?>">Thứ tự hiển thị</a></li>
 						</ul>
 					</div>
 				</li>

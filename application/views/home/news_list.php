@@ -34,7 +34,7 @@
 														<?php $space=', ';} ?>
 													</a></span>
 														<h2 class="entry-title grid-title"><a href="<?=@base_url($item->alias)?>"><?=@$item->title?></a></h2>
-														<div class="grid-post-box-meta"> <span><time class="entry-date published"><?php echo date_format(date_create($item->create_time),"d/m/Y"); ?></time></span></div>
+														<div class="grid-post-box-meta"> <span class="author-italic author vcard">đăng bởi <a class="url fn n" href="#"><?=@$item->author_name?></a></span>  <span><time class="entry-date published"><?php echo date_format(date_create($item->create_time),"d/m/Y"); ?></time></span></div>
 													</div>
 													<div class="item-content entry-content">
 														<p><?=@$item->description?></p>

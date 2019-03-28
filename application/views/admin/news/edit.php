@@ -29,6 +29,15 @@
 			<div class="col-md-12 col-lg-8">
 				<div class="card">
 					<div class="header">
+						<?php if (isset($notice)) {?>
+						<div class="alert alert-success">
+							<button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+								<i class="pe-7s-close"></i>
+							</button>
+							<span>
+								<b><?=@$notice?></span>
+						</div>
+						<?php } ?>
 						<h4 class="title">Sửa nội dung tin tức</h4>
 					</div>
 					<div class="content">

@@ -84,6 +84,7 @@ class News extends MY_Controller {
 
             if ($this->data['new']->type == 'default') {
                 $this->data['title'] = $this->data['new']->title;
+				$this->data['meta_image'] = base_url($this->data['new']->image);
                 $categoryid = json_decode($this->data['new']->categoryid);
 
                 foreach ($categoryid as $n => $value) {
@@ -137,21 +138,24 @@ class News extends MY_Controller {
 
     public function category($alias) {
         $this->data['news_category'] = $news_category = $this->newscategorymodel->read(array('alias' => $alias), array(), true);
+		$this->load->model('newsordermodel');
+		$news_array = $this->newsordermodel->read(array('categoryid'=>$this->data['news_category']->id),array(),true)->news_array;
+		$news_array = json_decode($news_array);
         $total = $this->newsmodel->readCountNew($news_category->id);
-        $per_page = 6;
+        $per_page = 4;
         $this->configPagination($slug = 'category', $per_page, $alias, $total);
         $page_number = $this->uri->segment(3);
         if (empty($page_number)) $page_number = 1;
         $start = ($page_number - 1) * $per_page;
         $this->data['page_links'] = $this->pagination->create_links();
-        $this->data['news'] = $this->newsmodel->getListNews('', $news_category->id, $per_page, $start);
+        $this->data['news'] = $this->newsmodel->getListNews('', $news_array, $news_category->id, $per_page, $start);
         if (empty($news_category->title)) {
             $this->data['title'] = 'Chuyên mục';
         } else {
             $this->data['title'] = 'Chuyên mục- ' . $news_category->title;
         }
 
-        $this->data['most_viewed'] = $this->newsmodel->read(array(), array('count_view' => false), false, 5);
+        $this->data['most_viewed'] = $this->newsmodel->read(array('type'=>'normal'), array('count_view' => false), false, 5);
 
         $this->data['meta_keywords'] = $news_category->meta_keywords;
         $this->data['meta_description'] = $news_category->meta_description;

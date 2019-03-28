@@ -16,7 +16,7 @@ class Admin extends MY_Controller{
     public function index(){
         $this->data['title']    = 'Dashboard';
 		$this->load->model('newsmodel');
-		$this->data['news'] = $this->newsmodel->read(array(),array(),false,10); //get lastest news
+		$this->data['news'] = $this->newsmodel->read(array(),array('id'=>false),false,10); //get lastest news
 		$this->load->model('newscategorymodel');
 		$this->data['categories'] = $this->newscategorymodel->read(array(),array(),false,10); //get categories
 		$this->load->model('ordersmodel');

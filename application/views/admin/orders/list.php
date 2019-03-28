@@ -6,9 +6,6 @@
             <div class="col-md-12">
 				<div class="card">
 					<div class="content">
-						<h3 class="page-title">
-							Quản lý đơn hàng
-						</h3>
 						<ul class="breadcrumb">
 							<li>
 								<a href="<?=base_url('admin')?>">Trang chủ</a>
@@ -25,6 +22,22 @@
 
         <div class="row">
             <div class="col-md-12">
+				<div class="card">
+					<div class="content">
+						<div class="widget red">
+							<div class="widget-title clearfix">
+								<h4 class="fleft">Xuất đơn hàng (Excel - xlsx)</h4>
+							</div>
+							<div class="widget-body">
+								<form role="form" method="POST" action="<?=base_url('admin/orders/createxls');?>" class="form-inline">
+									<input type="text" class="form-control implement_date" name="from" required="">
+									<input type="text" class="form-control implement_date" name="to"  required="">
+									<button type="submit" class="btn btn-fill btn-default" name="submitForm" value="submitDay">Tìm kiếm</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="card">
 					<div class="content">
 						<div class="widget red">
@@ -50,9 +63,10 @@
 										<th width=''>Email</th>
 										<th width=''>Địa chỉ</th>
 										<th width=''>Note</th>
+										<th width=''>Giá hiển thị</th>
 										<th width=''>Affiliate</th>
 										<th width=''>Trạng thái</th>
-										<th width='200px'>Hành động</th>
+										<th>Hành động</th>
 									</tr>
 									</thead>
 									<form method="GET" action="<?=@$base?>">
@@ -62,6 +76,7 @@
 											<td width=''></td>
 											<td width=''><input type="text" class="form-control" placeholder="Họ tên" name="name" value="<?=@$name?>"></td>
 											<td width=''><input type="text" class="form-control" placeholder="Số điện thoại" name="phone" value="<?=@$phone?>"></td>
+											<td width=''></td>
 											<td width=''></td>
 											<td width=''></td>
 											<td width=''></td>
@@ -81,6 +96,7 @@
 											<td><?=@$item->customer_email?></td>
 											<td><?=@$item->customer_address?></td>
 											<td><?=@$item->note?></td>
+											<td><?=@$item->total_price?></td>
 											<td><a href="<?=@base_url('admin/affiliate/viewUser/'.$item->user_id)?>"><?=@$item->user_name?></a></td>
 											<td id="td_status_<?=@$item->id?>"><?php 
 												switch ($item->status) {
@@ -224,3 +240,11 @@
 .box .box-header .order_tabs a:last-child {border-right:0;}
 .divider {color: #ccc;}
 </style>
+<script src="<?=base_url('assets/js/plugins/datepicker/js/bootstrap-datepicker.min.js')?>"></script>
+<script src="<?=base_url('assets/js/plugins/datepicker/locales/bootstrap-datepicker.vi.min.js')?>"></script>
+<link href="<?=base_url('assets/js/plugins/datepicker/css/bootstrap-datepicker.min.css')?>" rel="stylesheet" />
+<script type="text/javascript">
+    $('.implement_date').datepicker({
+      language: 'vi-VN',
+    });
+</script>

@@ -231,4 +231,21 @@ class ordersModel extends MY_Model {
 		}
 		return json_encode($rs);
 	}
+	
+	public function getOrdersToExport($from, $to) {
+		$this->db->select('orders.*,customers.email as customer_email,
+							customers.name as customer_name,
+							customers.phone as customer_phone, 
+							customers.address as customer_address, 
+						');
+		$this->db->join('customers', 'orders.customer_id = customers.id', 'left');
+		$this->db->order_by('orders.create_time', 'DESC');
+        if($from && $to){
+            $this->db->where('orders.create_time >', strtotime($from));
+            $this->db->where('orders.create_time <', strtotime($to));
+        }
+		// date('Y-m-d',strtotime("-1 days"));
+		$query = $this->db->get('orders');
+        return $query ? $query->result_array() : false;
+	}
 }

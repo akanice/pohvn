@@ -27,7 +27,7 @@
                                             </div>
                                             <div class="article-title">
                                                 <a href="<?= base_url($item->alias) ?>"><h4 class="article-title"><?= $item->title ?></h4></a>
-                                                <div class="article-date"><i class="fa fa-calendar"></i><?php echo date_format(date_create($item->create_time),"d/m/Y"); ?></div>
+                                                <div class="article-date"><i class="fa fa-calendar"></i> <?php echo date_format(date_create($item->create_time),"d/m/Y"); ?></div>
                                             </div>
                                         </div>
                                     <?php }

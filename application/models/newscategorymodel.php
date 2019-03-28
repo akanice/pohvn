@@ -113,5 +113,28 @@ class NewsCategoryModel extends MY_Model {
         $this->db->where('news_category.parent_id', 0);
         return $this->db->count_all_results();
     }
-		
+	
+	public function getNewsOrderedInCat() {
+		$this->db->select('news_category.id, news_categorytitle, news_order.news_array');
+		$this->db->join('news_order', 'news_order.categoryid = news_category.id', 'left');
+		$query = $this->db->get('news_category');
+		if ($query->num_rows() > 0) {
+			$cat_array = $query->result();
+			foreach ($cat_array as $n => $value) {
+				echo $n;
+				// $this->db->select('news.title');
+				// $this->db->where('news.id', $value);
+				// $query_news = $this->db->get('news');
+				// if ($query_news->num_rows() > 0) {
+					// $temp = $query_news->result_array();
+					// if ($temp) {
+						// foreach ($temp as $m) {
+							// $array_temp[] = $m['id'];
+						// }
+					// }
+				// }
+			}
+			die();
+		}
+	}		
 }

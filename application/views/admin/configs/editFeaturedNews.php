@@ -48,7 +48,6 @@
                                 <div class="col-sm-10">
                                     <select data-placeholder="Chọn bài viết hiển thị..." class="chosen-select form-control" multiple style="width:100%;" tabindex="4" name="cat_<?=@$item['cat_id']?>[]">
                                         <?php foreach($item['content'] as $a){?>
-                                            <?php print_r($item['content'])?>
 											<option value="<?=$a->id?>" <?php if (($home_cat_available != '') and ($home_cat_available)) { if(in_array($a->id,$item['current_news_id'])) { echo 'selected'; }}?>><?=$a->title?></option>
                                         <?php }?>
                                     </select>

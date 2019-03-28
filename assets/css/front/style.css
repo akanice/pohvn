@@ -133,6 +133,7 @@ img {
 }
 .featured-area {
     margin-bottom: 30px;
+	margin-top: 25px;
     position: relative;
 	padding: 15px 0;
 }
@@ -588,7 +589,7 @@ a.article:hover {
 
 .penci-breadcrumb {
     line-height: 1.4;
-    margin: 30px 0;
+    margin: 30px 0 10px;
 }
 .penci-breadcrumb span, .penci-breadcrumb span a {
 	font-size: 13px;
@@ -748,13 +749,21 @@ h2.entry-title {
 .article-content a {
 	color: #27ae60;
 }
+.article-content li {
+    list-style: disc inside;
+}
 .home-featured-block {
 	margin-bottom: 30px;
 }
 .navbar-nav > li.nav-item > a {
     display: block;
     padding: .5rem 1rem;
-	color: rgba(0,0,0,.5);
+	font-weight: 600;
+    text-transform: uppercase;
+	color: #444444;
+}
+.navbar-light .navbar-nav .nav-link {
+    color: #444444;
 }
 .nav-item >.dropdown-menu>li>a {
     display: block;
@@ -840,9 +849,6 @@ h2 .btn.btn-link:hover,h2 .btn.btn-link:focus {
 .card-header {
 	padding: .35rem 1rem;
 }
-.navbar-nav.mr-auto {
-	margin-top: 15px;
-}
 .next .page-link {
 	padding: .5rem .75rem;
 }
@@ -854,4 +860,53 @@ h2 .btn.btn-link:hover,h2 .btn.btn-link:focus {
 .btn-outline-success {
 	background: #28a745;
 	color: #fff;
+}
+blockquote {
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    font-size: 17.5px;
+    border-left: 5px solid #eee;
+}
+blockquote {
+    margin: 14px 0;
+}
+blockquote p {
+	margin: 0;
+}
+.pagination {
+	margin: 15px 0;
+}
+.navbar-light .navbar-toggler {
+	border-color: transparent;
+}
+.search-block {
+	position: relative;
+}
+.search-button-home {
+	border: 1px solid #99c4e9;
+    /* padding: 10px; */
+    border-radius: 99px;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+	color: #99c4e9;
+}
+.search-mobile {
+	display: none;
+	position: absolute;
+	top: 50px;
+    z-index: 99;
+    right: 0px;
+    width: 355px;
+}
+.search-mobile input.form-control {
+	border: 1px solid #ccc;
+}
+.search-mobile .btn-outline-success {
+	float: right;
+	border-radius: 0;
+	margin-top: -38px;
+    margin-right: 0px;
 }

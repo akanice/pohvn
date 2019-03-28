@@ -150,22 +150,33 @@ class NewsModel extends MY_Model {
         }
     }
 
-    public function getListNews($title, $category, $limit = 10, $offset) {
-        $this->db->select('news.*');
-        $this->db->join('news_category', 'news.categoryid= news_category.id', 'left');
-        $this->db->where('news.type', 'default');
-        $this->db->like('news.title', $title);
-        $this->db->order_by("news.id", "desc");
-        if ($category != "") {
-            $this->db->like('news.categoryid', $category);
-        }
-        $this->db->db_debug = true;
-        $result[] = array();
-        $cat_list = array();
+    public function getListNews($title, $news_array='', $category, $limit = 10, $offset) {
+		if ($news_array) {
+			$news_array_sql = '(' . implode(',', $news_array) .')';
+			$news_array_pure = implode(',', $news_array);
+		} else {
+			$news_array_sql  = 0;
+			$news_array_pure = 0;
+		}
+        // Method 2
+		$query = $this->db->query("
+				(select news.*, admins.name as author_name, 0 as Priority
+				from news
+				left join news_category on news.categoryid= news_category.id
+				left join admins on news.author_id = admins.id
+				where news.type = 'default' and news.id in " . $news_array_sql . " and news.categoryid like '%"  . $category . "%')
+			union
+				(select news.*, admins.name as author_name, 1 as Priority
+				from news
+				left join news_category on news.categoryid= news_category.id
+				left join admins on news.author_id = admins.id
+				where news.type = 'default' and news.id not in". $news_array_sql . " and news.categoryid like '%"  . $category . "%')
+				ORDER BY Priority,FIELD( id," . $news_array_pure . ")
+			limit " . $limit . " offset " . $offset);
+			// print_r($this->db->last_query());  
 
-        $query = $this->db->get('news', $limit, $offset);
-        if ($query->num_rows() > 0) {
-            $rs_array = $query->result();
+		$rs_array = $query->result();	
+		if ($rs_array) {
             foreach ($rs_array as $n => $value) {
                 $cat_array = array();
                 $result[$n] = $value;
@@ -174,11 +185,11 @@ class NewsModel extends MY_Model {
                 foreach ($cat_array as $key => $value2) {
                     $this->db->select('news_category.id,news_category.title,news_category.alias');
                     $this->db->where('news_category.id', $value2);
-                    $query2 = $this->db->get('news_category')->row();
+                    $query3 = $this->db->get('news_category')->row();
 
-                    $x[$key]['id'] = $query2->id;
-                    $x[$key]['title'] = $query2->title;
-                    $x[$key]['alias'] = $query2->alias;
+                    $x[$key]['id'] = $query3->id;
+                    $x[$key]['title'] = $query3->title;
+                    $x[$key]['alias'] = $query3->alias;
 
                     $v[] = $x[$key];
                 }
@@ -221,10 +232,12 @@ class NewsModel extends MY_Model {
                 $query = $this->db->get('news');*/
 
         $query = $this->db->query(" select * from (
-             select * , 1 as rank from news where title like '%" . $keyword . "%'
-             union
-             select * , 2 as rank from news where content like '%" . $keyword . "%'
-            ) as data group by id order by rank limit " . $limit . " offset " . $offset);
+				select * , 1 as rank from news where title like '%" . $keyword . "%'
+				union
+				select * , 2 as rank from news where content like '%" . $keyword . "%'
+            ) as data
+			group by id
+			order by rank,count_view DESC limit " . $limit . " offset " . $offset);
         if ($query->num_rows() > 0) {
             $result = $query->result();
             /*$resultTitle = array();
@@ -328,7 +341,7 @@ class NewsModel extends MY_Model {
             }
         }
     }
-
+	
     function update_counter($alias) {
         // return current article views
         $this->db->where('news.alias', urldecode($alias));

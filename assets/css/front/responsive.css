@@ -37,10 +37,18 @@
 	}
 	#logo img {
 		max-height:55px;
-		
+	}
+	.navbar-nav.mr-auto {
+		margin-top: 15px;
+	}
+	#main {
+		margin-bottom: 15px;
 	}
 	.container.align-left-logo #logo {
 		text-align: center;
+	}
+	.featured-area {
+		margin-bottom: 10px;
 	}
 	#header .inner-header .container {
 		padding: 10px 0;
@@ -134,6 +142,9 @@
 		color: #cacaca;
 		border-bottom: 1px solid #585858;
 	}
+	.navbar-nav > li.nav-item > a {
+		font-weight: 400;
+	}
 	.tooltip .tooltiptext {
 		width: auto;
 		left: auto;
@@ -143,6 +154,23 @@
 	}
 	.pages .btn-outline-success {
 		width: 100%;
+	}
+	.home-featured-cat {
+		padding: 15px;
+		background: #fff;
+	}
+	.home-featured-block {
+		margin-bottom: 15px;
+	}
+	.section-title h3 {
+		font-size: 20px;
+		padding-bottom: 5px;
+	}
+	.wpb_content_element {
+		margin-bottom: 20px;
+	}
+	.vc_separator h4 {
+		font-size: 13px;
 	}
 }
 @media (min-width: 992px) {

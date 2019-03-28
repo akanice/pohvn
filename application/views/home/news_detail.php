@@ -27,7 +27,7 @@
 						</div>
 						<hr />
 						<div class="share-socials">
-							<div class="sharethis-inline-share-buttons" data-url="" id="sharethis-inline-share-buttons"></div>
+							<div class="sharethis-inline-share-buttons" data-url=""></div>
 						</div>
 						<hr />
 						<div class="share_article_url">

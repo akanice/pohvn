@@ -32,6 +32,7 @@
 										<div class="header-list-style"> 
 											<h2 class="entry-title grid-title"><a href="<?=base_url($item->alias)?>"><?=@$item->title?></a></h2>
 											<div class="grid-post-box-meta">
+											 
 											<span><i class="fa fa-calendar"></i> <time class="entry-date published"><?php echo date_format(date_create($item->create_time),"d/m/Y"); ?></time></span></div>
 										</div>
 										<div class="item-content entry-content">

@@ -16,6 +16,7 @@ class Cronjob extends MY_Controller{
     public function index(){
 		$this->load->model('newsmodel');
 		$this->load->model('newscategorymodel');
+		$this->load->model('newsordermodel');
 		$this->load->model('configsmodel');
 		$news_data = $this->newsmodel->read(array(),array(),false);
 		$cats_data = $this->newscategorymodel->read(array(),array(),false);
@@ -58,7 +59,25 @@ class Cronjob extends MY_Controller{
             // $this->configsmodel->create($data_array,true);
 			// echo $item->id.'---';
 		// }
-		phpinfo();
+		
+		//Re-order for table: news
+		// $i=1;
+		// foreach ($news_data as $item) {
+			// $this->newsmodel->update(array('order'=>$i),array('id'=>$item->id));
+			// $i++;
+			// echo $item->id.'---';
+		// }
+		
+		//phpinfo();
+		// foreach ($cats_data as $item) {
+			// $data = array(
+				// 'categoryid' => $item->id,
+				// 'news_array' => '',
+				// 'news_array' => '["0"]',
+			// );
+			// $this->newsordermodel->create($data);
+		// }
+
 		echo 'Hiện giờ là: '.date('Y-m-d H:i:s', time());
 		echo '<hr>';
 		

@@ -3,6 +3,11 @@ $(document).ready(function() {
 	$('#share_link_input').val(share_link);
 	url = share_link;
 	$('.sharethis-inline-share-buttons').attr('data-url', share_link);
+	
+	$('#search_button').click(function() {
+		$('#search_mobile').toggle({ effect: "scale", direction: "horizontal" });
+	})
+		
 }); 
 
 function copyClipboard() {

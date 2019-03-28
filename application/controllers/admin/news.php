@@ -19,10 +19,9 @@ class News extends MY_Controller{
 	}
     public function index(){
         $this->data['title']    = 'Quản lý tin tức';
-		//$test = $this->newsmodel->getListNews($this->input->get('name'),$this->input->get('category'),"","");
 		$this->data['newscategory'] = $this->newscategorymodel->read();
 		
-		$total = count($this->newsmodel->getListNews($this->input->get('title'),$this->input->get('category'),"",""));
+		$total = count($this->newsmodel->getListNews($this->input->get('title'),"",$this->input->get('category'),"",""));
         $this->data['title'] = $this->input->get('title');
         $this->data['category'] = $this->input->get('category');
         if($this->data['title'] != "" || $this->data['category'] != ""){
@@ -58,9 +57,9 @@ class News extends MY_Controller{
         $start = ($page_number - 1) * $config['per_page'];
         $this->data['page_links'] = $this->pagination->create_links();
         if($this->data['title'] != "" || $this->data['category'] != ""){
-            $this->data['list'] = $this->newsmodel->getListNews($this->input->get('title'),$this->input->get('category'),$config['per_page'],$start);
+            $this->data['list'] = $this->newsmodel->getListNews($this->input->get('title'),"",$this->input->get('category'),$config['per_page'],$start);
         }else{
-            $this->data['list'] = $this->newsmodel->getListNews("","",$config['per_page'],$start);
+            $this->data['list'] = $this->newsmodel->getListNews("","","",$config['per_page'],$start);
         }
 		
         $this->data['base'] = site_url('admin/news/');
@@ -74,45 +73,36 @@ class News extends MY_Controller{
 		$this->data['title']    = 'Thêm mới bài viết';
 		$this->data['list_cat_id'] = $this->newscategorymodel->getSortedCategories();
 		if($this->input->post('submit') != null){
-            $uploaddir = '/assets/uploads/images/articles/';
-			
-			// if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir, 0777, true);
-                    // $this->load->library("upload");
-                    // $from = $_FILES['banner_' . $cid['cat_id']]['tmp_name'];
-					// $to = $_SERVER['DOCUMENT_ROOT'] . $uploaddir . '/' . basename($_FILES['banner_' . $cid['cat_id']]['name']);
-                    // if (move_uploaded_file($from, $to)) {
-						// $image = $uploaddir . '/' . $_FILES['banner_' . $cid['cat_id']]['name'];
-                        // $data[$cid['cat_id']] = array(
-                            // "value" => $image,
-                        // );
-			
+            $uploaddir = '/assets/uploads/images/articles';
+
             if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
             $this->load->library("upload");
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].$uploaddir . basename($_FILES['image']['name']))) {
-                $image = $uploaddir . $_FILES['image']['name'];
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].$uploaddir . '/' . basename($_FILES['image']['name']))) {
+                $image = $uploaddir . '/' . $_FILES['image']['name'];
             }
             else{
                 $image = '';
             }
 			//Create thumb
 			if ($image != '') {
-				$dir_thumb = 'assets/uploads/images/thumb/';
+				$dir_thumb = '/assets/uploads/images/thumb';
 				if (!file_exists($dir_thumb) || !is_dir($dir_thumb)) mkdir($dir_thumb,0777,true);
 				$this->load->library('image_lib');
 				$config2 = array();
 				$config2['image_library'] = 'gd2';
-				$config2['source_image'] = $image;
-				$config2['new_image'] = $dir_thumb;
+				$config2['source_image'] = $_SERVER['DOCUMENT_ROOT'].$image;
+				$config2['new_image'] = $_SERVER['DOCUMENT_ROOT'].$dir_thumb;
 				$config2['create_thumb'] = TRUE;
 				$config2['maintain_ratio'] = TRUE;
 				$config2['width'] = 300;
-				$config2['height'] = 300;
-				$this->image_lib->clear();
+				$config2['height'] = 300;$this->image_lib->clear();
 				$this->image_lib->initialize($config2);
+				
 				if(!$this->image_lib->resize()){
 					print $this->image_lib->display_errors();
+					$image_thumb = $image;
 				}else{
-					$image_thumb = $dir_thumb.basename($_FILES['image']['name'], '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION)) . '_thumb.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+					$image_thumb = $dir_thumb . '/' . basename($_FILES['image']['name'], '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION)) . '_thumb.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
 				}
 			} else {
 				$image = '/assets/uploads/sample_thumb.png';
@@ -126,6 +116,7 @@ class News extends MY_Controller{
 				"content" => $this->input->post("content"),
                 "image" => $image,
 				"thumb" => $image_thumb,
+				"author_id" => $this->session->userdata('adminid'),
 				"description" => $this->input->post("description"),
 				"meta_title" => $this->input->post("meta_title"),
 				"meta_description" => $this->input->post("meta_description"),
@@ -133,11 +124,11 @@ class News extends MY_Controller{
 				"type" => $this->input->post("type"),
 				"create_time" => date('Y-m-d H:i:s', time()),
 			);
-			print_r($data);die();
+
 			$news_id = $this->newsmodel->create($data);
 			$this->newsmodel->update(array('order'=>$news_id),array('id'=>$news_id));
 			
-			redirect(base_url() . "admin/news");
+			redirect(base_url() . "admin/news/edit/".$news_id);
 			exit();
         } else {
             $this->load->view('admin/common/header',$this->data);
@@ -152,40 +143,45 @@ class News extends MY_Controller{
         $this->data['news'] = $this->newsmodel->read(array('id'=>$id),array(),true);
 		$this->data['news']->categoryid = json_decode($this->data['news']->categoryid);
         if($this->input->post('submit') != null){
-			$uploaddir = '/assets/uploads/images/articles/';
+			$uploaddir = '/assets/uploads/images/articles';
 			if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
 			$this->load->library("upload");
 			if(isset($_FILES['image']) && count($_FILES['image']) > 0 && $_FILES['image']['name'] != "") {
-				if (move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].$uploaddir . basename($_FILES['image']['name']))) {
-					$image = $uploaddir . $_FILES['image']['name'];
+				if (move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].$uploaddir . '/' . basename($_FILES['image']['name']))) {
+					$image = $uploaddir . '/' . $_FILES['image']['name'];
+					
 				} else{
 					$image = $this->data['news']->image;
 					$image_thumb = $this->data['news']->thumb;
 				}
-				
-                //Create thumb
-                $dir_thumb = 'assets/uploads/thumb/';
-                if (!file_exists($dir_thumb) || !is_dir($dir_thumb)) mkdir($dir_thumb,0777,true);
-                $this->load->library('image_lib');
-                $config2 = array();
-                $config2['image_library'] = 'gd2';
-                $config2['source_image'] = $image;
-                $config2['new_image'] = $dir_thumb;
-                $config2['create_thumb'] = TRUE;
-                $config2['maintain_ratio'] = TRUE;
-                $config2['width'] = 300;
-                $config2['height'] = 300;
-                $this->image_lib->clear();
-                $this->image_lib->initialize($config2);
-                if(!$this->image_lib->resize()){
-                    print $this->image_lib->display_errors();
-                }else{
-                    $image_thumb = $dir_thumb.basename($_FILES['image']['name'], '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION)) . '_thumb.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-                }
-            } else {
-                $image = $this->data['news']->image;
-                $image_thumb = $this->data['news']->thumb;
-            }
+			}	
+			
+			//Create thumb
+			if ($image != '') {
+				$dir_thumb = '/assets/uploads/images/thumb';
+				if (!file_exists($dir_thumb) || !is_dir($dir_thumb)) mkdir($dir_thumb,0777,true);
+				$this->load->library('image_lib');
+				$config2 = array();
+				$config2['image_library'] = 'gd2';
+				$config2['source_image'] = $_SERVER['DOCUMENT_ROOT'].$image;
+				$config2['new_image'] = $_SERVER['DOCUMENT_ROOT'].$dir_thumb;
+				$config2['create_thumb'] = TRUE;
+				$config2['maintain_ratio'] = TRUE;
+				$config2['width'] = 300;
+				$config2['height'] = 300;$this->image_lib->clear();
+				$this->image_lib->initialize($config2);
+			
+				if(!$this->image_lib->resize()){
+					print $this->image_lib->display_errors();
+					$image_thumb = $image;
+				}else{
+					$image_thumb = $dir_thumb . '/' . basename($_FILES['image']['name'], '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION)) . '_thumb.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+				}
+			} else {
+				$image = $this->data['news']->image;
+				$image_thumb = $this->data['news']->thumb;
+			}
+			
 			$categories = $this->input->post("category");
             $data = array(
 				"title" => $this->input->post("title"),
@@ -202,8 +198,10 @@ class News extends MY_Controller{
 				"create_time" => date('Y-m-d H:i:s', time()),
 			);
             $this->newsmodel->update($data,array('id'=>$id));
-            redirect(base_url() . "admin/news");
-            exit();
+			
+			//Re-data
+			redirect(base_url() . "admin/news/edit/".$id);
+			exit();
         } else {
             $this->load->view('admin/common/header',$this->data);
             $this->load->view('admin/news/edit');
