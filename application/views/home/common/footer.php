@@ -2,7 +2,7 @@
 		<div class="container">
 			<div class="col-sm-12">
 				<div class="copyright center">
-					<h6>© Copyright by CRTeam 2015</h6>
+					<h6>© Copyright by POH 2015</h6>
 				</div>
 			</div>
 		</div>

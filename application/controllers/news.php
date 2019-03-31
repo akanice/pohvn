@@ -65,7 +65,7 @@ class News extends MY_Controller {
 		}
 		$post_id = $this->data['new']->id;
         $content = $this->data['new']->content;
-		$content = $this->convertYoutube($content);
+		$this->data['new']->content = $this->convertYoutube($content);
         //TODO - do short code here
         foreach($arrShortCode as $shortCodeStr => $funcName) {
             $shortCodePos = strrpos($content, $shortCodeStr);
@@ -143,7 +143,7 @@ class News extends MY_Controller {
 		$news_array = $this->newsordermodel->read(array('categoryid'=>$this->data['news_category']->id),array(),true)->news_array;
 		$news_array = json_decode($news_array);
         $total = $this->newsmodel->readCountNew($news_category->id);
-        $per_page = 4;
+        $per_page = 12;
         $this->configPagination($slug = 'category', $per_page, $alias, $total);
         $page_number = $this->uri->segment(3);
         if (empty($page_number)) $page_number = 1;
@@ -231,4 +231,5 @@ class News extends MY_Controller {
 		$html = $this->newscategorymodel->read(array('id'=>$category_id),array(),true)->banner_top_display;
 		return $html;
     }
+	
 }

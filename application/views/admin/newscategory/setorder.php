@@ -61,7 +61,7 @@
                                 <label class="col-sm-3 control-label"></label>
 								<div class="col-sm-6">
 									<input type="submit" class="btn btn-primary btn-fill btn-wd" name="submit" value="Lưu lại">
-									<a href="javascript:window.history.go(-1);" class="btn btn-default">Hủy</a>
+									<a href="javascript:window.history.go(-1);" class="btn btn-default btn-fill">Hủy</a>
 								</div>
 							</div>
                         </form>

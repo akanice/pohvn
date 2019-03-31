@@ -108,11 +108,12 @@ class News extends MY_Controller{
 				$image = '/assets/uploads/sample_thumb.png';
 				$image_thumb = '/assets/uploads/sample_thumb.png';
 			}
-			$categories = $this->input->post("category");
+			$categories = json_encode($this->input->post("category"));
+			if (!$categories) {$categories = '["0"]';}
             $data = array(
 				"title" => $this->input->post("title"),
 				"alias" => make_alias($this->input->post("title")),
-				"categoryid" => json_encode($categories),
+				"categoryid" => $categories,
 				"content" => $this->input->post("content"),
                 "image" => $image,
 				"thumb" => $image_thumb,
@@ -182,11 +183,12 @@ class News extends MY_Controller{
 				$image_thumb = $this->data['news']->thumb;
 			}
 			
-			$categories = $this->input->post("category");
+			$categories = json_encode($this->input->post("category"));
+			if (!$categories) {$categories = '["0"]';}
             $data = array(
 				"title" => $this->input->post("title"),
 				"alias" => make_alias($this->input->post("title")),
-				"categoryid" => json_encode($categories),
+				"categoryid" => $categories,
 				"content" => $this->input->post("content"),
                 "image" => $image,
 				"thumb" => $image_thumb,

@@ -79,8 +79,7 @@
 					</a>
 					<div class="collapse" id="collapseExample" aria-expanded="false">
 						<ul class="nav">
-							<li><a href="#">My Profile</a></li>
-							<li><a href="#">Edit Profile</a></li>
+							<li><a href="<?=base_url('admin/profiles');?>">Edit Profile</a></li>
 							<li><a href="<?=base_url('admin/logout')?>">Logout</a></li>
 						</ul>
 					</div>

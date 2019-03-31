@@ -223,18 +223,22 @@ class NewsModel extends MY_Model {
                 $result[$n] = $value;
                 $cat_array = json_decode($value->categoryid);
                 $v = array();
-                foreach ($cat_array as $key => $value2) {
-                    $this->db->select('news_category.id,news_category.title,news_category.alias');
-                    $this->db->where('news_category.id', $value2);
-                    $query3 = $this->db->get('news_category')->row();
+				if (!in_array("0", $cat_array)) {
+					foreach ($cat_array as $key => $value2) {
+						$this->db->select('news_category.id,news_category.title,news_category.alias');
+						$this->db->where('news_category.id', $value2);
+						$query3 = $this->db->get('news_category')->row();
 
-                    $x[$key]['id'] = $query3->id;
-                    $x[$key]['title'] = $query3->title;
-                    $x[$key]['alias'] = $query3->alias;
+						$x[$key]['id'] = $query3->id;
+						$x[$key]['title'] = $query3->title;
+						$x[$key]['alias'] = $query3->alias;
 
-                    $v[] = $x[$key];
-                }
-                $result[$n]->categoryid = ($v);
+						$v[] = $x[$key];
+					}
+					$result[$n]->categoryid = ($v);
+				} else {
+					$result[$n]->categoryid = '';
+				}
             }
             return $result;
         } else {

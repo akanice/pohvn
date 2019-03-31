@@ -71,6 +71,7 @@ $route['admin/options/(:num)']          				=	'admin/options/index/$1';
 $route['admin/sliders/(:num)']          				=	'admin/sliders/index/$1';
 $route['admin/faqs/(:num)']							=	'admin/faqs/index/$1';
 $route['admin/tag/(:num)']								=	'admin/tag/index/$1';
+$route['admin/profiles/(:num)']						=	'admin/profiles/index/$1';
 $route['admin/widget/(:num)']						=	'admin/widget/$1';
 $route['admin/access_denied']               		=	'admin/main/access_denied';
 

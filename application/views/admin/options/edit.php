@@ -65,7 +65,7 @@
 											</div>
 										<?php }elseif($option->type == "ckeditor"){?>
 											<div class="col-sm-10">
-												<textarea class="form-control ckeditor" name="value"><?=@$option->value?></textarea>
+												<textarea class="form-control" id="editor1" name="value" rows="10"><?=@$option->value?></textarea>
 											</div>
 										<?php }elseif ($option->type == 'advertise'){?>
 										<div class="col-sm-10">

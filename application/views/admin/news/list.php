@@ -71,11 +71,11 @@
 											<td><?=@$item->title?> <img src="<?=@base_url($item->thumb)?>" width="18px" height="18px" class="img-circle"></td>
 											<td><a href="<?=@base_url($item->alias)?>" class="btn btn-fill btn-sm btn-info" target="_blank"><i class="fa fa-pencil"></i> Xem</a></td>
 											<td>
-												<?php if (isset($item->categoryid) && ($item->categoryid != ''))
+												<?php if (isset($item->categoryid) && ($item->categoryid != '')) {
 													$space='';foreach ($item->categoryid as $n) { 
 													?>
 												<?=$space?><a href="<?=base_url().'admin/news/?title=&category='.$n['id']?>"><?=@$n['title']?></a> 
-												<?php $space=', ';} ?>
+												<?php $space=', ';}} ?>
 											</td>
 											<td><?=@$item->count_view?></td>
 											<td style="text-align: center"><a href="<?=@base_url('admin/news/edit/'.$item->id)?>"><i class="fa fa-pencil"></i> Sửa</a> | <a href="<?=@base_url('admin/news/delete/'.$item->id)?>" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')" ><i class="fa fa-trash"></i> Xóa</a></td>

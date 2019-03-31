@@ -97,6 +97,13 @@ class NewsCategory extends MY_Controller{
 				),
 			);
             $this->configsmodel->create($data_array,true);
+			
+			$this->load->model(newsordermodel);
+			$data_array2 = array(
+				'categoryid' => $id,
+				'news_array' => '["0"]',
+			);
+			$this->newsordermodel->create($data);
             redirect(base_url() . "admin/newscategory");
             exit();
         }
@@ -165,8 +172,25 @@ class NewsCategory extends MY_Controller{
 				$this->load->view('admin/common/footer');
 			}
 		} else {
-			print_r('Hello');die();
-			$this->data['newscategory'] = $this->newscategory->getNewsOrderedInCat();
+			// General page
+			
+			$categories_data = $this->newsordermodel->read(array(),array(),false);
+			foreach ($categories_data as $key=>$catItem) {
+				if ($catItem->news_array && $catItem->news_array != null) {
+					$catItem->news_array = json_decode($catItem->news_array);
+					$news_cat_data[$key]['catdata']['id'] = $catItem->categoryid;
+					$news_cat_data[$key]['catdata']['title'] = $this->newscategorymodel->read(array('id'=>$catItem->categoryid),array(),true)->title;
+					$news_cat_data[$key]['catdata']['alias'] = $this->newscategorymodel->read(array('id'=>$catItem->categoryid),array(),true)->alias;
+					foreach ($catItem->news_array as $newID) {
+						if ($newID != '0') {
+							$news_cat_data[$key]['newsdata'][] = $this->newsmodel->read(array('id'=>$newID),array(),true)->title;
+						}
+					}
+				}
+			}
+			$this->data['news_cat_data'] = $news_cat_data;
+			//print_r($news_cat_data);die();
+			//$this->data['newscategory'] = $this->newscategory->getNewsOrderedInCat();
 			$this->load->view('admin/common/header',$this->data);
             $this->load->view('admin/newscategory/setorder_list');
             $this->load->view('admin/common/footer');

@@ -173,6 +173,7 @@ class Orders extends MY_Controller{
         $rowCount = 2;
         foreach ($results as $element) {
             $objPHPExcel->getActiveSheet()->SetCellValue('A' . $rowCount, $element['customer_name']);
+			$objPHPExcel->getActiveSheet()->getStyle('B' . $rowCount)->getNumberFormat()->setFormatCode( PHPExcel_Style_NumberFormat::FORMAT_TEXT );
             $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount, $element['customer_phone']);
             $objPHPExcel->getActiveSheet()->SetCellValue('C' . $rowCount, $element['customer_email']);
             $objPHPExcel->getActiveSheet()->SetCellValue('D' . $rowCount, $element['customer_address']);
