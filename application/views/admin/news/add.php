@@ -60,6 +60,16 @@
                                 </div>
                             </div>
 							<div class="form-group">
+                                <label class="col-sm-2 control-label">Thêm Tags</label>
+                                <div class="col-sm-10">
+                                    <select data-placeholder="Chọn tags..." class="chosen-select form-control" multiple style="width:100%;" tabindex="4" name="tags[]">
+                                        <?php foreach($tags as $a){?>
+											<option value="<?=$a->id?>"><?=$a->name?></option>
+                                        <?php }?>
+                                    </select>
+                                </div>
+                            </div>
+							<div class="form-group">
                                 <label class="col-sm-2 control-label">Thẻ meta title</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="meta_title">
@@ -130,3 +140,8 @@
         </div>
         <!-- END PAGE -->
     </div>
+	<script type="text/javascript">
+        $(document).ready(function () {
+            $(".chosen-select").chosen({});
+        });
+    </script>

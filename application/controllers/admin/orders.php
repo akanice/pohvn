@@ -28,7 +28,23 @@ class Orders extends MY_Controller{
         $config['uri_segment'] = 3;
         $config['per_page'] = 30;
         $config['num_links'] = 5;
-        $config['use_page_numbers'] = TRUE;
+		$config['use_page_numbers'] = TRUE;
+        $config["num_tag_open"] = "<p class='paginationLink'>";
+        $config["num_tag_close"] = '</p>';
+        $config["cur_tag_open"] = "<p class='currentLink'>";
+        $config["cur_tag_close"] = '</p>';
+        $config["first_link"] = "First";
+        $config["first_tag_open"] = "<p class='paginationLink'>";
+        $config["first_tag_close"] = '</p>';
+        $config["last_link"] = "Last";
+        $config["last_tag_open"] = "<p class='paginationLink'>";
+        $config["last_tag_close"] = '</p>';
+        $config["next_link"] = "Next";
+        $config["next_tag_open"] = "<p class='paginationLink'>";
+        $config["next_tag_close"] = '</p>';
+        $config["prev_link"] = "Back";
+        $config["prev_tag_open"] = "<p class='paginationLink'>";
+        $config["prev_tag_close"] = '</p>';
         $this->pagination->initialize($config);
         $page_number = $this->uri->segment(3);
         if (empty($page_number)) $page_number = 1;
@@ -173,12 +189,12 @@ class Orders extends MY_Controller{
         $rowCount = 2;
         foreach ($results as $element) {
             $objPHPExcel->getActiveSheet()->SetCellValue('A' . $rowCount, $element['customer_name']);
-			$objPHPExcel->getActiveSheet()->getStyle('B' . $rowCount)->getNumberFormat()->setFormatCode( PHPExcel_Style_NumberFormat::FORMAT_TEXT );
             $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount, $element['customer_phone']);
             $objPHPExcel->getActiveSheet()->SetCellValue('C' . $rowCount, $element['customer_email']);
             $objPHPExcel->getActiveSheet()->SetCellValue('D' . $rowCount, $element['customer_address']);
-            $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount, $element['note']);
-            $objPHPExcel->getActiveSheet()->SetCellValue('F' . $rowCount, date('d/m/Y H:i:s',$element['create_time']));
+            $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount, $element['birth_expect']);
+            $objPHPExcel->getActiveSheet()->SetCellValue('F' . $rowCount, $element['note']);
+            $objPHPExcel->getActiveSheet()->SetCellValue('G' . $rowCount, date('d/m/Y H:i:s',$element['create_time']));
             $rowCount++;
         }
         $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);

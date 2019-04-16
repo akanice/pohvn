@@ -1,3 +1,39 @@
+	<div class="footer">
+		<div class="container">
+			<div class="row clearfix">
+				<div class="col-sm-7 col-xs-12">
+					<h3 class="title">Về chúng tôi</h3>
+					<p>Với mong muốn sẻ chia một phần trách nhiệm với các bố các mẹ và trở thành người bạn đồng hành tin cậy của ba mẹ, POH hy vọng có thể giúp các bậc phụ huynh giải quyết các vấn đề của con trẻ ở các giai đoạn khác nhau, để nuôi dạy con thành người.</p>
+					<div class="row clearfix">
+						<div class="col-sm-4">
+							<img class="" src="/wp-content/uploads/2018/05/POH_Official_Logo-300x179.png" width="142" height="85">
+						</div>
+						<div class="col-sm-8">
+							<p><strong>Điện thoại:</strong> 0868982215<br>
+							<strong>Email:</strong> phucvu.poh@gmail.com<br>
+							<strong>Địa chỉ:</strong> Số 18H, Ngõ 173/175 Hoàng Hoa Thám, Hà Nội, 100000</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<h3 class="title">Bài mới nhất</h3>
+					<ul class="footer_menu">
+						<?php foreach ($newest_articles as $item) {?>
+						<li class="nav-item"><a href="<?=base_url($item->alias)?>"><?=$item->title?></a></li>
+						<?php } ?>
+					</ul>
+				</div>
+				<div class="col-sm-2">
+					<h3 class="title">Khác</h3>
+					<?php 
+					$this->menusmodel->setup_footer_menu();
+					$this->multi_menu->set_items($footer_menu);
+					echo $this->multi_menu->render(); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<footer>
 		<div class="container">
 			<div class="col-sm-12">

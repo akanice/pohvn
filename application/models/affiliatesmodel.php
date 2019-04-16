@@ -274,6 +274,7 @@ class Affiliatesmodel extends MY_Model {
         // $this->db->where('create_time >=', $from);
         // $this->db->where('create_time <=', $to);
         $this->db->where('user_id', $userId);
+        $this->db->where('status', 'confirmed');
         $res = $this->db->get('affiliate_transactions',$limit);
         $result = $res ? $res->result() : array();
         return sizeof($result) > 0 ? $result : array();

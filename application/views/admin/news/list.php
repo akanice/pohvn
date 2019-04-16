@@ -34,7 +34,7 @@
 							<div class="widget-title">
 								<h4>Quản lý tin tức</h4>
 							</div>
-							<div class="widget-body">
+							<div class="widget-body table-responsive">
 								<table class="table table-striped table-bordered" id="sample_1">
 									<thead>
 									<tr>

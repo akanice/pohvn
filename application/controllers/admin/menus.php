@@ -38,7 +38,9 @@ class Menus extends MY_Controller{
 		if ($this->input->post('slug')) $slug = $this->input->post('slug');
 		switch ($type_url) {
 			case "t_landing":
-				$slug = 'landing/'.$slug;
+				$this->load->model('newsmodel');
+				$alias = $this->newsmodel->read(array('id'=>$slug),array(),true)->alias;
+				$slug = '/'.$alias;
 				break;
 			case "t_cat":
 				$this->load->model('newscategorymodel');
@@ -48,15 +50,18 @@ class Menus extends MY_Controller{
 					//$cat_alias = $cat_parent_data->alias.'/'.$cat_data->alias;
 				// }
 				$cat_alias = $cat_data->alias;
-				$slug = 'category/'.$cat_alias;
+				$slug = '/category/'.$cat_alias;
 				break;
 			case "t_page":
 				$this->load->model('pagesmodel');
 				$cat_alias = $this->pagesmodel->read(array('id'=>$slug),array(),true)->alias;
-				$slug = 'page/'.$cat_alias;
+				$slug = '/page/'.$cat_alias;
+				break;
+			case "t_link":
+				$slug = $slug;
 				break;
 			default:
-				$slug = '#';
+				$slug = '/#';
 		}		
 		
         if($this->input->post('submit') != null){

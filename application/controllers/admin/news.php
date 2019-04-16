@@ -15,6 +15,8 @@ class News extends MY_Controller{
         $this->data['all_user_data'] = $this->session->all_userdata();
         $this->load->model('newsmodel');
         $this->load->model('newscategorymodel');
+        $this->load->model('tagsmodel');
+        $this->load->model('tagstermmodel');
 		//$this->load->library('auth');
 	}
     public function index(){
@@ -72,6 +74,7 @@ class News extends MY_Controller{
     public function add() {
 		$this->data['title']    = 'Thêm mới bài viết';
 		$this->data['list_cat_id'] = $this->newscategorymodel->getSortedCategories();
+		$this->data['tags'] = $this->tagsmodel->read();
 		if($this->input->post('submit') != null){
             $uploaddir = '/assets/uploads/images/articles';
 
@@ -110,6 +113,7 @@ class News extends MY_Controller{
 			}
 			$categories = json_encode($this->input->post("category"));
 			if (!$categories) {$categories = '["0"]';}
+			$tags = json_encode($this->input->post("tags"));
             $data = array(
 				"title" => $this->input->post("title"),
 				"alias" => make_alias($this->input->post("title")),
@@ -128,6 +132,7 @@ class News extends MY_Controller{
 
 			$news_id = $this->newsmodel->create($data);
 			$this->newsmodel->update(array('order'=>$news_id),array('id'=>$news_id));
+			$this->db->insert('news_tags',array('new_id'=>$news_id,'tag_id'=>$tags));
 			
 			redirect(base_url() . "admin/news/edit/".$news_id);
 			exit();
@@ -141,6 +146,8 @@ class News extends MY_Controller{
     public function edit($id) {
 		$this->data['title']    = 'Sửa bài viết';
 		$this->data['newscategory'] = $this->newscategorymodel->getSortedCategories();
+		$this->data['tags'] = $this->tagsmodel->read();
+		$this->data['new_tags'] = @json_decode($this->tagstermmodel->read(array('new_id'=>$id),array(),true)->tag_id);
         $this->data['news'] = $this->newsmodel->read(array('id'=>$id),array(),true);
 		$this->data['news']->categoryid = json_decode($this->data['news']->categoryid);
         if($this->input->post('submit') != null){
@@ -184,6 +191,7 @@ class News extends MY_Controller{
 			}
 			
 			$categories = json_encode($this->input->post("category"));
+			$tags = json_encode($this->input->post("tags"));
 			if (!$categories) {$categories = '["0"]';}
             $data = array(
 				"title" => $this->input->post("title"),
@@ -200,7 +208,14 @@ class News extends MY_Controller{
 				"create_time" => date('Y-m-d H:i:s', time()),
 			);
             $this->newsmodel->update($data,array('id'=>$id));
-			
+			if ($this->tagstermmodel->read(array('new_id'=>$id),array(),true)) {
+				$data2 = array(
+					"tag_id" => $tags,
+				);
+				$this->tagstermmodel->update($data2,array('new_id'=>$id));
+			} else {
+				$this->db->insert('news_tags',array('new_id'=>$id,'tag_id'=>$tags));
+			}
 			//Re-data
 			redirect(base_url() . "admin/news/edit/".$id);
 			exit();

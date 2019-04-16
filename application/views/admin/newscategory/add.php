@@ -47,15 +47,17 @@
                                 <label class="col-sm-3 control-label">Danh mục cha</label>
                                 <div class="col-sm-9">
                                     <select class="input-large m-wrap form-control" name="parent_id">
-										<option value="0">--- Trống ---</option>
-										<?php foreach ($categories as $c) {?>
-                                        <option value="<?=$c->id?>"><?=$c->title?>
-											<?php if(!empty($c->sub_cat)) { 
-												echo '</option>';
-												foreach ($c->sub_cat as $sub)  {?>
-													<option value="<?=$sub->id?>">--- <?=$sub->title?></option>
-											<?php } }?>
-										<?php } ?>
+										
+										<option value="0">-- Trống --</option>
+                                        <?php if (!empty($parents)) foreach($parents as $parent){?>
+										<?php
+											$indent = "";
+											for ($i = 1; $i < $parent['level']; $i++) {
+												$indent .= "|-- ";
+											}
+										?>
+                                            <option value="<?=@$parent['id']?>"><?=@$indent.$parent['title']?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>

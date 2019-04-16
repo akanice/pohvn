@@ -70,7 +70,7 @@ $route['admin/customers/(:num)']					=	'admin/customers/index/$1';
 $route['admin/options/(:num)']          				=	'admin/options/index/$1';
 $route['admin/sliders/(:num)']          				=	'admin/sliders/index/$1';
 $route['admin/faqs/(:num)']							=	'admin/faqs/index/$1';
-$route['admin/tag/(:num)']								=	'admin/tag/index/$1';
+$route['admin/tags/(:num)']							=	'admin/tags/index/$1';
 $route['admin/profiles/(:num)']						=	'admin/profiles/index/$1';
 $route['admin/widget/(:num)']						=	'admin/widget/$1';
 $route['admin/access_denied']               		=	'admin/main/access_denied';
@@ -87,7 +87,7 @@ $route['category/(:any)']									=	"news/category/$1";
 $route['category/(:any)/(:num)']						=	"news/category/$1/$2";
 
 $route['page/(:any)'] 										= 	"home/page";
-$route['affiliate-user']									=	"user/main/affiliateUserInfo";
+$route['thanh-vien-lien-ket']							=	"user/main/affiliateUserInfo";
 $route['dang-nhap']										=	"user/main/loginUser";
 $route['dang-ky']											=	"user/main/signUpUser";
 $route['dang-ky-thanh-cong']							=	"user/main/regSuccessfully";

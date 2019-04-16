@@ -168,7 +168,7 @@ class NewsModel extends MY_Model {
 					left join news_category on news.categoryid= news_category.id
 					left join admins on news.author_id = admins.id
 					where news.type = 'default' and news.id not in ". $news_array_sql . " and news.categoryid like '%"  . $category . "%')
-					ORDER BY Priority,FIELD( id," . $news_array_pure . ")
+					ORDER BY Priority,FIELD( id," . $news_array_pure . "), id desc
 				limit " . $limit . " offset " . $offset);
 			} else {
 				$query = $this->db->query("
@@ -183,7 +183,7 @@ class NewsModel extends MY_Model {
 					left join news_category on news.categoryid= news_category.id
 					left join admins on news.author_id = admins.id
 					where news.type = 'default' and news.id not in ". $news_array_sql . ")
-					ORDER BY Priority,FIELD( id," . $news_array_pure . ")
+					ORDER BY Priority,FIELD( id," . $news_array_pure . "), id desc
 				limit " . $limit . " offset " . $offset);
 			}
 		} else {
@@ -197,23 +197,6 @@ class NewsModel extends MY_Model {
 			}
 			$query = $this->db->get('news', $limit, $offset);
 		}
-        // Method 2
-		// $query = $this->db->query("
-				// (select news.*, admins.name as author_name, 0 as Priority
-				// from news
-				// left join news_category on news.categoryid= news_category.id
-				// left join admins on news.author_id = admins.id
-				// where news.type = 'default' and news.id in " . $news_array_sql . " and news.categoryid like '%"  . $category . "%')
-			// union
-				// (select news.*, admins.name as author_name, 1 as Priority
-				// from news
-				// left join news_category on news.categoryid= news_category.id
-				// left join admins on news.author_id = admins.id
-				// where news.type = 'default' and news.id not in ". $news_array_sql . " and news.categoryid like '%"  . $category . "%')
-				// ORDER BY Priority,FIELD( id," . $news_array_pure . ")
-			// limit " . $limit . " offset " . $offset);
-			
-			// print_r($this->db->last_query());  
 			
 		$result[] = array();
 		$rs_array = $query->result();	
@@ -227,6 +210,7 @@ class NewsModel extends MY_Model {
 					foreach ($cat_array as $key => $value2) {
 						$this->db->select('news_category.id,news_category.title,news_category.alias');
 						$this->db->where('news_category.id', $value2);
+						$this->db->order_by('news_category.id','asc');
 						$query3 = $this->db->get('news_category')->row();
 
 						$x[$key]['id'] = $query3->id;

@@ -34,7 +34,7 @@
                             <div class="widget-title">
                                 <h4>Danh sách thành viên</h4>
                             </div>
-                            <div class="widget-body">
+                            <div class="widget-body table-responsive">
                                 <table class="table table-striped table-bordered" id="sample_1">
                                     <thead>
                                     <tr>
@@ -50,6 +50,7 @@
                                         <th width=''>Còn lại</th>
                                         <th width=''>Tổng</th>
                                         <th width=''>Status</th>
+                                        <th width=''>Hành động</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -67,6 +68,10 @@
                                             <td width=''><?php echo $user->balance; ?></td>
                                             <td width=''><?php echo $user->total_money; ?></td>
                                             <td width=''><?php echo $user->active; ?></td>
+                                            <td width=''>
+												<a href="<?=@base_url('admin/affiliate/edit/'.$user->user_id)?>" class="btn btn-sm btn-fill btn-info"><i class="fa fa-pencil"></i> Xem</a>
+												<a href="<?=@base_url('admin/affiliate/delete/'.$user->user_id)?>" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')" class="btn btn-sm btn-fill" ><i class="fa fa-trash"></i> Xóa</a>
+											</td>
                                         </tr>
                                     <?php } ?>
                                     </tbody>

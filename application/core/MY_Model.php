@@ -284,6 +284,20 @@ class MY_Model extends CI_Model {
 		return $this->multi_menu->initialize($config);
 	}
 	
+	public function setup_footer_menu() {
+		// Set up mega menu
+        $config["nav_tag_open"]				= '<ul class="footer_menu">';     
+		$config["parentl1_tag_open"]		= '<li class="nav-item">';
+		$config["parentl1_anchor"]			= '<a  class="nav-link dropdown-toggle" href="%s">%s<span class="caret"></span></a>';
+		$config["parent_tag_open"]			= '<li class="dropdown-submenu">'; 
+		$config["parent_anchor"]				= '<a href="%s" data-toggle="dropdown" class="nav-link">%s</a>'; 
+		$config["children_tag_open"]			= '<ul class="dropdown-menu">';
+		$config["item_active_class"] 			= 'active';
+		$config["item_tag_open"]     			= '<li class="nav-item">';
+
+		return $this->multi_menu->initialize($config);
+	}
+	
 	public function setup_mobilemenu() {
 		// Set up mega menu
         $config["nav_tag_open"]				= '<ul class="navbar-nav mr-auto">';     

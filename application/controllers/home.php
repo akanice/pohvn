@@ -9,12 +9,20 @@ class Home extends MY_Controller {
         //Get Menu 
         $this->load->model('menusmodel');
 
+		// nav menu
         $nav_data = $this->menusmodel->read(array('menu_id' => '1'));
         $this->data['navmenu'] = json_decode(json_encode($nav_data), true);
+		// footer menu
+		$footer_data = $this->menusmodel->read(array('menu_id' => '2'));
+        $this->data['footer_menu'] = json_decode(json_encode($footer_data), true);
+		
         $this->data['footermenu'] = $this->menusmodel->read(array('menu_id' => 2));
         $this->data['config_navmenu'] = $this->menusmodel->setup_navmenu();
         $this->data['config_mobilemenu'] = $this->menusmodel->setup_mobilemenu();
-
+		
+		$this->load->model('newsmodel');
+		$this->data['newest_articles'] = $this->newsmodel->read(array(),array('id'=>false),false,5);
+		
         //print_r($this->data['config_navmenu']);die();
         $this->load->model('menustermmodel');
         $this->load->model('configsmodel');
@@ -51,10 +59,11 @@ class Home extends MY_Controller {
         $this->data['cat_available'] = $configs['cat_available'] = $this->configsmodel->read(array('name' => 'cat_available'), array(), true)->value;
 
         //meta data
-        $this->data['title'] = @$options['home_meta_title']->value;
-        $this->data['meta_title'] = @$options['home_meta_title']->value;
-        $this->data['meta_description'] = @$options['home_meta_description']->value;
-        $this->data['meta_keywords'] = @$options['home_meta_keywords']->value;
+		
+        $this->data['title'] = @$this->optionsmodel->read(array('name'=>'home_meta_title'),array(),true)->value;
+        $this->data['meta_title'] = @$this->optionsmodel->read(array('name'=>'home_meta_title'),array(),true)->value;
+        $this->data['home_meta_description'] = @$this->optionsmodel->read(array('name'=>'home_meta_description'),array(),true)->value;
+        $this->data['home_meta_keywords'] = @$this->optionsmodel->read(array('name'=>'home_meta_keywords'),array(),true)->value;
 
         $this->load->view('home/common/header', $this->data);
 

@@ -35,7 +35,7 @@
 								<h4>Quản lý danh mục tin tức</h4>
 								<?php //print_r($result);?>
 							</div>
-							<div class="widget-body">
+							<div class="widget-body table-responsive">
 								<table class="table table-striped table-bordered" id="sample_1">
 									<thead>
 									<tr>
@@ -54,20 +54,19 @@
 										</tr>
 									</form>
 									<tbody>
-									<?php if($result) foreach ($result as $item){ ?>
+									<?php if (!empty($result)) foreach($result as $item){?>
 										<tr class="odd gradeX">
-											<td><?=@$item->id?></td>
-											<td>
-												<p><?=@$item->title?></p>
-												<?php if(!empty($item->sub_cat)) { echo '<ul>';
-													foreach ($item->sub_cat as $sub)  {?>
-													<li><a href="<?=@base_url('admin/newscategory/edit/'.$sub->id)?>"><?php echo $sub->title;?></a> <a style="color: #ccc;" href="<?=@base_url('admin/newscategory/delete/'.$item->id)?>" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')" ><i class="fa fa-trash"></i></a></li>
-												<?php } } ?>
-											</td>
-											<td><?=@$item->alias?></td>
-											<td style="text-align: center"><a href="<?=@base_url('admin/newscategory/edit/'.$item->id)?>"><i class="fa fa-pencil"></i> Sửa</a> | <a href="<?=@base_url('admin/newscategory/delete/'.$item->id)?>" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')" ><i class="fa fa-trash"></i> Xóa</a></td>
-										</tr>
-										<?php } ?>
+											<td><?=@$item['id']?></td>
+											<td><?php
+												$indent = "";
+												for ($i = 1; $i < $item['level']; $i++) {
+													($i==1) ? $indent .= "|---" : $indent .= "---";
+												}
+												echo $indent.$item['title'];
+											?></td>
+											<td><?=@$item['alias']?></td>
+											<td style="text-align: center"><a href="<?=@base_url('admin/newscategory/edit/'.$item['id'])?>"><i class="fa fa-pencil"></i> Sửa</a> | <a href="<?=@base_url('admin/newscategory/delete/'.$item['id'])?>" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')" ><i class="fa fa-trash"></i> Xóa</a></td>
+									<?php } ?>
 									</tbody>
 								</table>
 							</div>

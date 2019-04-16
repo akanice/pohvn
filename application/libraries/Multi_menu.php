@@ -423,10 +423,10 @@ class Multi_menu {
 						$item_anchor = $this->parent_anchor;
 		        	}
 
-					$href        = site_url($slug);
+					$href        = ($slug);
 		        } else  {
 		        	$tag_open    = $this->item_tag_open;
-					$href        = site_url($slug);
+					$href        = ($slug);
 					$item_anchor = $this->item_anchor;
 		        }
 

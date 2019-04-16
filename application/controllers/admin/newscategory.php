@@ -50,13 +50,14 @@ class NewsCategory extends MY_Controller{
         if (empty($page_number)) $page_number = 1;
         $start = ($page_number - 1) * $config['per_page'];
         $this->data['page_links'] = $this->pagination->create_links();
-        if($this->data['title'] != ""){
-            $this->data['list'] = $this->newscategorymodel->read(array('title'=>'%'.$this->data['title'].'%'),array('id'=>true),false,$config['per_page'],$start);
-        }else{
-            $this->data['list'] = $this->newscategorymodel->read(array(),array('id'=>true),false,$config['per_page'],$start);
-        }
+        // if($this->data['title'] != ""){
+            // $this->data['list'] = $this->newscategorymodel->read(array('title'=>'%'.$this->data['title'].'%'),array('id'=>true),false,$config['per_page'],$start);
+        // }else{
+            // $this->data['list'] = $this->newscategorymodel->read(array(),array('id'=>true),false,$config['per_page'],$start);
+        // }
 		
-		$this->data['result'] = $this->newscategorymodel->get_categories($config['per_page'],$start);
+		//$this->data['result'] = $this->newscategorymodel->get_categories($this->data['title'],$config['per_page'],$start);
+		$this->data['result'] = $this->newscategorymodel->getSortedCategories($this->data['title']);
 		
         $this->data['base'] = site_url('admin/newscategory/');
         $this->load->view('admin/common/header',$this->data);
@@ -66,7 +67,8 @@ class NewsCategory extends MY_Controller{
 
     public function add() {
 		$this->data['title'] = 'Thêm mới chuyên mục bài viết';
-		$this->data['categories'] = $this->newscategorymodel->get_categories('','');
+		$this->data['categories'] = $this->newscategorymodel->get_categories('','','');
+		$this->data['parents'] = $this->newscategorymodel->getSortedCategories();
 		if($this->input->post('submit') != null){
             $data = array(
                 "title" => $this->input->post("title"),
@@ -116,9 +118,9 @@ class NewsCategory extends MY_Controller{
 
     public function edit($id) {
 		$this->data['title'] = 'Sửa chuyên mục bài viết';
-		$this->data['categories'] = $this->newscategorymodel->get_categories('','');
+		$this->data['categories'] = $this->newscategorymodel->get_categories('','','');
 		$this->data['newscategory'] = $this->newscategorymodel->read(array('id'=>$id),array(),true);
-		
+		$this->data['parents'] = $this->newscategorymodel->getSortedCategories();
         if($this->input->post('submit') != null){
             $data = array(
                 "title" => $this->input->post("title"),

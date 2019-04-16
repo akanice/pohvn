@@ -69,12 +69,12 @@ class Landingpage extends MY_Controller{
 		$this->data['menus'] = $this->menustermmodel->read(array(),array(),false);
 		$this->data['title'] = 'Quản lý Landing Page';
 		if($this->input->post('submit') != null){
-            $uploaddir = 'assets/uploads/images/articles/';
+            $uploaddir = '/assets/uploads/images/articles';
+
             if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
             $this->load->library("upload");
-
-			if (move_uploaded_file($_FILES['image']['tmp_name'], $uploaddir . basename($_FILES['image']['name']))) {
-                $image = $uploaddir . $_FILES['image']['name'];
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].$uploaddir . '/' . basename($_FILES['image']['name']))) {
+                $image = $uploaddir . '/' . $_FILES['image']['name'];
             }
             else{
                 $image = '';
@@ -137,14 +137,19 @@ class Landingpage extends MY_Controller{
 		$this->data['landingpage_commission'] = $this->afflandingconfigmodel->read(array('landingpage_id'=>$this->data['landingpage_data']->id),array(),true);
 		$this->data['pricingPackage'] = json_decode($this->data['landingpage_data']->step_price);
         if($this->input->post('submit') != null){
-            $uploaddir = '/assets/uploads/images/articles/';
-            $this->load->library("upload");
-            if (move_uploaded_file($_FILES['image']['tmp_title'], $uploaddir . basetitle($_FILES['image']['title']))) {
-                $image = $uploaddir . $_FILES['image']['title'];
-            }
-            else{
-                $image = $this->data['landingpage']->image;
-            }
+            $uploaddir = '/assets/uploads/images/articles';
+			if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
+			$this->load->library("upload");
+			if(isset($_FILES['image']) && count($_FILES['image']) > 0 && $_FILES['image']['name'] != "") {
+				if (move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].$uploaddir . '/' . basename($_FILES['image']['name']))) {
+					$image = $uploaddir . '/' . $_FILES['image']['name'];
+					
+				} else{
+					$image = $this->data['landingpage']->image;
+					$image_thumb = $this->data['landingpage']->thumb;
+				}
+			}	
+			
             $data = array(
 				"order" => 1,
 				"title" => $this->input->post("title"),

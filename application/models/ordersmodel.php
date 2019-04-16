@@ -241,9 +241,10 @@ class ordersModel extends MY_Model {
 		$this->db->join('customers', 'orders.customer_id = customers.id', 'left');
 		$this->db->order_by('orders.create_time', 'DESC');
         if($from && $to){
-            $this->db->where('orders.create_time >', strtotime($from));
-            $this->db->where('orders.create_time <', strtotime($to));
+            $this->db->where('orders.create_time >=', strtotime($from));
+            $this->db->where('orders.create_time <=', strtotime($to . "+1 days"));
         }
+		
 		// date('Y-m-d',strtotime("-1 days"));
 		$query = $this->db->get('orders');
         return $query ? $query->result_array() : false;

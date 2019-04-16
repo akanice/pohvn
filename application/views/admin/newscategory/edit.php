@@ -43,14 +43,15 @@
                                 <div class="col-sm-9">
 									<select class="input-large m-wrap form-control" name="parent_id">
 										<option value="0" <?php if($newscategory->parent_id==0){echo 'selected="selected" ';}?>>--- Trống ---</option>
-										<?php foreach ($categories as $c) {?>
-                                        <option value="<?=$c->id?>" <?php if($newscategory->parent_id==$c->id){echo 'selected="selected" ';}?>><?=$c->title?>
-											<?php if(!empty($c->sub_cat)) { 
-												echo '</option>';
-												foreach ($c->sub_cat as $sub)  {?>
-													<option value="<?=$sub->id?>" <?php if($newscategory->parent_id==$sub->id){echo 'selected="selected" ';}?>>--- <?=$sub->title?></option>
-											<?php } }?>
-										<?php } ?>
+										<?php if (!empty($parents)) foreach($parents as $parent){?>
+										<?php
+											$indent = "";
+											for ($i = 1; $i < $parent['level']; $i++) {
+												$indent .= "|-- ";
+											}
+										?>
+                                            <option value='<?=@$parent['id']?>' <?php if($newscategory->parent_id == $parent['id']){echo 'selected="selected" ';}?>><?=@$indent.$parent['title']?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>

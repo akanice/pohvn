@@ -72,7 +72,15 @@ class NewsCategoryModel extends MY_Model {
 		}
 	}
 	
-	public function get_categories($limit,$offset) {
+	public function get_categories($title,$limit,$offset) {
+		if ($title) {
+			$this->db->select('*');
+			$this->db->like('news_category.title',$title);
+			$query = $this->db->get('news_category',$limit,$offset);
+			if($query->num_rows()>0) return $query->result();
+			else return false;
+		}
+		
 		$this->db->where('news_category.parent_id',0);
 		$this->db->order_by('id','desc');
 		$query = $this->db->get('news_category',$limit,$offset);
@@ -102,8 +110,18 @@ class NewsCategoryModel extends MY_Model {
         }
     }
 
-    public function getSortedCategories() {
-        $this->_nForLoop($this->db->get('news_category')->result_array());
+    public function getSortedCategories($title='') {
+        if ($title) {
+			$this->db->select('*');
+			$this->db->like('news_category.title',$title);
+			$this->db->or_like('news_category.alias',$title);
+			$this->db->order_by('id','desc');
+			foreach ($this->db->get('news_category')->result_array() as $key => $value) {
+				$this->_sortedCategories[] = array("id" => $value["id"], "title" => $value["title"], "alias" => $value["alias"], "level" => 1);
+			}
+			return $this->_sortedCategories;
+		}
+		$this->_nForLoop($this->db->get('news_category')->result_array());
         return $this->_sortedCategories;
     }
 

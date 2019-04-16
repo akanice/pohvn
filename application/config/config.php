@@ -25,6 +25,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $config['base_url'] = 'http://poh.com/';
 
+define('HTTP_UPLOAD_IMPORT_PATH', $config['base_url'] . 'assets/uploads/files/');
+define('ROOT_UPLOAD_PATH',  $_SERVER['DOCUMENT_ROOT'] . '/assets/uploads/');
+define('ROOT_UPLOAD_IMPORT_PATH',  $_SERVER['DOCUMENT_ROOT'] . '/assets/uploads/files/');
+define('APPLICATION_NAME', 'CRTEAM');
+define('APPLICATION_URL', 'CRTEAMVN.COM');
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -379,7 +384,7 @@ $config['encryption_key'] = '@CRTEAM@';
 */
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
-$config['sess_expiration'] = 7200;
+$config['sess_expiration'] = 2592000;
 $config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;

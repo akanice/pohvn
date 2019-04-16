@@ -33,3 +33,6 @@
 .color_blue {color: #2980b9}
 .color_red {color: #e74c3c}
 .color_grey {color: #7f8c8d}
+.checkbox .icons, .radio .icons {
+	z-index: 99;
+}

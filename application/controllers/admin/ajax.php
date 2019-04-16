@@ -58,17 +58,26 @@ class ajax extends MY_Controller {
                     $this->load->model('pagesmodel');
                     $data = $this->pagesmodel->read(array());
                     break;
+				case "t_link":
+                    $data = null;
+                    break;
                 default:
                     $data = '';
             }
             if ($data && $data != '') {
-                foreach ($data as $item) {
+                echo '<select name="slug" class="form-control">';
+				foreach ($data as $item) {
                     $title = $item->title;
                     $id = $item->id;
                     echo '<option value="' . $id . '">' . $title . '</option>';
                 }
+				echo '</select>';
+			} elseif ($data === null) {
+				echo '<input type="text" class="form-control" value="" name="slug">';	
             } else {
-                echo '<option value="">--- Chọn ---</option>';
+				echo '<select name="slug" class="form-control">';
+				echo '<option value="">--- Chọn ---</option>';
+				echo '</select>';
             }
         }
     }

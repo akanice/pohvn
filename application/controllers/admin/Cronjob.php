@@ -84,6 +84,9 @@ class Cronjob extends MY_Controller{
         $this->load->view('admin/cronjob/index');
     }
 	
+	public function showImage() {
+		$this->load->view('admin/cronjob/showImage');
+	}
     public function add() {
 		$this->data['title']    = 'Thêm mới bài viết';
 		$this->data['list_cat_id'] = $this->newscategorymodel->getSortedCategories();

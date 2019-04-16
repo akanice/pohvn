@@ -30,7 +30,7 @@
 	<script src="<?=base_url('assets/js/moment.min.js')?>"></script>
     <script src="<?=base_url('assets/js/bootstrap-datetimepicker.js')?>"></script>
     <script src="<?=base_url('assets/js/bootstrap-selectpicker.js')?>"></script>
-	<script src="<?=base_url('assets/js/bootstrap-checkbox-radio-switch-tags.js')?>"></script>
+	<script src="<?=base_url('assets/js/bootstrap-checkbox-radio-switch.js')?>"></script>
 	<script src="<?=base_url('assets/js/chartist.min.js')?>"></script>
     <script src="<?=base_url('assets/js/bootstrap-notify.js')?>"></script>
     <script src="<?=base_url('assets/js/chosen.jquery.min.js')?>"></script>
@@ -95,18 +95,19 @@
 						<p>Dashboard</p>
 					</a>
 				</li>
-				<li class="<?php if (($suffix_uri == 'newscategory') or ($suffix_uri == 'news')) echo 'active';?>">
+				<li class="<?php if (($suffix_uri == 'newscategory') or ($suffix_uri == 'news') or ($suffix_uri == 'tags')) echo 'active';?>">
 					<a data-toggle="collapse" href="#componentsExamples">
 						<i class="pe-7s-plugin"></i>
 						<p>Bài viết
 						   <b class="caret"></b>
 						</p>
 					</a>
-					<div class="collapse <?php if (($suffix_uri == 'newscategory') or ($suffix_uri == 'news') or ($suffix_uri == 'videos')) echo 'in';?>" id="componentsExamples">
+					<div class="collapse <?php if (($suffix_uri == 'newscategory') or ($suffix_uri == 'news') or ($suffix_uri == 'setorder') or ($suffix_uri == 'tags')) echo 'in';?>" id="componentsExamples">
 						<ul class="nav">
 							<li class="<?php if ($suffix_uri == 'newscategory') echo 'active'?>"><a href="<?=base_url('admin/newscategory')?>">Chuyên mục</a></li>
 							<li class="<?php if ($suffix_uri == 'news') echo 'active'?>"><a href="<?=base_url('admin/news')?>">Bài viết</a></li>
 							<li class="<?php if ($suffix_uri == 'newscategory' && $sufix_uri3=='setorder') echo 'active'?>"><a href="<?=base_url('admin/newscategory/setorder')?>">Thứ tự hiển thị</a></li>
+							<li class="<?php if ($suffix_uri == 'tags') echo 'active'?>"><a href="<?=base_url('admin/tags')?>">Tags</a></li>
 						</ul>
 					</div>
 				</li>

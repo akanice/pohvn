@@ -150,9 +150,34 @@ class Affiliate extends MY_Controller {
 		$this->data['affi_info'] = $this->affiliatesmodel->read(array('user_id'=>$id),array(),true);
 		$this->data['user_info'] = $this->usersmodel->read(array('id'=>$id),array(),true);
 		$this->data['user_transaction'] = $this->affiliatesmodel->getAffiliateTrans($id,$limit=30);
-		$this->load->view('admin/common/header', $this->data);
-        $this->load->view('admin/affiliate/edit');
-        $this->load->view('admin/common/footer');
+		if($this->input->post('submit') != null){
+			$data = array(
+				"role" => $this->input->post("role"),
+			);
+			$this->usersmodel->update($data,array('id'=>$id));
+			if ($this->input->post("role") == 'affiliate') {
+				$data2 = array(
+					"active" => 'active',
+				);
+			} elseif ($this->input->post("role") == 'normal') {
+				$data2 = array(
+					"active" => 'pending',
+				);
+			} else {
+				$data2 = array(
+					"active" => 'cancelled',
+				);
+			}
+			$this->db->set($data2);
+			$this->db->where('user_id',$id);
+			$this->db->update('affiliate_user_info');
+			redirect(base_url() . "admin/affiliate/edit/".$id);
+			exit();
+		} else {
+			$this->load->view('admin/common/header', $this->data);
+			$this->load->view('admin/affiliate/edit');
+			$this->load->view('admin/common/footer');
+		}
 	}
 	
     public function userAdd() {
@@ -165,6 +190,14 @@ class Affiliate extends MY_Controller {
         $this->load->view('admin/affiliate/userAdd');
         $this->load->view('admin/common/footer');
     }
-
+	
+	public function delete($id){
+        if(isset($id)&&($id>0)&&is_numeric($id)){
+            $this->usersmodel->delete(array('id'=>$id));
+			$this->affiliatesmodel->delete(array('user_id'=>$id));
+            redirect(base_url() . "admin/news");
+            exit();
+        }
+    }
 
 }

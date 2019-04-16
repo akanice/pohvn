@@ -68,12 +68,15 @@
 										<option value="t_landing">Landing Page</option>
 										<option value="t_cat">Chuyên mục</option>
 										<option value="t_page">Trang</option>
+										<option value="t_link">Custom Link</option>
 									</select>
 								</div>
                                 <div class="col-sm-6">
-                                    <select name="slug" class="form-control" id="slug">
-										<option>--- Chọn ---</option>
-									</select>
+                                    <div id="slug">
+										<select name="slug" class="form-control">
+											<option>--- Chọn ---</option>
+										</select>
+									</div>
                                 </div>
 								<div class="col-sm-1">
 									<img src="<?=base_url('assets/img/loading.gif')?>" id="loading_spinner" style="display:none">

@@ -6,17 +6,23 @@ class override_404 extends MY_Controller{
     function __construct() {
         parent::__construct();
 		
-        //Get Menu 
+                //Get Menu 
         $this->load->model('menusmodel');
 
+		// nav menu
         $nav_data = $this->menusmodel->read(array('menu_id' => '1'));
         $this->data['navmenu'] = json_decode(json_encode($nav_data), true);
+		// footer menu
+		$footer_data = $this->menusmodel->read(array('menu_id' => '2'));
+        $this->data['footer_menu'] = json_decode(json_encode($footer_data), true);
+		
         $this->data['footermenu'] = $this->menusmodel->read(array('menu_id' => 2));
         $this->data['config_navmenu'] = $this->menusmodel->setup_navmenu();
         $this->data['config_mobilemenu'] = $this->menusmodel->setup_mobilemenu();
-        //Set up mega menu
-        $nav_menus = $this->menusmodel->read(array('menu_id'=>1));
-        $this->data['nav_menus'] = $nav_menus;
+		
+		$this->load->model('newsmodel');
+		$this->data['newest_articles'] = $this->newsmodel->read(array(),array('id'=>false),false,5);
+
 		$this->data['email_header'] = $this->session->userdata('adminemail');
         $this->data['all_user_data'] = $this->session->all_userdata();
 		$this->load->model('optionsmodel');
@@ -36,7 +42,7 @@ class override_404 extends MY_Controller{
         $this->load->model('newsmodel');
         $this->load->model('newscategorymodel');
 		
-		$this->load->model('landingpagemodel');
+		$this->load->model('configsmodel');
 		$this->data['cookies_expires'] = $this->configsmodel->read(array(
 				'term' => 'affiliate',
 				'name' => 'cookie_time'), array(), true)->value / (24 * 60 * 60);
