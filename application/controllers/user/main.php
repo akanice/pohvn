@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Main extends MY_Controller {
-    private $data;
+    public $data;
 
     function __construct() {
         parent::__construct();
@@ -102,17 +102,17 @@ class Main extends MY_Controller {
                 if($pass === $userdata->password){
                     $this->auth->loginUser($userdata);
 					
-					$this->load->helper('cookie');
-					$cookie_time	=	3600*24*30; // 30 days.
+					// $this->load->helper('cookie');
+					// $cookie_time	=	3600*24*30; // 30 days.
 							
-				    $this->input->set_cookie('siteAuth_username',$userdata->email,$cookie_time);
-				    $this->input->set_cookie('siteAuth_password',$userdata->password,$cookie_time);
+				    // $this->input->set_cookie('siteAuth_username',$userdata->email,$cookie_time);
+				    // $this->input->set_cookie('siteAuth_password',$userdata->password,$cookie_time);
 					
-                    redirect(site_url('affiliate-user'));
+                    redirect(site_url('thanh-vien-lien-ket'));
                 }
 				$this->data['error'] = "Tên đăng nhập hoặc mật khẩu không đúng";
             }
-            $this->data['error'] = "Tên đăng nhập hoặc mật khẩu không đúng";
+
 			$this->load->view('user/common/header',$this->data);
 			$this->load->view('user/login');
 			$this->load->view('user/common/footer');

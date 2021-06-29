@@ -1,8 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-
 class Pages extends MY_Controller{
-    private $data;
     function __construct() {
         parent::__construct();
         $this->auth = new Auth();
@@ -11,14 +9,14 @@ class Pages extends MY_Controller{
         $this->data['email_header'] = $this->session->userdata('adminemail');
         $this->data['all_user_data'] = $this->session->all_userdata();
         $this->load->model('pagesmodel');
+        $this->load->model('newsmodel');
     }
     public function index(){
         $this->data['title']    = 'Quản lý trang tĩnh';
-        $total = $this->pagesmodel->readCount(array('title'=>'%'.$this->input->get('title').'%','language'=>'%'.$this->input->get('language').'%'));
+        $total = $this->newsmodel->readCount(array('title'=>'%'.$this->input->get('title')));
         $this->data['title'] = $this->input->get('title');
-        $this->data['language'] = $this->input->get('language');
         if($this->data['title'] != ""){
-            $config['suffix'] = '?title='.urlencode($this->data['title']).'&language='.urlencode($this->data['language']);
+            $config['suffix'] = '?title='.urlencode($this->data['title']);
         }
         //Pagination
         $this->load->library('pagination');
@@ -33,10 +31,10 @@ class Pages extends MY_Controller{
         if (empty($page_number)) $page_number = 1;
         $start = ($page_number - 1) * $config['per_page'];
         $this->data['page_links'] = $this->pagination->create_links();
-        if($this->data['title'] != "" || $this->data['language'] != ""){
-            $this->data['list'] = $this->pagesmodel->read(array('title'=>'%'.$this->data['title'].'%','language'=>'%'.$this->data['language'].'%'),array(),false,$config['per_page'],$start);
+        if($this->data['title'] != ""){
+            $this->data['list'] = $this->newsmodel->read(array('type'=>'page','title'=>'%'.$this->data['title'].'%'),array(),false,$config['per_page'],$start);
         }else{
-            $this->data['list'] = $this->pagesmodel->read(array(),array(),false,$config['per_page'],$start);
+            $this->data['list'] = $this->newsmodel->read(array('type'=>'page'),array(),false,$config['per_page'],$start);
         }
         $this->data['base'] = site_url('admin/pages/');
         $this->load->view('admin/common/header',$this->data);

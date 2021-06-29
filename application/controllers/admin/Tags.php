@@ -1,8 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-
 class Tags extends MY_Controller{
-    private $data;
     function __construct() {
         parent::__construct();
         $this->auth = new Auth();
@@ -31,15 +29,31 @@ class Tags extends MY_Controller{
         $config['per_page'] = 20;
         $config['num_links'] = 5;
         $config['use_page_numbers'] = TRUE;
+		$config["num_tag_open"] = "<p class='paginationLink'>";
+        $config["num_tag_close"] = '</p>';
+        $config["cur_tag_open"] = "<p class='currentLink'>";
+        $config["cur_tag_close"] = '</p>';
+        $config["first_link"] = "First";
+        $config["first_tag_open"] = "<p class='paginationLink'>";
+        $config["first_tag_close"] = '</p>';
+        $config["last_link"] = "Last";
+        $config["last_tag_open"] = "<p class='paginationLink'>";
+        $config["last_tag_close"] = '</p>';
+        $config["next_link"] = "Next";
+        $config["next_tag_open"] = "<p class='paginationLink'>";
+        $config["next_tag_close"] = '</p>';
+        $config["prev_link"] = "Back";
+        $config["prev_tag_open"] = "<p class='paginationLink'>";
+        $config["prev_tag_close"] = '</p>';
         $this->pagination->initialize($config);
         $page_number = $this->uri->segment(3);
         if (empty($page_number)) $page_number = 1;
         $start = ($page_number - 1) * $config['per_page'];
         $this->data['page_links'] = $this->pagination->create_links();
         if($this->data['name'] != ""){
-            $this->data['list'] = $this->tagsmodel->read(array('name'=>'%'.$this->data['name'].'%'),array(),false,$config['per_page'],$start);
+            $this->data['list'] = $this->tagsmodel->read(array('name'=>'%'.$this->data['name'].'%'),array('id'=>false),false,$config['per_page'],$start);
         }else{
-            $this->data['list'] = $this->tagsmodel->read(array(),array(),false,$config['per_page'],$start);
+            $this->data['list'] = $this->tagsmodel->read(array(),array('id'=>false),false,$config['per_page'],$start);
         }
         $this->data['base'] = site_url('admin/tags/');
         $this->load->view('admin/common/header',$this->data);
@@ -72,8 +86,9 @@ class Tags extends MY_Controller{
             $alias = make_alias($this->input->post("name"));
 			$data = array(
                 "name" => $this->input->post("name"),
-               "alias"	=> $alias,
+				"alias"	=> $alias,
             );
+			$this->tagsmodel->update(($data),array('id'=>$id));
 			$this->tagsmodel->update(array('alias'=>make_alias($alias.'-'.$id)),array('id'=>$id));
             redirect(base_url() . "admin/tags");
             exit();

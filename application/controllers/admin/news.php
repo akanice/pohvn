@@ -1,16 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-
 class News extends MY_Controller{
-    private $data;
     function __construct() {
         parent::__construct();
         $this->auth = new Auth();
         $this->auth->check();
 		$this->checkCookies();
-        // if($this->session->userdata('admingroup') == "mod"){
-            // show_404();
-        // }
         $this->data['email_header'] = $this->session->userdata('adminemail');
         $this->data['all_user_data'] = $this->session->all_userdata();
         $this->load->model('newsmodel');
@@ -59,9 +54,9 @@ class News extends MY_Controller{
         $start = ($page_number - 1) * $config['per_page'];
         $this->data['page_links'] = $this->pagination->create_links();
         if($this->data['title'] != "" || $this->data['category'] != ""){
-            $this->data['list'] = $this->newsmodel->getListNews($this->input->get('title'),"",$this->input->get('category'),$config['per_page'],$start);
+            $this->data['list'] = $this->newsmodel->getListNews($this->input->get('title'),"",$this->input->get('category'),$config['per_page'],$start,'');
         }else{
-            $this->data['list'] = $this->newsmodel->getListNews("","","",$config['per_page'],$start);
+            $this->data['list'] = $this->newsmodel->getListNews("","","",$config['per_page'],$start,"");
         }
 		
         $this->data['base'] = site_url('admin/news/');
@@ -75,6 +70,9 @@ class News extends MY_Controller{
 		$this->data['title']    = 'Thêm mới bài viết';
 		$this->data['list_cat_id'] = $this->newscategorymodel->getSortedCategories();
 		$this->data['tags'] = $this->tagsmodel->read();
+		$this->load->model('newsextramodel');
+		$this->load->model('configsmodel');
+		$this->data['box_content'] = $this->configsmodel->read(array('term'=>'new_footer'),array(),false);
 		if($this->input->post('submit') != null){
             $uploaddir = '/assets/uploads/images/articles';
 
@@ -114,6 +112,10 @@ class News extends MY_Controller{
 			$categories = json_encode($this->input->post("category"));
 			if (!$categories) {$categories = '["0"]';}
 			$tags = json_encode($this->input->post("tags"));
+			
+			// Extra content
+			$box_content = json_encode($this->input->post("box_content"));
+			
             $data = array(
 				"title" => $this->input->post("title"),
 				"alias" => make_alias($this->input->post("title")),
@@ -127,12 +129,14 @@ class News extends MY_Controller{
 				"meta_description" => $this->input->post("meta_description"),
 				"meta_keywords" => $this->input->post("meta_keywords"),
 				"type" => $this->input->post("type"),
+				"display" => $this->input->post("display"),
 				"create_time" => date('Y-m-d H:i:s', time()),
 			);
 
 			$news_id = $this->newsmodel->create($data);
 			$this->newsmodel->update(array('order'=>$news_id),array('id'=>$news_id));
 			$this->db->insert('news_tags',array('new_id'=>$news_id,'tag_id'=>$tags));
+			$this->db->insert('news_extra',array('new_id'=>$news_id,'term_id'=>$box_content));
 			
 			redirect(base_url() . "admin/news/edit/".$news_id);
 			exit();
@@ -150,6 +154,10 @@ class News extends MY_Controller{
 		$this->data['new_tags'] = @json_decode($this->tagstermmodel->read(array('new_id'=>$id),array(),true)->tag_id);
         $this->data['news'] = $this->newsmodel->read(array('id'=>$id),array(),true);
 		$this->data['news']->categoryid = json_decode($this->data['news']->categoryid);
+		$this->load->model('newsextramodel');
+		$this->load->model('configsmodel');
+		$this->data['box_content'] = $this->configsmodel->read(array('term'=>'new_footer'),array(),false);
+		$this->data['new_box_content'] = @json_decode($this->newsextramodel->read(array('new_id'=>$id),array(),true)->term_id);
         if($this->input->post('submit') != null){
 			$uploaddir = '/assets/uploads/images/articles';
 			if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
@@ -192,10 +200,14 @@ class News extends MY_Controller{
 			
 			$categories = json_encode($this->input->post("category"));
 			$tags = json_encode($this->input->post("tags"));
+			
+			// Extra content
+			$box_content = json_encode($this->input->post("box_content"));
+			
 			if (!$categories) {$categories = '["0"]';}
             $data = array(
 				"title" => $this->input->post("title"),
-				"alias" => make_alias($this->input->post("title")),
+				"alias" => $this->input->post("alias"),
 				"categoryid" => $categories,
 				"content" => $this->input->post("content"),
                 "image" => $image,
@@ -205,7 +217,8 @@ class News extends MY_Controller{
 				"meta_description" => $this->input->post("meta_description"),
 				"meta_keywords" => $this->input->post("meta_keywords"),
 				"type" => $this->input->post("type"),
-				"create_time" => date('Y-m-d H:i:s', time()),
+				"display" => $this->input->post("display"),
+				//"create_time" => date('Y-m-d H:i:s', time()),
 			);
             $this->newsmodel->update($data,array('id'=>$id));
 			if ($this->tagstermmodel->read(array('new_id'=>$id),array(),true)) {
@@ -216,6 +229,16 @@ class News extends MY_Controller{
 			} else {
 				$this->db->insert('news_tags',array('new_id'=>$id,'tag_id'=>$tags));
 			}
+			
+			if ($this->newsextramodel->read(array('new_id'=>$id),array(),true)) {
+				$data3 = array(
+					"term_id" => $box_content,
+				);
+				$this->newsextramodel->update($data3,array('new_id'=>$id));
+			} else {
+				$this->db->insert('news_extra',array('new_id'=>$id,'term_id'=>$box_content));
+			}
+			
 			//Re-data
 			redirect(base_url() . "admin/news/edit/".$id);
 			exit();

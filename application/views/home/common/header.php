@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title><?php if ($title == '' or $title == null) {echo 'POH - Thai giáo';} else {echo $title;}?></title>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta property="fb:admins" content="100000039015050"/>
-	<meta property="fb:app_id" content="473175002856410" />
-	<meta name="title" content="<?=@$meta_title?>" />
+	
+	<meta property="fb:app_id" content="494908207657481" />
+	<meta name="title" content="<?php if ($title == '' or $title == null) {echo $meta_title;} else {echo @$title;}?>" />
 	<meta name="copyright" content="Copyright © 2015 by poh.vn" />
 	<meta name="keywords" content="<?=@$meta_keywords?>" />
 	<meta name="description" content="<?=@$meta_description?>" />
@@ -15,9 +15,15 @@
 	<meta name="og:description" content="<?=@$meta_description?>" />
 	<meta name="og:image" content="<?=@$meta_image?>" />
 	
+	<?php if (isset($is_index) && $is_index==false) { ?>
+	<meta name="robots" content="noindex">
+	<meta name="googlebot" content="noindex">
+	<?php } ?>
+	
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<link rel="icon" href="<?=base_url('wp-content/uploads/2018/06/favicon.png')?>" sizes="32x32" />
 	<link rel="apple-touch-icon-precomposed" href="<?=base_url('wp-content/uploads/2018/06/favicon.png')?>" />
+	<link rel="canonical" href="<?=current_url();?>" />
 	
 	<script src="<?=base_url('assets/js/defer_plus.min.js')?>"></script>
 	<script type="text/javascript">
@@ -32,18 +38,29 @@
 	<link href="<?=base_url('assets/css/front/responsive.css')?>" rel="stylesheet">
 	
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-	
+
 	<?=@$global_header_code;?>
 </head>
 
 <body>
+	<div id="fb-root"></div>
+	<!--<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v6.0&appId=494908207657481&autoLogAppEvents=1"></script>-->
 	<header id="header" class="header-header-3" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
 		<div class="inner-header d-none d-sm-block d-sm-none d-md-block">
-			<div class="container align-left-logo has-banner">
+			<!--<div class="container align-left-logo has-banner">
 				<div id="logo" class="d-none d-sm-block d-sm-none d-md-block">
 					<h1> <a href="<?=site_url()?>"><img src="<?=@base_url($home_logo)?>" alt=""></a></h1>
 				</div>
-			</div>
+			</div>-->
+			<?=@$top_banner_desktop;?>
+		</div>
+		<div class="inner-header d-block d-sm-none">
+			<!--<div class="container align-left-logo has-banner">
+				<div id="logo" class="d-none d-sm-block d-sm-none d-md-block">
+					<h1> <a href="<?=site_url()?>"><img src="<?=@base_url($home_logo)?>" alt=""></a></h1>
+				</div>
+			</div>-->
+			<?=@$top_banner_mobile;?>
 		</div>
 		<div id="navigation-sticky-wrapper" class="sticky-wrapper" style="height: 60px;">
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -69,7 +86,7 @@
 					</div>
 				</div>
 				<div id="logo" class="d-block d-sm-none d-none d-sm-block d-md-none">
-					<h1> <a href="<?=site_url()?>"><img src="/assets/img/POH_Official_Logo.png" alt=""></a></h1>
+					<a href="<?=site_url()?>"><img src="/assets/img/POH_Official_Logo.png" alt=""></a>
 				</div>
 				<div class="search-block d-block d-sm-none d-none d-sm-block d-md-none">
 					<div id="search_button" class="search-button-home">

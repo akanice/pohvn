@@ -44,7 +44,7 @@
                                             <td width=''><?=@$affiliateTransaction->amount?></td>
                                             <td width=''><?=@$affiliateTransaction->name?></td>
                                             <td width=''><?=@$affiliateTransaction->email?></td>
-                                            <td width=''><?=date('d/m/Y', $affiliateTransaction->modify_time)?></td>
+                                            <td width=''><?=date('d/m/Y', $affiliateTransaction->create_time)?></td>
                                             <td width=''><?=@$affiliateTransaction->status?></td>
                                             <td width=''><?=@$affiliateTransaction->description?></td>
                                         </tr>

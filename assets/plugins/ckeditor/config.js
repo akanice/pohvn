@@ -45,4 +45,33 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Simplify the dialog windows.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
+	
+	// Set the most common block elements.
+	config.format_tags = 'p;h1;h2;h3;pre';
+	config.allowedContent = true;
+	config.extraAllowedContent = 'p(*)[*]{*};div(*)[*]{*};li(*)[*]{*};ul(*)[*]{*}';
+    CKEDITOR.dtd.$removeEmpty.i = 0;
 };
+CKEDITOR.on('instanceReady', function(ev) {
+    var editor = ev.editor;
+    editor.dataProcessor.htmlFilter.addRules({
+        elements : {
+            a : function( element ) {
+                if ( !element.attributes.rel ){
+                    //gets content's a href values
+                    var url = element.attributes.href;
+
+                    //extract host names from URLs (IE safe)
+                    var parser = document.createElement('a');
+                    parser.href = url;
+
+                    var hostname = parser.hostname;
+                    if ( hostname !== window.location.host) {
+                        element.attributes.rel = 'nofollow';
+                        element.attributes.target = '_blank';
+                    }
+                }
+            }
+        }
+    });
+})

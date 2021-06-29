@@ -57,9 +57,10 @@ class Affiliatesmodel extends MY_Model {
     }
 
     public function getListAffiliateTransaction($start, $perPage) {
-        $this->db->select('orders.*,affiliate_transactions.*,users.*,orders.id as order_id');
+        $this->db->select('orders.*,affiliate_transactions.*,users.*,orders.id as order_id,orders.create_time as create_time');
         $this->db->join('affiliate_transactions', 'orders.affiliate_transaction_id = affiliate_transactions.id', 'INNER');
         $this->db->join('users', 'users.id = affiliate_transactions.user_id', 'left');
+        $this->db->order_by('affiliate_transactions.id','desc');
         $query = $this->db->get('orders', $perPage, $start);
         return $query ? $query->result() : $query;
     }
@@ -69,6 +70,7 @@ class Affiliatesmodel extends MY_Model {
         $this->db->select('orders.*,affiliate_transactions.*');
         $this->db->join('affiliate_transactions', 'orders.affiliate_transaction_id = affiliate_transactions.id', 'INNER');
         $this->db->where('affiliate_transactions.user_id', $user['id']);
+		$this->db->order_by('affiliate_transactions.id','desc');
         $query = $this->db->get('orders', $perPage, $start);
         return $query ? $query->result() : $query;
     }
@@ -121,8 +123,10 @@ class Affiliatesmodel extends MY_Model {
     public function getListAffiliateUsers($start, $perPage) {
         $this->db->select('users.*,affiliate_user_info.*');
         $this->db->join('affiliate_user_info', 'users.id = affiliate_user_info.user_id', 'LEFT');
+		// $this->db->where('users.role','affiliate');
+		// $this->db->where('users.role','normal');
         $this->db->order_by('create_time','desc');
-        $query = $this->db->get('users', $start, $perPage);
+        $query = $this->db->get('users', $perPage,$start);
         return $query ? $query->result() : $query;
     }
 
@@ -237,7 +241,7 @@ class Affiliatesmodel extends MY_Model {
         $user['total_money'] = intval($user['total_money']) + $amount;
         $user['balance'] = intval($user['balance']) + $amount;
         $this->db->where('id', $user['id']);
-        $this->db->update('affiliate_user_info', $user);
+		$this->db->update('affiliate_user_info', $user);
         return $this->update($transaction, array(
             'id' => $transactionId
         ));
@@ -258,7 +262,7 @@ class Affiliatesmodel extends MY_Model {
 
     private function getTransaction($id) {
         $this->db->where('id', $id);
-        $res = $this->db->get();
+        $res = $this->db->get('affiliate_transactions');
         $result = $res ? $res->result() : array();
         return sizeof($result) > 0 ? $result[0] : null;
     }

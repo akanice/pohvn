@@ -1,8 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-
 class Landingpage extends MY_Controller{
-    private $data;
     function __construct() {
         parent::__construct();
         $this->auth = new Auth();
@@ -18,7 +16,7 @@ class Landingpage extends MY_Controller{
         $this->data['title']    = 'Quản lý Landing page';
 		//$test = $this->newsmodel->getListlandingpage($this->input->get('title'),$this->input->get('category'),"","");
 		
-		$total = count($this->newsmodel->getListLandingpage($this->input->get('title'),"",""));
+		$total = @count($this->newsmodel->getListLandingpage($this->input->get('title'),"",""));
         $this->data['title'] = $this->input->get('title');
         if($this->data['title'] != ""){
             $config['suffix'] = '?title='.urlencode($this->data['title']);
@@ -67,30 +65,24 @@ class Landingpage extends MY_Controller{
 		$this->load->model('menustermmodel');
 		$this->load->model('afflandingconfigmodel');
 		$this->data['menus'] = $this->menustermmodel->read(array(),array(),false);
+		$this->data['files'] = $files = scandir(FCPATH . '/application/views/landing/');
+
 		$this->data['title'] = 'Quản lý Landing Page';
 		if($this->input->post('submit') != null){
-            $uploaddir = '/assets/uploads/images/articles';
-
-            if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
-            $this->load->library("upload");
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].$uploaddir . '/' . basename($_FILES['image']['name']))) {
-                $image = $uploaddir . '/' . $_FILES['image']['name'];
-            }
-            else{
-                $image = '';
-            }
+            $template = $this->input->post('template');
+			if (@$this->input->post('alias') && $this->input->post('alias') != '') {$alias = $this->input->post('alias');} else {$alias=make_alias($this->input->post("title"));}
             $data = array(
 				"order" => 1,
 				"title" => $this->input->post("title"),
-				"alias" => make_alias($this->input->post("title")),
+				"alias" => $alias,
 				"categoryid" => '["0"]',
-				"content" => $this->input->post("content"),
-                "image" => $image,
-                "thumb" => $image,
-				"description" => $this->input->post("description"),
-				"meta_title" => $this->input->post("meta_title"),
-				"meta_description" => $this->input->post("meta_description"),
-				"meta_keywords" => $this->input->post("meta_keywords"),
+				"content" => $template,
+                "image" => '',
+                "thumb" => '',
+				"description" => '',
+				"meta_title" =>'',
+				"meta_description" => '',
+				"meta_keywords" => '',
 				"type" => 'landing',
 				"count_view" => 0,
 				"create_time" => time(),
@@ -100,20 +92,8 @@ class Landingpage extends MY_Controller{
 			//print_r($data);
 			$news_id = $this->newsmodel->create($data);
 			// die($news_id);
-			$this->newsmodel->update(array('order'=>$news_id),array('id'=>$news_id));
-			
-			$pricingPackage = $this->input->post("pricingPackage");
-			$pricingPackage = json_encode($pricingPackage);
-			$data2 = array(
-				"news_id" => $news_id,
-				"total_price" => $this->input->post("total_price"),
-				"step_price" => $pricingPackage,
-				"code_header" => $this->input->post("code_header"),
-				"code_footer" => $this->input->post("code_footer"),
-			);
-			$landingpage_id = $this->landingpagemodel->create($data2);
 			$data3 = array(
-				"landingpage_id" => $landingpage_id,
+				"landingpage_id" => $news_id,
 				"type" => $this->input->post("commission_type"),
 				"amount" => $this->input->post("commission_value"),
 			);
@@ -133,35 +113,23 @@ class Landingpage extends MY_Controller{
 		$this->data['title'] = 'Sửa Landing Page';
 		$this->data['menus'] = $this->menustermmodel->read(array(),array(),false);
         $this->data['landingpage'] = $this->newsmodel->read(array('id'=>$id),array(),true);
-		$this->data['landingpage_data'] = $this->landingpagemodel->read(array('news_id'=>$this->data['landingpage']->id),array(),true);
-		$this->data['landingpage_commission'] = $this->afflandingconfigmodel->read(array('landingpage_id'=>$this->data['landingpage_data']->id),array(),true);
-		$this->data['pricingPackage'] = json_decode($this->data['landingpage_data']->step_price);
+		$this->data['landingpage_commission'] = $this->afflandingconfigmodel->read(array('landingpage_id'=>$this->data['landingpage']->id),array(),true);
+		$this->data['files'] = $files = scandir(FCPATH . '/application/views/landing/');
+
         if($this->input->post('submit') != null){
-            $uploaddir = '/assets/uploads/images/articles';
-			if (!file_exists($uploaddir) || !is_dir($uploaddir)) mkdir($uploaddir,0777,true);
-			$this->load->library("upload");
-			if(isset($_FILES['image']) && count($_FILES['image']) > 0 && $_FILES['image']['name'] != "") {
-				if (move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].$uploaddir . '/' . basename($_FILES['image']['name']))) {
-					$image = $uploaddir . '/' . $_FILES['image']['name'];
-					
-				} else{
-					$image = $this->data['landingpage']->image;
-					$image_thumb = $this->data['landingpage']->thumb;
-				}
-			}	
 			
             $data = array(
 				"order" => 1,
 				"title" => $this->input->post("title"),
-				"alias" => make_alias($this->input->post("title")),
+				"alias" => $this->input->post("alias"),
 				"categoryid" => '["0"]',
-				"content" => $this->input->post("content"),
-                "image" => $image,
-                "thumb" => $image,
-				"description" => $this->input->post("description"),
-				"meta_title" => $this->input->post("meta_title"),
-				"meta_description" => $this->input->post("meta_description"),
-				"meta_keywords" => $this->input->post("meta_keywords"),
+				"content" => $this->input->post("template"),
+                "image" => '',
+                "thumb" => '',
+				"description" => '',
+				"meta_title" =>'',
+				"meta_description" => '',
+				"meta_keywords" => '',
 				"type" => 'landing',
 				"count_view" => 0,
 				"create_time" => time(),
@@ -169,21 +137,12 @@ class Landingpage extends MY_Controller{
 				"author_id" => $this->session->userdata('adminid'),
 			);
             $this->newsmodel->update($data,array('id'=>$id));
-			
-			$pricingPackage = $this->input->post("pricingPackage");
-			$pricingPackage = json_encode($pricingPackage);
-			$data2 = array(
-				"total_price" => $this->input->post("total_price"),
-				"step_price" => $pricingPackage,
-				"code_header" => $this->input->post("code_header"),
-				"code_footer" => $this->input->post("code_footer"),
-			);
-			$this->landingpagemodel->update($data2,array('id'=>$this->data['landingpage_data']->id));
+
 			$data3 = array(
 				"type" => $this->input->post("commission_type"),
 				"amount" => $this->input->post("commission_value"),
 			);
-			$this->afflandingconfigmodel->update($data3,array('landingpage_id'=>$this->data['landingpage_data']->id));
+			$this->afflandingconfigmodel->update($data3,array('landingpage_id'=>$this->data['landingpage']->id));
 			
             redirect(base_url() . "admin/landingpage");
             exit();

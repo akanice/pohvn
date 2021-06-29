@@ -1,21 +1,533 @@
 ﻿/*
 	CR Team - Professional Web Designer
 */
-.tooltip {
+body {
+	font-family: Quicksand, Arial, san-serif;
+	background: #f7f7f7;
+	font-weight: 500;
+}
+h1,h2,h3,h4,h5 {
+	font-weight: bold;
+}
+.form-control::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #b5b5b5;
+}
+.form-control::-moz-placeholder { /* Firefox 19+ */
+  color: #b5b5b5;
+}
+.form-control:-ms-input-placeholder { /* IE 10+ */
+  color: #b5b5b5;
+}
+.form-control:-moz-placeholder { /* Firefox 18- */
+  color: #b5b5b5;
+}
+a {
+	color: #0092d8;
+	text-decoration: none;
+	transition: all 0.2s linear;
+}
+a:hover,a:focus {
+	color: #013f82;
+}
+p {
+	font-size: 18px;
+}
+.wrapper {
+	background: #fff;
+	max-width: 1440px;
+	margin: auto;
+}
+.section-padding {
+	padding: 90px 0;
+	position: relative;
+}
+.section-padding:before {
+	content: '';
+	background-image: linear-gradient(#0a178f0d, #ffffff00);
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 100px;
+}
+.btn-signup {
+	background: #fff;
+	border: 2px solid #0092d8;
+	font-size: 24px;
+	font-weight: bold;
+	line-height: 1;
+	padding: 15px 45px;
+	border-radius: 99px;
+	text-align:center;
+	color: #0092d8;
+	transition: all 0.2s linear;
+}
+.btn-fill {
+	background: #0092d8;
+	color: #fff;
+}
+.btn-signup:hover {
+	background: #017bb5;
+	color: #fff;
+	text-decoration: none;
+	border: 2px solid #017bb5;
+}
+.btn-signup.btn-fill:hover {
+	border: 2px solid #017bb5;
+	background: #017bb5;
+}
+.section-padding .item {
+	border-radius: 25px;
+	overflow: hidden;
+}
+.item .thumb {
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    padding-top: 50%;
+}
+.item .inner {
+	padding: 25px;
+	background: #fff;
+}
+.page_title {
+	background-image: url('/assets/img/pohthaigiao280/bg-vector.png');
+	background-position: top left;
+	background-repeat: no-repeat;
+	background-size: ;
+	padding: 45px 0;
+}
+.page_title .logo {
+	width: 100px;
+}
+.page_title .text {
+    padding-left: 10px;
+}
+.page_title .text h1 {
+	font-size: 22px;
+	color: #6c757d;
+}
+.inner p,.sub-heading {
+	font-size: 18px;
+	color: #525d76;
+}
+.inner b {
+	font-weight: 700;
+}
+.inner .more b,.text-hl {
+	color:#0092d8 !important;
+}
+.inner .heading {
+	color: #071735;
+	margin-bottom: 20px;
+}
+.inner p {
+	overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+	font-weight: 500;
+}
+.inner .p-icon {
+	position: relative;
+	overflow: visible;
+}
+.inner .p-icon .fa {
+	position: absolute;
+    left: -35px;
+    top: 8px;
+	color: #0092d8;
+	font-size: 18px;
+}
+.inner .p-icon.icon-circle .fa {
+    background: #0092d8;
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 99px;
+    font-size: 10px;
+    text-align: center;
+    line-height: 24px;
+	top: 3px;
+}
+.inner .p-icon .text-uppercase {
+	font-size: 120%;
+	color: #071735;
+}
+.more {
+	font-weight: 600;
+	font-size: 18px;
+}
+.page_title .inner .heading {
+	font-size: 54px;
+	font-weight: 500;
+}
+.page_title .inner p {
+
+}
+.box-shadow {
+	box-shadow: 0 0 10px 5px #ececec;
+}
+.page_features:before {
+	display: none;
+}
+.page_features .inner p {
+	-webkit-line-clamp: 3;
+}
+.heading {
+	font-size: 32px;
+	margin-bottom: 25px;
+	font-weight: 600;
+}
+.sub-heading {
+	margin-bottom: 45px;
+	font-weight: 400;
+}
+.inner .heading {
+	font-size: 1.5rem;
+	font-weight: 700;
+}
+.why_choose_us {
+	padding-bottom: 120px;
+}
+.why_choose_us {
+	background-image: url('/assets/img/pohthaigiao280/bg-vector2.png');
+	background-position: bottom 30px right;
+	background-repeat: no-repeat;
+}
+.why_choose_us .sub-heading {
+	max-width: 800px;
+	margin: 0 auto 65px;
+}
+.item .inner.inner-padding,.inner-padding {
+	padding: 25px 55px;
+}
+.page_pricing .inner .heading,.page_get_presents .inner .heading {
+	font-size: 38px;
+}
+.page_form_signup .heading {
+	font-size: 32px;
+}
+.section-padding .item.item-visible {
+	overflow: visible;
+}
+.table-pricing {
+	width: 100%;
+	border-radius: 25px;
+	overflow: hidden;
+}
+.table-pricing td,.table-pricing th {
+	padding: 8px;
+	border-right: 1px solid #f3f3f3;
+	text-align: center;
+	font-weight: 600;
+	font-size: 18px;
+}
+.table-pricing th {
+	border-right: 1px solid #72c4ea;
+}
+.table-pricing td:last-child,.table-pricing th:last-child {
+	border-right: 0;
+}
+.table-pricing tr {
+	border-bottom: 2px solid #ddd;
+}
+.table-pricing tr:last-child {
+	border-bottom: 0;
+}
+.table-pricing thead {
+	background: #0092d8;
+	color: #fff;
+}
+.table-pricing tbody td:first-child {
+	color: #071735;
+}
+.table-pricing tbody td:nth-child(2) {
+	color: #525d76;
+}
+.box {
+	border: 2px solid #b2e3ff;
+}
+.page_affects {
+    background-image: url(/assets/img/pohthaigiao280/bg-vector3.png);
+    background-position: right 0 top 145px;
+    background-repeat: no-repeat;
+    background-size: 420px;
+}
+.page_affects .box {
+	max-width: 750px;
+	margin: 0 auto 120px;
+}
+.page_affects h2.heading {
+	background: #fff;
+	padding: 5px 15px;
+	display: inline-block;
+	margin-top: -40px;
+}
+.page_affects .sub-heading {
+	max-width: 550px;
+	margin: 0 auto 45px;
+}
+.thumb.have-border {
+	border: 3px solid #0092d8;
+    border-radius: 25px 25px 0 0;
+}
+.text-grey .fa {
+	color: #dc3545 !important;
+}
+.text-grey b {
+	color: #525D76 !important;
+}
+.btn-tab {
+	background: #fff;
+	border: 2px solid #0092d8;
+	border-radius: 99px;
+	color: #0092d8;
+	padding: 8px 25px;
+	display: inline-block;
+	font-size: 18px;
+	font-weight: 600;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	cursor: pointer;
+}
+.btn-tab.active,.btn-tab:hover {
+	background:#0092d8;
+	color: #fff;
+	text-decoration: none;
+}
+.hide {
+	display: none;
+}
+#nav-tab {
+	margin-bottom: 60px;
+}
+.tab-content {
+	padding: 0 60px;
+}
+.tab-content .inner .text {
+	max-width: 600px;
+	text-align: justify;
+}
+.page_list_courses {
+	background-image: url('/assets/img/pohthaigiao280/bg-vector.png');
+    background-position: left 0 bottom 145px;
+    background-repeat: no-repeat;
+    background-size: 420px;
+}
+.main-video {
+	position: relative;
+	border-radius: 25px;
+	overflow: hidden;
+	margin-bottom: 30px;
+}
+.main-video {
+	background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+	background-image: url('/assets/img/pohthaigiao280/video-bg.jpg');
+}
+.main-video .frame {
+	position: relative;
+	padding-top: 56.25%;
+	cursor: pointer;
+}
+.play-button {
+	position: absolute;
+	left: 50%;
+  margin-left: -48px;
+  top: 50%;
+  margin-top: -55px;
+}
+.page_form_signup .inner-padding {
+	padding: 0 0 0 100px;
+}
+.form_course .form-control {
+	font-size: 18px;
+    padding: 12px 25px;
+    border-radius: 99px;
+    border: 1px solid #eee;
+    height: auto;
+	margin-bottom: 15px;
+}
+.check-input {
+	display: block;
+	position: relative;
+	padding-left: 35px;
+	margin-bottom: 12px;
+	cursor: pointer;
+	font-size: 22px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.check-input .form-check-input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+}
+.checkmark {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 25px;
+	width: 25px;
+	border:1px solid #ccc;
+	border-radius: 99px;
+	transition: all 0.2s linear;
+}
+.check-input:hover input ~ .checkmark {
+	background-color: #eee;
+}
+.check-input input:checked ~ .checkmark {
+	background-color: #2196f3;
+	    border: 1px solid #2196f3;
+}
+.checkmark:after {
+	content: "";
+	position: absolute;
+	display: none;
+}
+.check-input input:checked ~ .checkmark:after {
+	display: block;
+}
+.check-input .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.divide {
+	margin: 120px auto;
+	max-width: 409px;
+	border-top: 2px solid #525d7638;
+}
+.box-info {
+	padding: 25px;
+}
+.main-footer .inner p{
+	margin-bottom: 5px;
+}
+.main-footer .inner p a {
+	text-decoration: underline;
+}
+.modal-content .close {
+	position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #fff;
+    opacity: 1;
+    border-radius: 999px;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    opacity: 0.3;
+}
+.item .modal-content .thumb {
+	padding-top: 80%;
+	border-radius: 25px 0 25px 0;
+}
+.item .modal-content.ft-2 .thumb,.item .modal-content.ft-3 .thumb  {
+	border-radius: 0;
+}
+.modal-content {
+	border-radius: 25px;
+	border: 0;
+	overflow: hidden;
+}
+.modal-content.box-shadow {
+	box-shadow: 0 0 10px 5px #6b6a6a;
+}
+.inner .modal-content .heading {
+	font-size: 48px;
+	color: #0092d8
+}
+.ft-video {
+	padding: 0 25px 25px 25px;
+}
+.item .inner.quote {
+    font-family: 'Dancing Script', cursive;
+    padding-left: 62px;
+    padding-right: 35px;
+    font-size: 28px;
+    line-height: 1.3;
+	color: #525d76;
+}
+.ft-2 .thumb,.ft-3 .thumb {
+    height: 250px;
+    padding-top: 0 !important;
+	border-radius: 25px 25px 0 0;
+}
+.page_videos .item .thumb {
+	padding-top: 0;    
+	margin-bottom: 30px;
+}
+.space {
+	height: 120px;
+}
+.tooltips {
+    position: relative;
+    display: block;
 	opacity: 1;
 }
-h2 .btn.btn-link {
-	width: 100%;
-	text-align:left;
-	font-size: 14px;
+.tooltips .tooltiptext {
+    visibility: hidden;
+    width: 300px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 110%;
+    left: 50%;
+    margin-left: -75px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 16px;
 }
-h2 .btn.btn-link:hover,h2 .btn.btn-link:focus {
-    color: #0056b3;
-    text-decoration: none;
+.tooltips .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
 }
-.card {
-	margin-bottom: 1px;
+.tooltips:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
 }
-.card-header {
-	padding: .35rem 1rem;
+.bank-number {
+	display: inline-block;
+	font-size: 32px;
+	margin-left: 20px;
+	cursor: pointer;
+}
+.bank-number input[type="text"] {
+	border: 0;
+	color: #007bff;
+	width: 220px;
+}
+.bank-number input[type="text"]:focus-visible {
+    outline: 0;
+}
+.text-bold b {
+	color: #071735;
+}
+.text-danger {
+	color: #ff3838 !important;
 }

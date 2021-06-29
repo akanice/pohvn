@@ -9,9 +9,8 @@
 						<?=$space;?><a class="crumb" href="<?=base_url('category/'.$n->alias)?>"><?=@$n->title?></a>
 					<?php $space=', ';} ?>
 				</span>
-				<i class="fa fa-angle-right"></i>
 				<?php } ?>
-				<span><?=@$new->title?></span>
+				
 			</div>
 			<div class="row clearfix">
 				<div class="col-md-7 col-sm-12" id="main">
@@ -24,6 +23,10 @@
 						<!-- Article content -->
 						<div class="article-content">
 							<?=@$new->content?>
+							
+							<?php if ($extra_data && $extra_data != '') {?><div class="extra_box"><?php foreach ($extra_data as $item) {?>
+							<?=@$item->value?>
+							<?php } ?></div><?php } ?>
 						</div>
 						<hr />
 						<div class="share-socials">
@@ -40,6 +43,15 @@
                             </div>
 						</div>
 						<hr />
+						<!--<h6><b>Bình luận</b></h6>
+						<div class="fb-comments">
+							<div class="fb-comments" data-href="<?=@current_url()?>" data-width="" data-numposts="8"></div>
+						</div>-->
+						<hr />
+						<?php if ($tag_data && $tag_data != '') {?><div class="tags">Tags:<?php foreach ($tag_data as $item) {?>
+						<a href="<?=@base_url('tags/'.$item->alias)?>"><i class="fa fa-tags"></i> <?=@$item->name?></a>
+						<?php } ?></div><?php } ?>
+						<hr />
 						<div class="related-articles">
 							<div class="box-sidebar menu-sidebar">
 							<h3 class="sidebar-heading">Bài viết cùng chuyên mục</h3>
@@ -47,10 +59,10 @@
 								<?php foreach ($related_news as $item) { ?>
 								<li class="clearfix">
 									<div class="fleft article-thumb">
-										<a href="<?=@base_url($item->alias)?>" class="image-holder fix-size" style="background-image:url('<?=@base_url($item->thumb)?>');display:inline-block"></a>
+										<a href="<?=@base_url($item[0]->alias)?>" class="image-holder fix-size" style="background-image:url('<?=@base_url($item[0]->thumb)?>');display:inline-block"></a>
 									</div>
 									<div class="article-title">
-										<a href="<?=@base_url($item->alias)?>"><h4 class="article-title"><?=@$item->title?></h4></a>
+										<a href="<?=@base_url($item[0]->alias)?>"><h4 class="article-title"><?=@$item[0]->title?></h4></a>
 									</div>
 								</li>
 								<?php } ?>
@@ -76,18 +88,12 @@
 								<?php } ?>
 							</ul>
 						</div>
-						<div class="box-sidebar menu-sidebar">
+						<div class="box-sidebar menu-sidebar related-childcat">
 							<h3 class="sidebar-heading">Cùng chuyên mục</h3>
 							<ul>
-								<?php foreach ($related_news as $item) { ?>
-								<li class="clearfix">
-									<div class="fleft article-thumb">
-										<a href="<?=@base_url($item->alias)?>" class="image-holder fix-size" style="background-image:url('<?=@base_url($item->thumb)?>');display:inline-block"></a>
-									</div>
-									<div class="article-title">
-										<a href="<?=@base_url($item->alias)?>"><h4 class="article-title"><?=@$item->title?></h4></a>
-									</div>
-								</li>
+								<li class="first-line"><a href="<?=@base_url('category/'.$biggest_cat->alias);?>"><i class="fa fa-folder-open"></i> <?=@$biggest_cat->title?></a></li>
+								<?php foreach ($related_childcat as $item) { ?>
+								<li><a href="<?=@base_url('category/'.$item->alias);?>"><i class="fa fa-angle-right"></i> <?=@$item->title?></a></li>
 								<?php } ?>
 							</ul>
 						</div>
@@ -101,3 +107,14 @@
 			</div>
 		</div>
 	</div>
+	
+	<script src="<?=base_url('assets/js/jquery-1.11.1.min.js')?>"></script>
+	<script>
+	$(document).ready(function() {
+		$('.article-content img').each(function() {
+			if ($(this).attr("alt") == '') {
+				$(this).attr("alt", "<?=@$new->title?>");
+			}
+		})
+	}); 
+	</script>

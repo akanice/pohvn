@@ -40,6 +40,7 @@
 									<tr>
 										<th>ID</th>
 										<th>Tiêu đề</th>
+										<th>Trạng thái</th>
 										<th>Preview</th>
 										<th>Danh mục</th>
 										<th>Lượt xem</th>
@@ -50,6 +51,7 @@
 										<tr>
 											<td></td>
 											<td><input type="text" class="form-control" placeholder="Tiêu đề" name="title" value="<?=@$name?>"></td>
+											<td></td>
 											<td></td>
 											<td>
 												<select class="form-control" name="category">
@@ -68,7 +70,8 @@
 									<?php if($list) foreach ($list as $item) {?>
 										<tr class="odd gradeX">
 											<td><?=@$item->id?></td>
-											<td><?=@$item->title?> <img src="<?=@base_url($item->thumb)?>" width="18px" height="18px" class="img-circle"></td>
+											<td><span class="<?php if (@$item->display=='public') {echo 'color_green';} else {echo 'color_grey';}?>"><?=@$item->title?></span> <img src="<?=@base_url($item->thumb)?>" width="18px" height="18px" class="img-circle"></td>
+											<td><?php if (@$item->display=='public') {echo 'Publish';} else {echo 'Draft';}?></td>
 											<td><a href="<?=@base_url($item->alias)?>" class="btn btn-fill btn-sm btn-info" target="_blank"><i class="fa fa-pencil"></i> Xem</a></td>
 											<td>
 												<?php if (isset($item->categoryid) && ($item->categoryid != '')) {

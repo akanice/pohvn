@@ -21,131 +21,6 @@ class Ajax extends MY_Controller {
         die();
     }
 
-    public function contact() {
-        $result = new stdClass();
-        $result->ok = false;
-        $result->msg = '';
-
-        $name = $this->input->post('name');
-        $email = $this->input->post('email');
-        $content = $this->input->post('content');
-
-        if (!$name) {
-            $result->msg = 'Bạn chưa điền tên!';
-            echo json_encode($result);
-            die();
-        }
-        if (!$email) {
-            $result->msg = 'Bạn chưa điền email!';
-            echo json_encode($result);
-            die();
-        }
-        if (!$content) {
-            $result->msg = 'Bạn chưa điền nội dung!';
-            echo json_encode($result);
-            die();
-        }
-
-        //Send mail
-
-        $this->load->config('a4r_mail', TRUE);
-        $this->load->library('email');
-        $config['protocol'] = $this->config->item('protocol', 'a4r_mail');
-        $config['smtp_host'] = $this->config->item('smtp_host', 'a4r_mail');
-        $config['smtp_port'] = $this->config->item('smtp_port', 'a4r_mail');
-        $config['smtp_user'] = $this->config->item('smtp_user', 'a4r_mail');
-        $config['smtp_pass'] = $this->config->item('smtp_pass', 'a4r_mail');
-        $config['mailtype'] = $this->config->item('mailtype', 'a4r_mail');
-        $this->email->initialize($config);
-        $this->email->set_newline("\r\n");
-        $this->email->from($this->config->item('admin_email', 'a4r_mail'), $this->config->item('site_title', 'a4r_mail'));
-        $datamail = array(
-            'name'    => $name,
-            'email'   => $email,
-            'content' => $content);
-        $list = array(
-            'admin@nhatminhdev.com',
-            'sales@nhatminhdev.com');
-        $this->email->to($list);
-        $this->email->subject($this->config->item('email_contact_subject', 'a4r_mail'));
-        $message = $this->load->view($this->config->item('email_templates', 'a4r_mail') . $this->config->item('email_contact', 'a4r_mail'), $datamail, true);
-        $this->email->message($message);
-        if ($this->email->send()) {
-            $result->ok = true;
-        } else {
-            echo $this->email->print_debugger();
-            $result->msg = 'Không gửi được mail!';
-        };
-
-
-        echo json_encode($result);
-        die();
-    }
-
-    public function booking() {
-        $this->load->helper('url');
-        $result = new stdClass();
-        $result->ok = false;
-        $result->msg = '';
-
-        $gender = $this->input->post('gender');
-        $name = $this->input->post('name');
-        $phone = $this->input->post('phone');
-        $email = $this->input->post('email');
-        $note = $this->input->post('note');
-        $tour_name = $this->input->post('tour_name');
-        $tour_id = $this->input->post('tour_id');
-        $promocode = 'none';
-
-        $this->load->model('ordertourmodel');
-        $booking = array();
-        $booking['name'] = $name;
-        $booking['alias'] = make_alias($gender . '-' . $name);
-        $booking['customer_phone'] = $phone;
-        $booking['customer_name'] = $name;
-        $booking['customer_email'] = $email;
-        $booking['customer_note'] = $note;
-        $booking['customer_promocode'] = $promocode;
-        $booking['tour_id'] = $tour_id;
-        $booking['create_time'] = time();
-
-        $r = $this->ordertourmodel->create($booking);
-        if (!$r) {
-            $result->msg = 'Có lỗi xảy ra';
-            echo json_encode($result);
-            die();
-        }
-        // $order_id = $r;
-        // $this->load->config('a4r_mail', TRUE);
-        // $this->load->library('email');
-        // $config['protocol'] = $this->config->item('protocol', 'a4r_mail');
-        // $config['smtp_host'] = $this->config->item('smtp_host', 'a4r_mail');
-        // $config['smtp_port'] = $this->config->item('smtp_port', 'a4r_mail');
-        // $config['smtp_user'] = $this->config->item('smtp_user', 'a4r_mail');
-        // $config['smtp_pass'] = $this->config->item('smtp_pass', 'a4r_mail');
-        // $config['mailtype'] = $this->config->item('mailtype', 'a4r_mail');
-        // $this->email->initialize($config);
-        // $this->email->set_newline("\r\n");
-        // $this->email->from($this->config->item('admin_email', 'a4r_mail'), $this->config->item('site_title', 'a4r_mail'));
-        // $site_url = site_url();
-        // $datamail = array('name'=>$name,'email'=>$email,'gender'=>$gender,'phone'=>$phone,'note'=>$note,'order_id'=>$order_id,'site_url'=>$site_url,'tour_name'=>$tour_name);
-        // $list = array('hoangviet11088@gmail.com');
-        // $this->email->to($list);
-        // $this->email->subject($this->config->item('email_order_subject', 'a4r_mail'));
-        // $message = $this->load->view($this->config->item('email_templates', 'a4r_mail') . $this->config->item('email_order', 'a4r_mail'), $datamail, true);
-        // $this->email->message($message);
-        // if($this->email->send()){
-        // $result->ok = true;
-        // $result->msg = 'Gửi được mail!';
-        // }else{
-        // echo $this->email->print_debugger();
-        // $result->msg = 'Không gửi được mail!';
-        // };
-        $result->ok = true;
-        echo json_encode($result);
-        die();
-    }
-
     public function subscribe() {
         $this->load->helper('url');
         $result = new stdClass();
@@ -329,12 +204,12 @@ class Ajax extends MY_Controller {
 			"code"									=> generateUserCode($length=10),
 			"customer_id"						=> $customer_id,
 			"birth_expect"						=> $pre_birth,
-			"note"									=> $message,
+			"note"										=> $message,
 			"affiliate_transaction_id"	=> $transaction_id,
 			"landingpage_id"					=> $landing_page_data->id,
 			"sale_id"								=> null,
 			"total_price"						=> $package_price_value,
-			"status"								=> 'pending',
+			"status"									=> 'pending',
 			"create_time"						=> time(),
 		);
 		$order_id = $this->ordersmodel->create($data3);
@@ -344,38 +219,117 @@ class Ajax extends MY_Controller {
         die();
 	}
 	
-	public function sendmail($name,$phone,$email,$pre_birth,$address,$message,$poh_affiliate,$package_price_value) {
-		$this->load->config('a4r_mail', TRUE);
-        $this->load->library('email');
-        $config['protocol'] = $this->config->item('protocol', 'a4r_mail');
-        $config['smtp_host'] = $this->config->item('smtp_host', 'a4r_mail');
-        $config['smtp_port'] = $this->config->item('smtp_port', 'a4r_mail');
-        $config['smtp_user'] = $this->config->item('smtp_user', 'a4r_mail');
-        $config['smtp_pass'] = $this->config->item('smtp_pass', 'a4r_mail');
-        $config['mailtype'] = $this->config->item('mailtype', 'a4r_mail');
-        $this->email->initialize($config);
-        $this->email->set_newline("\r\n");
-        $this->email->from($this->config->item('admin_email', 'a4r_mail'), $this->config->item('site_title', 'a4r_mail'));
-        $datamail = array(
-            'name'    => $name,
-            'phone'    => $phone,
-            'email'   => $email,
-            'pre_birth'   => $pre_birth,
-            'address'   => $address,
-            'message'   => $message,
-            'poh_affiliate' => $poh_affiliate,
-            'package_price_value' => $package_price_value
+	public function reg_course() {
+		$result = new stdClass();
+        $result->ok = false;
+        $result->msg = '';
+		
+		$this->load->model('ordersmodel');
+		$this->load->model('customersmodel');
+		$this->load->model('affiliatesmodel');
+		$this->load->model('usersmodel');
+		$this->load->model('landingpagemodel');
+		$this->load->model('afflandingconfigmodel');
+		
+		// Create customer info
+		$data1 = array (
+			"name"				=> $this->input->post('name'),
+			"alias"					=> make_alias($this->input->post('name')),
+			"phone"				=> $this->input->post('phone'),
+			"birthday"			=> '',
+			"address"			=> '',
+			"email"				=> $this->input->post('email'),
+			"create_time"	=> time(),
 		);
-        $list = array(
-            'hoangviet11088@gmail',
+		$customer_id = $this->customersmodel->create($data1);
+		
+		// Get Affiliate ID from affi_code
+		if (@$this->input->post('poh_affiliate') && (@$this->input->post('poh_affiliate') !== '') && ($this->input->post('poh_affiliate') !== 0)) {
+			$user_data = $this->usersmodel->read(array('user_code'=>$this->input->post('poh_affiliate')),array(),true);
+			if (@$user_data && $user_data != '') {$affi_id = $user_data->id;}else{$affi_id = 0;}
+			
+			// Calculate commission
+			$ld_config = $this->afflandingconfigmodel->read(array('landingpage_id'=>$this->input->post('page_id')),array(),true);
+			if ($ld_config->type === 'percent') {
+				$amount = ($this->input->post('course_price')*($ld_config->amount))/100;
+			} elseif ($ld_config->type === 'fixed') {
+				$amount = $ld_config->amount;
+			} else {
+				$amount = 0;
+			}
+			$data2 = array(
+				"user_id"			=> $affi_id,
+				"amount"			=> $amount,
+				"status"				=> 'pending',
+				"create_time"	=> time(),
+			);
+			$transaction_id = $this->affiliatesmodel->create($data2);
+		} else {
+			$transaction_id = null;
+		}
+		
+		// Create Order
+		$data3 = array(
+			"code"									=> generateUserCode($length=10),
+			"customer_id"						=> $customer_id,
+			"birth_expect"						=> '',
+			"note"										=> $this->input->post('course_name'),
+			"affiliate_transaction_id"	=> $transaction_id,
+			"landingpage_id"					=> $this->input->post('page_id'),
+			"sale_id"								=> null,
+			"total_price"						=> $this->input->post('course_price'),
+			"status"									=> 'pending',
+			"create_time"						=> time(),
+		);
+		$order_id = $this->ordersmodel->create($data3);
+		
+		$params= array(
+           "name"			=> $this->input->post('name'),
+           "phone"			=> $this->input->post('phone'),
+           "message"		=> '',
+           "products"		=> $this->input->post('course_name'),
+           "quantity"		=> 1,
         );
-        $this->email->to($list);
-        $this->email->subject($this->config->item('email_register_subject', 'a4r_mail'));
-        $message = $this->load->view($this->config->item('email_templates', 'a4r_mail') . $this->config->item('email_contact', 'a4r_mail'), $datamail, true);
-        $this->email->message($message);
-        if ($this->email->send()) {
-            return true;
-        }
-		return false;
+		$url = @$this->input->post('api');
+		$r = $this->postCURL($url, $params);
+		
+		// Sendmail
+		// $datamail = $data3;
+		// $datamail['affi_info']	 			= $user_data->name.' - '.$user_data->user_code.' - '.$user_data->phone;
+		// $datamail['course_name']	= $this->input->post('course_name');
+		// $datamail['course_price']		= $this->input->post('course_price');
+		// $datamail['user_email'] 		= @$this->input->post('email');
+		// $datamail['user_name'] 		= $this->input->post('name');
+		// $datamail['user_phone'] 		= $this->input->post('phone');
+		// $r = $this->sendmail($datamail,'','email_temp_order','email_subject_order');
+		
+		if($r) {
+			$result->params = $params;
+			$result->ok = true;
+			echo json_encode($result);die();
+		} else {
+			$result->ok = false;
+		}
 	}
+	
+	public function postCURL($_url, $_param){
+        $postData = '';
+        foreach($_param as $k => $v) { 
+          $postData .= $k . '='.$v.'&'; 
+        }
+        rtrim($postData, '&');
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, false); 
+        curl_setopt($ch, CURLOPT_POST, count(@$postData));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);    
+
+        $output=curl_exec($ch);
+
+        curl_close($ch);
+
+        return $output;
+    }
 }

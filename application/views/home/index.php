@@ -1,4 +1,4 @@
-	<section id="#slider" class="featured-area featured-style-26 penci-featured-loaded">
+	<section id="slider" class="featured-area featured-style-26 penci-featured-loaded">
 		<div class="container">
 			<div class="wrapper-item wrapper-item-classess">
 				<div class="penci-item-mag penci-item-1"> <a class="penci-image-holder owl-lazy" href="#" title="Travel Guide Europe’s hidden coasts: the Deep Mani, Greece" style="background-image: url('/assets/img/sample_image-2.jpg'); opacity: 1;"></a>

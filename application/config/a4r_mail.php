@@ -1,31 +1,39 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$config['protocol'] = 'smtp';
-$config['smtp_host'] = "mail.poh.vn";
-$config['smtp_port'] = 587;
-$config['smtp_user'] = 'support@poh.vn';
-$config['smtp_pass'] = 'Oq9G8t7e}RsU';
-$config['mailtype'] = 'html';
-$config['site_title'] = "POH - Thai giáo 280 ngày";           // Site Title, example.com
-$config['admin_email'] = "hoangviet11088@gmail.com";    // Admin Email, admin@example.com
-$config['default_group'] = 'members';           // Default group, use name
-$config['admin_group'] = 'admin';             // Default administrators group, use name
-$config['identity'] = 'email';             // A database column which is used to login with
-$config['min_password_length']        = 8;                   // Minimum Required Length of Password
-$config['max_password_length']        = 20;                  // Maximum Allowed Length of Password
-$config['need_activation']            = FALSE;               // Auto activate after register
-$config['email_activation']           = FALSE;               // Email Activation for registration
-$config['manual_activation']          = FALSE;               // Manual Activation for registration
-$config['remember_users']             = FALSE;                // Allow users to be remembered and enable auto-login
-$config['user_expire']                = 86500;               // How long to remember the user (seconds). Set to zero for no expiration
-$config['user_extend_on_login']       = FALSE;               // Extend the users cookies every time they auto-login
-$config['track_login_attempts']       = FALSE;               // Track the number of failed login attempts for each user or ip.
-$config['track_login_ip_address']     = FALSE;                // Track login attempts by IP Address, if FALSE will track based on identity. (Default: TRUE)
-$config['maximum_login_attempts']     = 3;                   // The maximum number of failed login attempts.
-$config['lockout_time']               = 600;                 // The number of seconds to lockout an account due to exceeded attempts
-$config['forgot_password_expiration'] = 0;                   // The number of milliseconds after which a forgot password request will expire. If set to 0, forgot password requests will not expire.
-$config['email_register_subject'] = "Khách hàng đăng ký khóa học";
+$config['protocol']							= 'smtp';
+$config['charset'] 							= 'utf-8';
+$config['wordwrap']						= TRUE;
 
+$config['smtp_host']						= "pro48.emailserver.vn";
+$config['smtp_port']						= 465;
+$config['smtp_user']						= 'admin@poh.vn';
+$config['smtp_pass']						= 'adminpoh12345';
+$config['crlf'] = '\r\n';
+$config['newline'] = '\r\n';
+
+$config['mailtype'] = 'html';
+$config['site_title'] = "POH - Thai giáo 280 ngày";
+$config['admin_email'] = "admin@poh.vn";
+$config['default_group'] = 'members';
+$config['admin_group'] = 'admin';
+$config['identity'] = 'email';
+$config['min_password_length']				= 8;
+$config['max_password_length']			= 20;
+$config['need_activation']						= FALSE;
+$config['email_activation']						= FALSE;
+$config['manual_activation']					= FALSE;
+$config['remember_users']						= FALSE;
+$config['user_expire']								= 86500;
+$config['user_extend_on_login']			= FALSE;
+$config['track_login_attempts']				= FALSE;
+$config['track_login_ip_address']			= FALSE; 
+$config['maximum_login_attempts']		= 3;                  
+$config['lockout_time']								= 600;                 
+$config['forgot_password_expiration']	= 0;                  
+
+
+$config['email_register_subject']			= "Khách hàng đăng ký khóa học";
+$config['email_subject_order']				= "Khách hàng đăng ký khóa học";
 /*
  | -------------------------------------------------------------------------
  | Cookie options.
@@ -65,10 +73,8 @@ $config['email_templates'] = 'email/';
  | Default: activate.tpl.php
  */
 $config['email_register_course'] = 'contact.tpl.php';
-$config['email_admingolf'] = 'admingolf.tpl.php';
-$config['email_adminsponsor'] = 'adminsponsor.tpl.php';
-$config['email_admingolf_cancel'] = 'admingolf_cancel.tpl.php';
-$config['email_adminsponsor_cancel'] = 'adminsponsor_cancel.tpl.php';
+$config['email_temp_order'] = 'order.tpl.php';
+$config['email_temp_contact'] = 'contact.tpl.php';
 /*
  | -------------------------------------------------------------------------
  | Forgot Password Email Template

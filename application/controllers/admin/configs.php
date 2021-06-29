@@ -2,8 +2,6 @@
 
 
 class Configs extends MY_Controller {
-    private $data;
-
     function __construct() {
         parent::__construct();
         $this->auth = new Auth();
@@ -33,6 +31,9 @@ class Configs extends MY_Controller {
         $this->data['cookie_time'] = $this->configsmodel->read(array(
             'term' => 'affiliate',
             'name' => 'cookie_time'), array(), true);
+		
+		$this->data['box_content'] = $this->configsmodel->read(array(
+            'term' => 'new_footer'), array(), false);
 
         $this->data['base'] = site_url('admin/configs/');
         $this->load->view('admin/common/header', $this->data);
@@ -432,7 +433,44 @@ class Configs extends MY_Controller {
             $this->load->view('admin/common/footer');
         }
     }
-
+	
+	public function editbox($id='') {
+		if ($id && $id != '') { // Edit
+			$this->data['box_data'] = $this->configsmodel->read(array(
+            'id'=>$id,'term' => 'new_footer',), array(), true);
+			if($this->data['box_data']) {
+				if ($this->input->post('submit') != null) {
+					$data = array('name'=>$this->input->post('name'),'value'=>$this->input->post('content'));
+					$this->configsmodel->update($data, array(
+						'term'    => 'new_footer',
+						'id' => $id,
+					));
+					
+					$this->session->set_flashdata('message', 'Cập nhật thành công');
+					
+					redirect($_SERVER['REQUEST_URI'], 'refresh'); 
+				} else {
+					$this->load->view('admin/common/header', $this->data);
+					$this->load->view('admin/configs/editBox');
+					$this->load->view('admin/common/footer');
+				}
+			} else {
+				show_404();
+			}
+		} else { // Add new
+			if ($this->input->post('submit') != null) {
+				$data = array('term'=>'new_footer','name'=>$this->input->post('name'),'value'=>$this->input->post('content'),'term_id'=>'1');
+				$n_id = $this->configsmodel->create($data);
+				$this->session->set_flashdata('message', 'Cập nhật thành công');
+					
+				redirect(base_url('admin/configs/editbox/'.$n_id)); 
+			}
+			$this->load->view('admin/common/header', $this->data);
+			$this->load->view('admin/configs/editBox');
+			$this->load->view('admin/common/footer');
+		}
+	}
+	
     public function delete($id) {
         if (isset($id) && ($id > 0) && is_numeric($id)) {
             $this->configsmodel->delete(array('id' => $id));

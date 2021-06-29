@@ -1,8 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class News extends MY_Controller {
-    private $data;
-
     function __construct() {
         parent::__construct();
         $this->load->library('auth');
@@ -14,7 +12,6 @@ class News extends MY_Controller {
         }
         //Get Menu 
         $this->load->model('menusmodel');
-
 		// nav menu
         $nav_data = $this->menusmodel->read(array('menu_id' => '1'));
         $this->data['navmenu'] = json_decode(json_encode($nav_data), true);
@@ -27,7 +24,8 @@ class News extends MY_Controller {
         $this->data['config_mobilemenu'] = $this->menusmodel->setup_mobilemenu();
 		
 		$this->load->model('newsmodel');
-		$this->data['newest_articles'] = $this->newsmodel->read(array(),array('id'=>false),false,5);
+		$this->data['newest_articles'] = $this->newsmodel->read(array('type'=>'default'),array('id'=>false),false,5);
+		$this->data['mostviewed_articles'] = $this->newsmodel->read(array('type'=>'default'),array('count_view'=>false),false,5);
 		
         //print_r($this->data['config_navmenu']);die();
         $this->load->model('menustermmodel');
@@ -59,7 +57,6 @@ class News extends MY_Controller {
     }
 
     public function index($alias) {
-
         $arrShortCode = array(
             '[banner_top_display]' => 'banner_top',
             '[banner_bottom_display]' => 'banner_bottom'
@@ -71,6 +68,14 @@ class News extends MY_Controller {
 		if (!isset($this->data['new']) || $this->data['new']== null) {
 			redirect(base_url());
 		}
+		
+		// Check publish or draft
+		if ($this->data['new']->display == 'public') {
+			$this->data['is_index'] = True;
+		} else {
+			$this->data['is_index'] = False;
+		}
+		
 		$post_id = $this->data['new']->id;
         $content = $this->data['new']->content;
         //TODO - do short code here
@@ -93,25 +98,60 @@ class News extends MY_Controller {
 
             if ($this->data['new']->type == 'default') {
                 $this->data['title'] = $this->data['new']->title;
+                $this->data['meta_title'] 			= $this->data['new']->title;
+                $this->data['meta_keywords'] 	= $this->data['new']->meta_keywords;
+				$this->data['meta_description']	= $this->data['new']->meta_description;
+				
 				$this->data['meta_image'] = base_url($this->data['new']->image);
                 $categoryid = json_decode($this->data['new']->categoryid);
 
                 foreach ($categoryid as $n => $value) {
                     $this->data['category'][$n] = $cat_data = $this->newscategorymodel->read(array('id' => $value), array(), true);
                     if ($cat_data->parent_id == null or $cat_data->parent_id == 0) {
-                        $cat_chosen = $value;
-                    }
+                        $biggest_cat = $value;
+                    } elseif ($cat_data->parent_id !== 0) {
+						$cat_chosen = $value;
+					} else {}
                 }
+				// Tags data
+				$this->load->model('tagsmodel');
+				$this->load->model('tagstermmodel');
+				$tag_array = $this->tagstermmodel->read(array('new_id'=>$new_id),array(),true);
+				$this->data['tag_data'] = array();
+				foreach (json_decode($tag_array->tag_id) as $t) {
+					$this->data['tag_data'][] = $this->tagsmodel->read(array('id'=>$t),array(),true);
+				}
+				
+				// Extra data
+				$this->load->model('newsextramodel');
+				$extra_array = $this->newsextramodel->read(array('new_id'=>$new_id),array(),true);
+				$this->data['extra_data'] = array();
+				foreach (json_decode($extra_array->term_id) as $t) {
+					$this->data['extra_data'][] = $this->configsmodel->read(array('id'=>$t,'term'=>'new_footer'),array(),true);
+				}
+				
                 $this->load->model('adminsmodel');
                 $author_id = $this->data['new']->author_id;
                 $this->data['author'] = $this->adminsmodel->read(array('id' => $author_id), array(), true);
-                $this->data['most_viewed'] = $this->newsmodel->read(array(), array('count_view' => false), false, 5);
-                $this->data['related_news'] = $this->newsmodel->getRelatedNews($cat_chosen, 5);
+                $this->data['most_viewed'] = $this->newsmodel->read(array('display'=>'public'), array('count_view' => false), false, 5);
+                $this->data['related_news'] = $this->newsmodel->get_random_news_single($cat_chosen, 5);//print_r($this->data['related_news']);die();
+				
+				$this->data['biggest_cat'] = $this->newscategorymodel->read(array('id' => $biggest_cat), array(), true);
+				$this->data['related_childcat'] = $this->newscategorymodel->get_sub_categories($biggest_cat);
                 $this->load->view('home/common/header', $this->data);
                 $this->load->view('home/news_detail');
                 $this->load->view('home/common/footer');
+            } elseif ($this->data['new']->type == 'landing') {
+                $this->data['landing_data'] = $this->newsmodel->read(array('id' => $new_id), array(), true);
+				$template = str_replace ('.php','',$this->data['landing_data']->content);
+                $this->load->view('landing/'.$template,$this->data); 
+			} elseif ($this->data['new']->type == 'ladi') {
+                $this->load->view('home/ladi',$this->data);
             } else {
                 $this->data['title'] = $this->data['new']->title;
+				$this->data['meta_title'] 			= $this->data['new']->title;
+                $this->data['meta_keywords'] 	= $this->data['new']->meta_keywords;
+				$this->data['meta_description']	= $this->data['new']->meta_description;
                 $this->data['landing_data'] = $this->landingpagemodel->read(array('news_id' => $new_id), array(), true);
                 $this->load->view('home/common/header_landing', $this->data);
                 $this->load->view('home/template/landing_page');
@@ -157,7 +197,7 @@ class News extends MY_Controller {
         if (empty($page_number)) $page_number = 1;
         $start = ($page_number - 1) * $per_page;
         $this->data['page_links'] = $this->pagination->create_links();
-        $this->data['news'] = $this->newsmodel->getListNews('', $news_array, $news_category->id, $per_page, $start);
+        $this->data['news'] = $this->newsmodel->getListNews('', $news_array, $news_category->id, $per_page, $start,'public');
         if (empty($news_category->title)) {
             $this->data['title'] = 'Chuyên mục';
         } else {
@@ -165,14 +205,50 @@ class News extends MY_Controller {
         }
 
         $this->data['most_viewed'] = $this->newsmodel->read(array('type'=>'normal'), array('count_view' => false), false, 5);
-
-        $this->data['meta_keywords'] = $news_category->meta_keywords;
-        $this->data['meta_description'] = $news_category->meta_description;
+		
+		$this->data['meta_title'] 			= $news_category->meta_title;
+        $this->data['meta_keywords'] 	= $news_category->meta_keywords;
+        $this->data['meta_description']	= $news_category->meta_description;
 
         $this->load->view('home/common/header', $this->data);
         $this->load->view('home/news_list');
         $this->load->view('home/common/footer');
     }
+
+    public function extend_cat($cat_alias,$alias) {
+		if ($cat_alias) {
+			$this->data['news_category'] = $news_category = $this->newscategorymodel->read(array('alias' => $cat_alias), array(), true);
+			if ($news_category && ($news_category->parent_id==0 or $news_category->parent_id==null)) {
+				if ($alias) {
+					$this->data['new'] = $this->newsmodel->read(array('alias' => $alias), array(), true);
+					$this->data['title'] = $this->data['new']->title;
+					$this->data['meta_image'] = base_url($this->data['new']->image);
+					$categoryid = json_decode($this->data['new']->categoryid);
+
+					foreach ($categoryid as $n => $value) {
+						$this->data['category'][$n] = $cat_data = $this->newscategorymodel->read(array('id' => $value), array(), true);
+						if ($cat_data->parent_id == null or $cat_data->parent_id == 0) {
+							$cat_chosen = $value;
+						}
+					}
+					$this->load->model('adminsmodel');
+					$author_id = $this->data['new']->author_id;
+					$this->data['author'] = $this->adminsmodel->read(array('id' => $author_id), array(), true);
+					$this->data['most_viewed'] = $this->newsmodel->read(array(), array('count_view' => false), false, 5);
+					$this->data['related_news'] = $this->newsmodel->getRelatedNews($cat_chosen, 5);
+					$this->load->view('home/common/header', $this->data);
+					$this->load->view('home/news_detail');
+					$this->load->view('home/common/footer');
+				} else {
+					redirect('404_override');
+				}
+			} else {
+				redirect(site_url());
+			}
+		} else {
+			redirect(site_url());
+		}
+    }	
 
     private function configPagination($slug, $per_page = 9, $alias, $total) {
         $this->load->library('pagination');
@@ -224,20 +300,82 @@ class News extends MY_Controller {
         $this->load->view('home/news_search');
         $this->load->view('home/common/footer');
     }
-
-    private function banner_bottom($post_id) {
+	
+	public function tagsSearch($alias) {
+		$this->load->model('tagsmodel');
+		$this->load->model('tagstermmodel');
+		$this->data['tags'] = $this->tagsmodel->read(array(),array(),false,25);
+		$current_tag = $this->data['current_tag'] = $this->tagsmodel->read(array('alias'=>$alias),array(),true);
+		if ($this->data['current_tag']) {
+			$total_news = $this->newsmodel->getNewsByTag($current_tag->id,'','');
+			$total = count($total_news);
+			// print_r($total_news);die();
+			$per_page = 12;
+			$this->configPagination($slug = 'tags', $per_page, $alias, $total);
+			$page_number = $this->uri->segment(3);
+			if (empty($page_number)) $page_number = 1;
+			$start = ($page_number - 1) * $per_page;
+			$this->data['page_links'] = $this->pagination->create_links();
+			$this->data['news'] = $this->newsmodel->getNewsByTag($current_tag->id,8,$start);
+			
+			$this->data['title'] = $this->data['current_tag']->name;
+			$this->data['meta_title'] 					= $this->data['current_tag']->name;
+			$this->data['meta_description'] 		= $this->data['current_tag']->name;
+			$this->data['meta_keywords'] 			= $this->data['current_tag']->name;
+			$this->load->view('home/common/header',  $this->data);
+			$this->load->view('home/tag_search');
+			$this->load->view('home/common/footer');
+		} else {
+            redirect('404_override');
+        }
+		
+	}
+	protected $_ep = array();
+	
+	// public function Isbanner($post_id) {
+		// if ($html == '') {
+			// $cat_id = json_decode($this->newsmodel->read(array('id'=>$post_id),array(),true)->categoryid);
+			// $k = array_rand($cat_id);
+			// $category_id = $cat_id[$k];
+			// $html = $this->newscategorymodel->read(array('id'=>$category_id),array(),true)->banner_bottom_display;
+		// } 
+		// return $html;
+	// }
+    public function banner_bottom($post_id) {
         $cat_id = json_decode($this->newsmodel->read(array('id'=>$post_id),array(),true)->categoryid);
 		$k = array_rand($cat_id);
 		$category_id = $cat_id[$k];
 		$html = $this->newscategorymodel->read(array('id'=>$category_id),array(),true)->banner_bottom_display;
-		return $html;
+		if ($html == '') {
+			return 'not';
+			$this->banner_bottom($post_id);
+		} else {			
+			return $html;
+		}
     }
-    private function banner_top($post_id) {
-        $cat_id = json_decode($this->newsmodel->read(array('id'=>$post_id),array(),true)->categoryid);
+	
+	public function banner_top($post_id) {
+		$cat_id = json_decode($this->newsmodel->read(array('id'=>$post_id),array(),true)->categoryid);
 		$k = array_rand($cat_id);
 		$category_id = $cat_id[$k];
 		$html = $this->newscategorymodel->read(array('id'=>$category_id),array(),true)->banner_top_display;
 		return $html;
-    }
+	}
+	
+	// public function banner_top($post_id) {
+        // $cat_id = json_decode($this->newsmodel->read(array('id'=>$post_id),array(),true)->categoryid);
+		// $html = '';
+		// $this->banner_html($cat_id,$html);	
+		// return $_ep;
+    // }
+	protected function banner_html($cat_id,$html='',$n=1) {
+		if ($cat_id != '' && $html == '') {
+			$k = array_rand($cat_id);
+			$category_id = $cat_id[$k];
+			unset($cat_id[$k]);
+			$html = $this->newscategorymodel->read(array('id'=>$category_id),array(),true)->banner_top_display;
+			$this->banner_html($cat_id,$html,$n++);
+		}
+	}
 	
 }

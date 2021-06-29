@@ -44,6 +44,7 @@
                                     <select name="type" class="form-control">
 										<option value="default" selected>Mặc định</option>
 										<option value="landing">Landing Page</option>
+										<option value="page">Trang</option>
 									</select>
                                 </div>
                             </div>
@@ -64,6 +65,16 @@
                                 <div class="col-sm-10">
                                     <select data-placeholder="Chọn tags..." class="chosen-select form-control" multiple style="width:100%;" tabindex="4" name="tags[]">
                                         <?php foreach($tags as $a){?>
+											<option value="<?=$a->id?>"><?=$a->name?></option>
+                                        <?php }?>
+                                    </select>
+                                </div>
+                            </div>
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">Box nội dung cuối trang</label>
+                                <div class="col-sm-10">
+                                    <select data-placeholder="Chọn box nội dung..." class="chosen-select form-control" multiple style="width:100%;" tabindex="4" name="box_content[]">
+                                        <?php foreach($box_content as $a){?>
 											<option value="<?=$a->id?>"><?=$a->name?></option>
                                         <?php }?>
                                     </select>
@@ -103,6 +114,15 @@
 						<h4 class="title">Tạo mới</h4>
 					</div>
 					<div class="content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Hiển thị</label>
+							<div class="col-sm-10">
+								<select name="display" class="form-control">
+									<option value="public" selected>Publish</option>
+									<option value="draft" >Draft</option>
+								</select>
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Danh mục</label>
 							<div class="col-sm-10">

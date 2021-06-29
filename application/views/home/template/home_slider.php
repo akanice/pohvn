@@ -1,4 +1,4 @@
-	<section id="#slider" class="featured-area featured-style-26 penci-featured-loaded">
+	<section id="slider" class="featured-area featured-style-26 penci-featured-loaded">
 		<div class="container">
 			<div class="wrapper-item wrapper-item-classess">
 				<?php if ($section_sliders) $i=1;foreach ($section_sliders as $item) {?>
@@ -6,7 +6,7 @@
 					<a class="penci-image-holder owl-lazy" 
 						href="<?=@base_url($item->alias)?>" 
 						title="<?=@$item->title?>" 
-						style="<?php if ($item->thumb) {?>background-image: url('<?=@$item->thumb?>');<?php } ?>background-color: #fff; opacity: 1;"></a>
+						style="<?php if ($item->thumb) {?>background-image: url('<?php if ($i==1) {echo $item->image;} else {echo $item->thumb;}?>');<?php } ?>background-color: #fff; opacity: 1;"></a>
 					<div class="penci-slide-overlay penci-slider6-overlay"> <a class="overlay-link" href="<?=@base_url($item->alias)?>"></a>
 						<div class="penci-mag-featured-content">
 							<div class="feat-text slider-hide-date">

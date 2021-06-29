@@ -41,7 +41,7 @@
 										<th width=''>ID</th>
 										<th width=''>Tiêu đề</th>
 										<th width=''>Xem</th>
-										<th width=''>Giá khóa học</th>
+
 										<th width=''>Lượt xem</th>
 										<th width=''>Hành động</th>
 									</tr>
@@ -51,23 +51,22 @@
 											<td width=''></td>
 											<td width=''><input type="text" class="form-control" placeholder="Tiêu đề" name="name" value="<?=@$name?>"></td>
 											<td width=''></td>
-											<td width=''></td>
+
 											<td></td>
 											<td width='' style="text-align: center"><button type="submit" class="btn btn-fill btn-default">Tìm kiếm</button></td>
 										</tr>
 									</form>
 									<tbody>
-									<?php if($list) {} 
-											foreach ($list as $item){ ?>
+									<?php if(@$list) { foreach ($list as $item){ ?>
 										<tr class="odd gradeX">
 											<td><?=@$item->id?></td>
-											<td><?=@$item->title?> <img src="<?=@base_url($item->thumb)?>" width="18px" height="18px" class="img-circle"></td>
+											<td><?=@$item->title?></td>
 											<td><a href="<?=@base_url($item->alias)?>" class="btn btn-sm btn-fill btn-primary" target="_blank">Xem</a></td>
-											<td><?=@$item->total_price?> vnđ</td>
+
 											<td><?=@$item->count_view?></td>
 											<td style="text-align: center"><a href="<?=@base_url('admin/landingpage/edit/'.$item->id)?>"><i class="fa fa-pencil"></i> Sửa</a> | <a href="<?=@base_url('admin/landingpage/delete/'.$item->id)?>" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')" ><i class="fa fa-trash"></i> Xóa</a></td>
 										</tr>
-										<?php } ?>
+									<?php }} ?>
 									</tbody>
 								</table>
 							</div>

@@ -2,11 +2,26 @@
 
 //vietth - Ajax calculate date 
 jQuery( document ).ready(function($) {
+	
+	// Smooth scroll
+	$(".scroll").click(function(event){
+		event.preventDefault();
+		//calculate destination place
+		var dest=0;
+		if($(this.hash).offset().top > $(document).height()-$(window).height()){
+			dest=$(document).height()-$(window).height()-100;
+		}else{
+			dest=$(this.hash).offset().top-100;
+		}
+	//go to destination
+	$('html,body').animate({scrollTop:dest}, 1000,'swing');
+	});
+	
 	$('#share_link_input').val(share_link) ;
 	// Set and Get Cookies
 	if (typeof poh_affiliate_slug === 'undefined' || poh_affiliate_slug === null) {
 		poh_affiliate_cookie = $.cookie('poh_affiliate');
-		console.log(poh_affiliate_cookie);
+		// console.log(poh_affiliate_cookie);
 		if (typeof poh_affiliate_cookie === 'undefined' || poh_affiliate_cookie === null) {			
 			$.cookie("poh_affiliate", null, { expires: cookies_expires });
 			$("input[name=poh_affiliate_id]").val(0);
@@ -81,6 +96,32 @@ jQuery( document ).ready(function($) {
 				}
 			});		
 		});
+		
+		// Submit form - New LandingPage
+		$("#form_course").submit(function(e) {
+			$('.spinner_loading').show();
+			if(document.getElementById('form_checkbox').checked  == true){
+				//$(this).submit();
+				e.preventDefault();
+				var form = $(this);
+				
+				$.ajax({
+					url : site_url + "ajax/reg_course",
+					type: "POST",
+					data : form.serialize(),
+					success: function(data){
+						console.log(data);
+						$('.spinner_loading').hide();
+						location.href = site_url + '/poh-cam-on';
+						//$('#register_course').html('Đăng ký thành công');
+					}
+				});
+			}else{
+				alert('Xin hãy đồng ý điều khoản dịch vụ trước khi tiếp tục');
+				return false;
+			}
+		});
+		
 	});
 	
 	// add dot/(.) to numbers every three digits
@@ -134,18 +175,33 @@ jQuery( document ).ready(function($) {
 	function pad(n) {
 		return (n < 10 ? '0' : '') + n;
 	}
+	
+	// Load more course
+	$('#seemore').click(function() {
+		$('.btn-tab').show();
+		$(this).hide();
+	});
 });
 
+// function copyClipboard(e) {
+	// var $temp = $("<input>");
+	// $("body").append($temp);
+	// $temp.val($(e).html()).select();
+	// document.execCommand("copy");
+	// $temp.remove();
+// }
+
 function copyClipboard() {
-	var copyText = document.getElementById("share_link_input");
+	// var copyText = $('#bank_number').text();
+	var copyText = document.getElementById("bank_number");
 	copyText.select();
 	document.execCommand("copy");
 
 	var tooltip = document.getElementById("myTooltip");
-	tooltip.innerHTML = "Copied: " + copyText.value;
+	tooltip.innerHTML = "Đã copy: " + copyText.value;
 }
 
 function outFunc() {
 	var tooltip = document.getElementById("myTooltip");
-	tooltip.innerHTML = "Copy to clipboard";
+	tooltip.innerHTML = "Sao chép vào clipboard";
 }

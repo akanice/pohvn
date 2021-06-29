@@ -38,7 +38,7 @@
 								<b><?=@$notice?></span>
 						</div>
 						<?php } ?>
-						<h4 class="title">Sửa nội dung tin tức</h4>
+						<h4 class="title">Sửa nội dung tin tức <a href="<?=@base_url($news->alias)?>" class="btn btn-fill btn-sm btn-warning" target="_blank">Xem bài viết</a></h4>
 					</div>
 					<div class="content">
                             <div class="form-group">
@@ -48,11 +48,23 @@
                                 </div>
                             </div>
 							<div class="form-group">
+                                <label class="col-sm-2 control-label">URL</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+										<div class="input-group-addon">
+										<?=base_url()?>
+										</div>
+										<input type="text" class="form-control" name="alias" value="<?=@$news->alias?>"/>
+									</div>
+                                </div>
+                            </div>
+							<div class="form-group">
                                 <label class="col-sm-2 control-label">Loại bài viết</label>
                                 <div class="col-sm-10">
 									<select name="type" class="form-control">
 										<option value="default" <?php if($news->type=='default'){echo 'selected="selected" ';}?>>Mặc định</option>
 										<option value="landing" <?php if($news->type=='landing'){echo 'selected="selected" ';}?>>Landing Page</option>
+										<option value="page" <?php if($news->type=='page'){echo 'selected="selected" ';}?>>Trang</option>
 									</select>
 								</div>
 							</div>
@@ -74,6 +86,16 @@
                                     <select data-placeholder="Chọn tags..." class="chosen-select form-control" multiple style="width:100%;" tabindex="4" name="tags[]">
                                         <?php if ($tags) foreach($tags as $a){?>
 											<option value="<?=$a->id?>" <?php if (($new_tags != '') and ($new_tags)) { if(in_array($a->id,$new_tags)) { echo 'selected'; }}?>><?=$a->name?></option>
+                                        <?php }?>
+                                    </select>
+                                </div>
+                            </div>
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">Box nội dung cuối trang</label>
+                                <div class="col-sm-10">
+                                    <select data-placeholder="Chọn box nội dung..." class="chosen-select form-control" multiple style="width:100%;" tabindex="4" name="box_content[]">
+                                        <?php foreach($box_content as $a){?>
+											<option value="<?=$a->id?>" <?php if (($new_box_content != '') and ($new_box_content)) { if(in_array($a->id,$new_box_content)) { echo 'selected'; }}?>><?=$a->name?></option>
                                         <?php }?>
                                     </select>
                                 </div>
@@ -114,6 +136,15 @@
 						<h4 class="title">Tạo mới</h4>
 					</div>
 					<div class="content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Hiển thị</label>
+							<div class="col-sm-10">
+								<select name="display" class="form-control">
+									<option value="public" <?php if($news->display=='public'){echo 'selected="selected" ';}?>>Publish</option>
+									<option value="draft" <?php if($news->display=='draft'){echo 'selected="selected" ';}?>>Draft</option>
+								</select>
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Danh mục</label>
 							<div class="col-sm-10">

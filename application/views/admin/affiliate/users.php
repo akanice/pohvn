@@ -79,7 +79,7 @@
                             </div>
                         </div>
                     </div>
-                    <div style="padding: 0 0 3.5em 1em;"><?php echo $page_links?></div>
+                    <div style="padding-left: 400px" class="clearfix pagination"><?php echo $page_links?></div>
                 </div>
                 <!-- END PAGE CONTAINER-->
             </div>

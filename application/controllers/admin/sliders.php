@@ -1,20 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-
 class Sliders extends MY_Controller{
-    private $data;
     function __construct() {
         parent::__construct();
         $this->auth = new Auth();
         $this->auth->check();
 		$this->checkCookies();
-        if($this->session->userdata('admingroup') == "mod"){
-            show_404();
-        }
         $this->data['email_header'] = $this->session->userdata('adminemail');
         $this->data['all_user_data'] = $this->session->all_userdata();
         $this->load->model('slidersmodel');
-        $this->load->library('auth');
     }
     public function index(){
         $this->data['title']    = 'Quản lý Slider';
@@ -99,8 +93,7 @@ class Sliders extends MY_Controller{
         }
     }
 
-    public function edit($id)
-    {
+    public function edit($id) {
         $this->data['slider'] = $this->slidersmodel->read(array('id'=>$id),array(),true);
         if($this->input->post('submit') != null){
             $uploaddir = 'assets/uploads/slider/';

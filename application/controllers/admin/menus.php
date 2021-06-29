@@ -2,7 +2,6 @@
 
 
 class Menus extends MY_Controller{
-    private $data;
     protected $types = array('');
     function __construct() {
         parent::__construct();

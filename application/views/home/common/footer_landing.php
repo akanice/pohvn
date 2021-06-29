@@ -1,3 +1,4 @@
+<a href="//www.dmca.com/Protection/Status.aspx?ID=0cc26b58-c4c4-45da-99ae-e49abad1d921" title="DMCA.com Protection Status" class="dmca-badge"> <img src ="https://images.dmca.com/Badges/_dmca_premi_badge_5.png?ID=0cc26b58-c4c4-45da-99ae-e49abad1d921"  alt="DMCA.com Protection Status" /></a>  <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>
 	<script
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

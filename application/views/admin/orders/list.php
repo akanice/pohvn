@@ -57,7 +57,7 @@
 									<tr>
 										<th width=''>ID</th>
 										<th width=''>Ngày tạo</th>
-										<th width=''>Ngày dự sinh</th>
+										<th width=''>Khóa học</th>
 										<th width=''>Họ tên</th>
 										<th width=''>Số điện thoại</th>
 										<th width=''>Email</th>
@@ -73,7 +73,7 @@
 										<tr>
 											<td width=''></td>
 											<td width=''></td>
-											<td width=''></td>
+											<td width=''><input type="text" class="form-control" placeholder="Họ tên" name="name" value="<?=@$course_id?>"></td>
 											<td width=''><input type="text" class="form-control" placeholder="Họ tên" name="name" value="<?=@$name?>"></td>
 											<td width=''><input type="text" class="form-control" placeholder="Số điện thoại" name="phone" value="<?=@$phone?>"></td>
 											<td width=''></td>
@@ -88,9 +88,11 @@
 									<tbody>
 									<?php if($list) foreach ($list as $item) {?>
 										<tr class="odd gradeX">
-											<td><?=@$item->id?></td>
+											<td><?=@$item->code?></td>
 											<td><?=@date('d/m/Y <b>H:i</b>', $item->create_time)?></td>
-											<td><?=$item->birth_expect?></td>
+											<td><?php @$landing = $this->newsmodel->read(array('id' => $item->landingpage_id), array(), true)->title; echo @$landing;?>
+											
+											</td>
 											<td><?=@$item->customer_name?></td>
 											<td><?=@$item->customer_phone?></td>
 											<td><?=@$item->customer_email?></td>

@@ -96,7 +96,9 @@ h1,h2,h3,h4,h5,h6 {
 	color:#3a3a3a;
 }
 .vc_separator h4 {
-	color: #2980b9;
+	color: #c74c7d;
+    font-style: italic;
+    font-family: serif;
 }
 .poh-img-download {
 	width: 200px;

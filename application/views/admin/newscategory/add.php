@@ -62,6 +62,30 @@
                                 </div>
                             </div>
 							<div class="form-group">
+								<label class="col-sm-3 control-label">Mô tả</label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control ckeditor" name="description"></textarea>
+                                </div>
+							</div>
+							<div class="form-group">
+                                <label class="col-sm-3 control-label">Meta title</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="meta_title"/>
+                                </div>
+                            </div>
+							<div class="form-group">
+                                <label class="col-sm-3 control-label">Meta description</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="meta_description"/>
+                                </div>
+                            </div>
+							<div class="form-group">
+                                <label class="col-sm-3 control-label">Meta keywords</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="meta_keywords"/>
+                                </div>
+                            </div>
+							<div class="form-group">
 								<label class="col-sm-3 control-label">Banner top code</label>
                                 <div class="col-sm-9">
                                     <textarea class="form-control ckeditor" name="banner_top_display"></textarea>

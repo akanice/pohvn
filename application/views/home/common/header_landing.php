@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title><?php if ($title == '' or $title == null) {echo 'POH - Khóa thực hành thai giáo';} else {echo $title;}?></title>
 	<meta charset="utf-8">

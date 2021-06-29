@@ -46,6 +46,15 @@
                                 } ?>
 						</ul>
 						<nav aria-label="Page navigation example"><ul class="pagination"><?php echo $page_links;?></ul></nav>
+						
+						<!-- Mô tả -->
+						<?php if (@$news_category->description && @$news_category->description != '') {?>
+						<div class="short_info">
+							<?=@$news_category->description?>
+						</div>
+						<!--<div id="btn_expand" class="expand text-right"><span>Xem thêm +</i></span></div>-->
+						<?php } ?>
+						<!-- End mô tả -->
 					</div>
 				</div>
 				

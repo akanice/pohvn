@@ -2,7 +2,7 @@
 
 
 class override_404 extends MY_Controller{
-    private $data;
+    public $data;
     function __construct() {
         parent::__construct();
 		
@@ -21,8 +21,8 @@ class override_404 extends MY_Controller{
         $this->data['config_mobilemenu'] = $this->menusmodel->setup_mobilemenu();
 		
 		$this->load->model('newsmodel');
-		$this->data['newest_articles'] = $this->newsmodel->read(array(),array('id'=>false),false,5);
-
+		$this->data['newest_articles'] = $this->newsmodel->read(array('type'=>'default'),array('id'=>false),false,5);
+		$this->data['mostviewed_articles'] = $this->newsmodel->read(array('type'=>'default'),array('count_view'=>false),false,5);
 		$this->data['email_header'] = $this->session->userdata('adminemail');
         $this->data['all_user_data'] = $this->session->all_userdata();
 		$this->load->model('optionsmodel');
@@ -53,8 +53,9 @@ class override_404 extends MY_Controller{
 		$this->data['pagetitle']    = 'Page not found';
 		$this->output->set_status_header('404'); 
 		
-		$this->load->view('home/common/header',$this->data);
-        $this->load->view('home/404_page');
-        $this->load->view('home/common/footer');
+		redirect(site_url());
+		// $this->load->view('home/common/header',$this->data);
+        // $this->load->view('home/404_page');
+        // $this->load->view('home/common/footer');
 	}
 }

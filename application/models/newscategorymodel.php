@@ -25,6 +25,11 @@ class NewsCategoryModel extends MY_Model {
             'nullable'  => true,
             'type'      => 'integer'
         ),
+		'description' => array(
+            'isIndex'   => false,
+            'nullable'  => true,
+            'type'      => 'string'
+        ),
 		'meta_title' => array(
             'isIndex'   => false,
             'nullable'  => true,
@@ -115,7 +120,7 @@ class NewsCategoryModel extends MY_Model {
 			$this->db->select('*');
 			$this->db->like('news_category.title',$title);
 			$this->db->or_like('news_category.alias',$title);
-			$this->db->order_by('id','desc');
+			$this->db->order_by('news_category.id','desc');
 			foreach ($this->db->get('news_category')->result_array() as $key => $value) {
 				$this->_sortedCategories[] = array("id" => $value["id"], "title" => $value["title"], "alias" => $value["alias"], "level" => 1);
 			}

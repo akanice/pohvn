@@ -85,7 +85,7 @@
 									<tr>
 										<th width=''>Order Id</th>
 										<th width=''>Mã đơn hàng</th>
-										<th width=''>Giá trị đơn hàng</th>
+										<th width=''>Hoa hồng nhận được</th>
 										<th width=''>Thời gian</th>
 										<th width=''>Trạng thái</th>
 										<th width=''>Chi tiết</th>
@@ -98,7 +98,7 @@
 											<td><?php echo $affiliateTransaction->id; ?></td>
 											<td><?php echo $affiliateTransaction->code; ?></td>
 											<td><?php echo $affiliateTransaction->amount; ?> đ</td>
-											<td><?php echo $affiliateTransaction->create_time; ?></td>
+											<td><?=Date('d-m-Y',@$affiliateTransaction->create_time)?></td>
 											<td><?php echo $affiliateTransaction->status; ?></td>
 											<td></td>
 										</tr>

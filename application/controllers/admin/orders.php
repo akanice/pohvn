@@ -1,7 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Orders extends MY_Controller{
-    private $data;
     function __construct() {
         parent::__construct();
         $this->auth = new Auth();
@@ -10,10 +9,12 @@ class Orders extends MY_Controller{
         $this->data['all_user_data'] = $this->session->all_userdata();
         $this->load->model('customersmodel');
         $this->load->model('ordersmodel');
+        $this->load->model('newsmodel');
 	}
     public function index(){
         $this->data['title'] 				= 'Quản lý đơn hàng';
 
+        $this->data['course_id']		= $this->input->get('course_id');
         $this->data['name'] 			= $this->input->get('name');
         $this->data['phone'] 			= $this->input->get('phone');
         $this->data['status'] 			= $this->input->get('status');

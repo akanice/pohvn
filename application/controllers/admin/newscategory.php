@@ -1,8 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-
 class NewsCategory extends MY_Controller{
-    private $data;
     function __construct() {
         parent::__construct();
         $this->auth = new Auth();
@@ -73,6 +71,10 @@ class NewsCategory extends MY_Controller{
             $data = array(
                 "title" => $this->input->post("title"),
                 "alias" => make_alias($this->input->post("title")),
+				"description" => $this->input->post("description"),
+				"meta_title" => $this->input->post("meta_title"),
+				"meta_description" => $this->input->post("meta_description"),
+				"meta_keywords" => $this->input->post("meta_keywords"),
                 "parent_id" => $this->input->post("parent_id"),
                 "banner_top_display" => $this->input->post("banner_top_display"),
                 "banner_bottom_display" => $this->input->post("banner_bottom_display"),
@@ -100,13 +102,14 @@ class NewsCategory extends MY_Controller{
 			);
             $this->configsmodel->create($data_array,true);
 			
-			$this->load->model(newsordermodel);
+			$this->load->model('newsordermodel');
 			$data_array2 = array(
 				'categoryid' => $id,
 				'news_array' => '["0"]',
 			);
-			$this->newsordermodel->create($data);
-            redirect(base_url() . "admin/newscategory");
+			//print_r($data_array2);
+			$cat_id = $this->newsordermodel->create($data_array2);
+            redirect(base_url() . "admin/newscategory/edit/".$cat_id);
             exit();
         }
         else {
@@ -125,12 +128,16 @@ class NewsCategory extends MY_Controller{
             $data = array(
                 "title" => $this->input->post("title"),
                 "parent_id" => $this->input->post("parent_id"),
-                "alias" => make_alias($this->input->post("title")),
+                //"alias" => make_alias($this->input->post("title")),
+				"description" => $this->input->post("description"),
+				"meta_title" => $this->input->post("meta_title"),
+				"meta_description" => $this->input->post("meta_description"),
+				"meta_keywords" => $this->input->post("meta_keywords"),
 				"banner_top_display" => $this->input->post("banner_top_display"),
                 "banner_bottom_display" => $this->input->post("banner_bottom_display"),
 			);
             $this->newscategorymodel->update($data,array('id'=>$id));
-            redirect(base_url() . "admin/newscategory");
+            redirect(base_url() . "admin/newscategory/edit/".$id);
             exit();
         }
         else {

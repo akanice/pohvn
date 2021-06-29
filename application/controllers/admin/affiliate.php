@@ -9,7 +9,6 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 
 class Affiliate extends MY_Controller {
-	private $data;
 
 	function __construct() {
 		parent::__construct();
@@ -73,10 +72,10 @@ class Affiliate extends MY_Controller {
 		//$total = count($this->newsmodel->getListLandingpage($this->input->get('title'),"",""));
 		$total = count($this->affiliatesmodel->read());
 		$this->load->library('pagination');
-		$config['base_url'] = base_url() . 'admin/affiliate/statistic/';
+		$config['base_url'] = base_url() . 'admin/affiliate/transaction/';
 		$config['total_rows'] = $total;
 		$config['uri_segment'] = 4;
-		$config['per_page'] = 10;
+		$config['per_page'] = 30;
 		$config['num_links'] = 5;
 		$config['use_page_numbers'] = TRUE;
 		$config["num_tag_open"] = "<p class='paginationLink'>";
@@ -109,13 +108,13 @@ class Affiliate extends MY_Controller {
     public function users() {
         $this->data['title'] = 'Quản lý thành viên liên kết';
         //Pagination
-        $total = count($this->usersmodel->read(array('role'=>'affiliate')));
+        $total = count($this->affiliatesmodel->getListAffiliateUsers('',''));
         
         $this->load->library('pagination');
-        $config['base_url'] = base_url() . 'admin/affiliate/';
+        $config['base_url'] = base_url() . 'admin/affiliate/users/';
         $config['total_rows'] = $total;
-        $config['uri_segment'] = 3;
-        $config['per_page'] = 10;
+        $config['uri_segment'] = 4;
+        $config['per_page'] = 25;
         $config['num_links'] = 5;
         $config['use_page_numbers'] = TRUE;
         $config["num_tag_open"] = "<p class='paginationLink'>";
@@ -139,7 +138,7 @@ class Affiliate extends MY_Controller {
         if (empty($page_number)) $page_number = 1;
         $start = ($page_number - 1) * $config['per_page'];
         $this->data['page_links'] = $this->pagination->create_links();
-        $this->data['users'] = $this->affiliatesmodel->getListAffiliateUsers($start, $config['per_page']);
+        $this->data['users'] = $this->affiliatesmodel->getListAffiliateUsers($start, $config['per_page']);//print_r($start);die();
         $this->load->view('admin/common/header', $this->data);
         $this->load->view('admin/affiliate/users');
         $this->load->view('admin/common/footer');

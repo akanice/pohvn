@@ -39,6 +39,12 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="col-sm-2 control-label">Link/Url</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" name="alias" />
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-sm-2 control-label">Loại bài viết</label>
 							<div class="col-sm-10">
 								<select name="type" class="form-control" readonly >
@@ -48,64 +54,29 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">Mô tả ngắn</label>
+							<label class="col-sm-2 control-label">Template</label>
 							<div class="col-sm-10">
-								<textarea class="form-control" name="description"></textarea>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Nội dung</label>
-							<div class="col-sm-10">
-								<textarea class="form-control ckeditor" name="content" rows="10"></textarea>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Thẻ meta title</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" name="meta_title">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Thẻ meta description</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" name="meta_description">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Thẻ meta keywords</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" name="meta_keywords">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Code Header</label>
-							<div class="col-sm-10">
-								<textarea class="form-control" name="code_header" rows="10"></textarea>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Code Footer</label>
-							<div class="col-sm-10">
-								<textarea class="form-control" name="code_footer" rows="10"></textarea>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Menu hiển thị</label>
-							<div class="col-sm-10">
-								<select class="input-large m-wrap form-control" name="menu_id">
-									<?php foreach ($menus as $c) {?>
-										<option value="<?=@$c->id?>"><?=@$c->name?></option>
-									<?php }
-									?>
+								<select name="template" class="form-control" >
+									<?php foreach ($files as $file) {?>
+									<option value="<?=$file?>"><?=$file?></option>
+									<?php } ?>
 								</select>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">Ảnh</label>
+							<label class="col-sm-2 control-label">Loại hoa hồng</label>
 							<div class="col-sm-10">
-								<input type="file" accept="image" class="form-control" name="image" required=""/>
+								<select class="form-control" name="commission_type">
+									<option value="percent">Phần trăm (%)</option>
+									<option value="fixed">Cố định</option>
+								</select>
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Giá trị</label>
+							<div class="col-sm-10"><input type="text" class="form-control" name="commission_value" placeholder=""></div>
+						</div>
+						
 						<div class="form-group">
 							<label class="col-sm-2 control-label"></label>
 							<div class="col-sm-6">
@@ -118,54 +89,10 @@
                 <!-- END VALIDATION STATES-->
             </div>
 			
-			<div class="col-md-4 col-lg-4">
-				<div class="card">
-					<div class="header">
-					</div>
-					<div class="content">
-						<div class="form-group">
-							<label class="col-sm-12">Giá mặc định</label>
-							<div class="col-sm-12"><input type="text" class="form-control" name="total_price" placeholder="VND"></div>
-						</div>
-						<hr />
-						<div class="form-group">
-							<label class="col-sm-12">Thêm mức giá / tuổi thai</label>
-							<div class="package-item clearfix">
-								<div class="col-sm-3"><input type="text" class="form-control" name="pricingPackage[0][packitemfrom]" value="" /></div>
-								<div class="col-sm-3"><input type="text" class="form-control" name="pricingPackage[0][packitemto]" value="" /></div>
-								<div class="col-sm-5"><input type="text" class="form-control" name="pricingPackage[0][packdetails]" value="" /></div>
-								<div class="col-sm-1"><span class=""><a href="javascript:void(0);" class="btn btn-info btn-simple btn-nopadding btn-link remove-package"><i class="fa fa-trash"></i></a></span></div>
-							</div>
-							<div id="output-package" class="clearfix"></div>
-							<div class="col-sm-12"><a href="#" class="add_package btn btn-fill btn-primary btn-sm"><i class="fa fa-plus"></i> Thêm</a></div>
-						</div>
-						<hr />
-						<div class="form-group">
-							<label class="col-sm-3 control-label">Loại hoa hồng</label>
-							<div class="col-sm-8">
-								<select class="form-control" name="commission_type">
-									<option value="percent">Phần trăm (%)</option>
-									<option value="fixed">Cố định</option>
-								<select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">Giá trị</label>
-							<div class="col-sm-8"><input type="text" class="form-control" name="commission_value" placeholder=""></div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-12">
-								<input type="submit" class="btn btn-primary btn-fill btn-wd" name="submit" value="Lưu lại">
-								<a href="javascript:window.history.go(-1);" class="btn btn-default btn-fill">Hủy</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 			</form>
         </div>
     </div>
-	
+</div>	
 <script type="text/javascript">
 var $ =jQuery.noConflict();
 var $c = 0;

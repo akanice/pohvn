@@ -121,6 +121,34 @@
 						</div>
 					</div>
 				</div>
+				<div class="card">
+					<div class="content">
+						<div class="widget red">
+							<div class="widget-title">
+								<h4>Box content</h4>
+								<?php //print_r($result);?>
+							</div>
+							<div class="widget-body">
+								<div class="item">
+									<table class="table">
+										<tbody>
+											<tr>
+												<td><?php if ($box_content) foreach ($box_content as $item) {?>
+													<a class="btn btn-xs btn-fill" href="<?=@base_url('admin/configs/editbox/'.$item->id)?>"><?=@$item->name?> <i class="fa fa-pencil"></i></a>
+												<?php } ?></td>
+												<td class="td-actions text-right">
+													<a href="<?=@base_url('admin/configs/editbox')?>" title="" class="btn btn-info btn-simple btn-link">
+														<i class="fa fa-plus"></i> Thêm mới
+													</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
             </div>
         </div>
         <!-- END PAGE -->

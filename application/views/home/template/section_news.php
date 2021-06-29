@@ -4,7 +4,7 @@
             <div class="col-md-12">
                 <section class="home-featured-cat" id="category-<?= @$section_news['parent_cat']->id ?>">
                     <div class="section-title">
-                        <a href="<?= base_url('category/') .  $section_news['parent_cat']->alias ?>"><h3><?= $section_news['parent_cat']->title ?></h3></a>
+                        <a href="<?= base_url('category/') .  $section_news['parent_cat']->alias ?>"><h2><span><?= $section_news['parent_cat']->title ?></span></h2></a>
                     </div>
                     <?php if (isset($section_news['slogan']->value) && ($section_news['slogan']->value != '')) { ?>
                         <div class="vc_separator wpb_content_element vc_separator_align_center vc_sep_width_60 vc_sep_pos_align_center vc_sep_color_orange vc_separator-has-text"><span
@@ -26,7 +26,7 @@
                                                    style="background-image:url('<?= @$item->thumb ?>');display:inline-block"></a>
                                             </div>
                                             <div class="article-title">
-                                                <a href="<?= base_url($item->alias) ?>"><h4 class="article-title"><?= $item->title ?></h4></a>
+                                                <a href="<?= base_url($item->alias) ?>"><h3 class="article-title"><?= $item->title ?></h3></a>
                                                 <div class="article-date"><i class="fa fa-calendar"></i> <?php echo date_format(date_create($item->create_time),"d/m/Y"); ?></div>
                                             </div>
                                         </div>
@@ -43,7 +43,7 @@
                                                    style="background-image:url('<?= @$item[0]->thumb ?>');display:inline-block"></a>
                                             </div>
                                             <div class="article-title">
-                                                <a href="<?= base_url($item[0]->alias) ?>"><h4 class="article-title"><?= $item[0]->title ?></h4></a>
+                                                <a href="<?= base_url($item[0]->alias) ?>"><h3 class="article-title"><?= $item[0]->title ?></h3></a>
                                                 <div class="article-date"><i class="fa fa-calendar"></i> <?php echo date_format(date_create($item[0]->create_time),"d/m/Y"); ?></div>
                                             </div>
                                         </div>

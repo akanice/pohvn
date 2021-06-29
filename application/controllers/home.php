@@ -1,14 +1,11 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Home extends MY_Controller {
-    private $data;
-
     function __construct() {
         parent::__construct();
 
         //Get Menu 
         $this->load->model('menusmodel');
-
 		// nav menu
         $nav_data = $this->menusmodel->read(array('menu_id' => '1'));
         $this->data['navmenu'] = json_decode(json_encode($nav_data), true);
@@ -21,9 +18,9 @@ class Home extends MY_Controller {
         $this->data['config_mobilemenu'] = $this->menusmodel->setup_mobilemenu();
 		
 		$this->load->model('newsmodel');
-		$this->data['newest_articles'] = $this->newsmodel->read(array(),array('id'=>false),false,5);
-		
-        //print_r($this->data['config_navmenu']);die();
+		$this->data['newest_articles'] = $this->newsmodel->read(array('type'=>'default','display'=>'public'),array('id'=>false),false,5);
+		$this->data['mostviewed_articles'] = $this->newsmodel->read(array('type'=>'default','display'=>'public'),array('count_view'=>false),false,5);
+		//print_r($this->data['newest_articles']);die();
         $this->load->model('menustermmodel');
         $this->load->model('configsmodel');
 
@@ -50,7 +47,6 @@ class Home extends MY_Controller {
     }
 
     public function index() {
-        $this->load->model('newsmodel');
         $this->load->model('newscategorymodel');
         $this->load->model('configsmodel');
 
@@ -62,8 +58,8 @@ class Home extends MY_Controller {
 		
         $this->data['title'] = @$this->optionsmodel->read(array('name'=>'home_meta_title'),array(),true)->value;
         $this->data['meta_title'] = @$this->optionsmodel->read(array('name'=>'home_meta_title'),array(),true)->value;
-        $this->data['home_meta_description'] = @$this->optionsmodel->read(array('name'=>'home_meta_description'),array(),true)->value;
-        $this->data['home_meta_keywords'] = @$this->optionsmodel->read(array('name'=>'home_meta_keywords'),array(),true)->value;
+        $this->data['meta_description'] = @$this->optionsmodel->read(array('name'=>'home_meta_description'),array(),true)->value;
+        $this->data['meta_keywords'] = @$this->optionsmodel->read(array('name'=>'home_meta_keywords'),array(),true)->value;
 
         $this->load->view('home/common/header', $this->data);
 
@@ -74,12 +70,16 @@ class Home extends MY_Controller {
                 'term'    => 'home',
                 'name'    => 'slider_block',
                 'term_id' => $i), array(), true)->value;
-            $item = $this->newsmodel->read(array('id' => $item_id), array(), true);
+            $item = $this->newsmodel->read(array('id' => $item_id,'display'=>'public'), array(), true);
             if ($item) $this->data['section_sliders'][] = $item;
         }
 
         $this->load->view('home/template/home_slider', $this->data);
-        //sections data
+		
+		// Section khoa hoc
+		$this->load->view('home/template/home_courses', $this->data);
+		
+        // Sections data
         $this->data['section_news'][] = new \stdClass;
         foreach (json_decode($configs['cat_available']) as $item) {
             $this->data['section_news']['parent_cat'] = $this->newscategorymodel->read(array('id' => $item), array(), true);
@@ -105,9 +105,8 @@ class Home extends MY_Controller {
             $this->data['section_news_content'] = $this->load->view('home/template/section_news', $this->data);
         }
 		
-        //print_r($this->data['section_news']['news_featured']);
-        // print_r($this->data['section_news'][1]['news_item']);
-        // die();
+		// Section app download
+		$this->load->view('home/template/home_apps', $this->data);
 
         $this->load->view('home/common/footer');
     }
@@ -171,4 +170,5 @@ class Home extends MY_Controller {
         $this->load->view('home/affiliate_user_dashboard');
         $this->load->view('home/common/footer');
     }
+	
 }

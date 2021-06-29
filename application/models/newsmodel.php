@@ -79,6 +79,11 @@ class NewsModel extends MY_Model {
             'nullable' => false,
             'type'     => 'string'
         ),
+		'display'             => array(
+            'isIndex'  => false,
+            'nullable' => false,
+            'type'     => 'string'
+        ),
         'author_id'        => array(
             'isIndex'  => false,
             'nullable' => false,
@@ -105,6 +110,7 @@ class NewsModel extends MY_Model {
         $this->db->select('news.*, news_category.name as cat_name, news_category.alias as cat_alias');
         $this->db->join('news_category', 'news.categoryid= news_category.id', 'left');
         $this->db->where('news.language', $language);
+        $this->db->where('news.display', 'public');
         if ($limit != "") {
             $query = $this->db->get('news', $limit);
             if ($query->num_rows() > 0) return $query->result();
@@ -127,6 +133,7 @@ class NewsModel extends MY_Model {
     public function getNewsByCategoryId($cat_id, $limit, $offset) {
         $this->db->select('news.title,news.id');
         $this->db->join('news_category', 'news.categoryid= news_category.id', 'left');
+		$this->db->where('news.display', 'public');
         $this->db->like('news.categoryid', $cat_id);
         $this->db->order_by('id', 'DESC');
         if ($limit != "") {
@@ -140,6 +147,7 @@ class NewsModel extends MY_Model {
 
     public function getRelatedNews($cat_id, $limit = 5) {
         $this->db->select("news.title,news.alias,news.thumb");
+		$this->db->where('news.display', 'public');
         $this->db->like('news.categoryid', $cat_id);
         $this->db->order_by('id', 'DESC');
         $query = $this->db->get('news', $limit);
@@ -149,8 +157,12 @@ class NewsModel extends MY_Model {
             return false;
         }
     }
-
-    public function getListNews($title, $news_array='', $category, $limit = 10, $offset) {
+		// $random_array = array_rand($array_temp, $limit);
+        // for ($i = 0; $i < $limit; $i++) {
+            // $temp[$i] = $array_temp[$random_array[$i]];
+        // }
+		
+    public function getListNews($title, $news_array='', $category, $limit = 10, $offset,$display='public') {
 		if ($news_array) {
 			$news_array_sql = '(' . implode(',', $news_array) .')';
 			$news_array_pure = implode(',', $news_array);
@@ -161,28 +173,29 @@ class NewsModel extends MY_Model {
 					from news
 					left join news_category on news.categoryid= news_category.id
 					left join admins on news.author_id = admins.id
-					where news.type = 'default' and news.id in " . $news_array_sql . " and news.categoryid like '%"  . $category . "%')
+					where news.type = 'default' and news.display = '".$display."' and news.id in " . $news_array_sql . " and news.categoryid like '%"  . $category . "%')
 				union
 					(select news.*, admins.name as author_name, 1 as Priority
 					from news
 					left join news_category on news.categoryid= news_category.id
 					left join admins on news.author_id = admins.id
-					where news.type = 'default' and news.id not in ". $news_array_sql . " and news.categoryid like '%"  . $category . "%')
+					where news.type = 'default' and news.display = '".$display."' and news.id not in ". $news_array_sql . " and news.categoryid like '%"  . $category . "%')
 					ORDER BY Priority,FIELD( id," . $news_array_pure . "), id desc
 				limit " . $limit . " offset " . $offset);
+				// print_r($this->db->last_query());die();
 			} else {
 				$query = $this->db->query("
 					(select news.*, admins.name as author_name, 0 as Priority
 					from news
 					left join news_category on news.categoryid= news_category.id
 					left join admins on news.author_id = admins.id
-					where news.type = 'default' and news.id in " . $news_array_sql . ")
+					where news.type = 'default' and news.display = '".$display."' and news.id in " . $news_array_sql . ")
 				union
 					(select news.*, admins.name as author_name, 1 as Priority
 					from news
 					left join news_category on news.categoryid= news_category.id
 					left join admins on news.author_id = admins.id
-					where news.type = 'default' and news.id not in ". $news_array_sql . ")
+					where news.type = 'default' news.display = '".$display."' and news.id not in ". $news_array_sql . ")
 					ORDER BY Priority,FIELD( id," . $news_array_pure . "), id desc
 				limit " . $limit . " offset " . $offset);
 			}
@@ -190,10 +203,14 @@ class NewsModel extends MY_Model {
 			$this->db->select('news.*');
 			$this->db->join('news_category', 'news.categoryid= news_category.id', 'left');
 			$this->db->where('news.type', 'default');
+			if ($display != "") {
+				$this->db->where('news.display', $display);
+			}
+			
 			$this->db->like('news.title', $title);
 			$this->db->order_by("news.id", "desc");
 			if ($category != "") {
-				$this->db->like('news.categoryid', $category);
+				$this->db->like('news.categoryid','"'.$category.'"');
 			}
 			$query = $this->db->get('news', $limit, $offset);
 		}
@@ -212,7 +229,7 @@ class NewsModel extends MY_Model {
 						$this->db->where('news_category.id', $value2);
 						$this->db->order_by('news_category.id','asc');
 						$query3 = $this->db->get('news_category')->row();
-
+						
 						$x[$key]['id'] = $query3->id;
 						$x[$key]['title'] = $query3->title;
 						$x[$key]['alias'] = $query3->alias;
@@ -261,9 +278,9 @@ class NewsModel extends MY_Model {
                 $query = $this->db->get('news');*/
 
         $query = $this->db->query(" select * from (
-				select * , 1 as rank from news where title like '%" . $keyword . "%'
+				select * , 1 as rank from news where title like '%" . $keyword . "%' and news.display = 'public' 
 				union
-				select * , 2 as rank from news where content like '%" . $keyword . "%'
+				select * , 2 as rank from news where content like '%" . $keyword . "%' and news.display = 'public' 
             ) as data
 			group by id
 			order by rank,count_view DESC limit " . $limit . " offset " . $offset);
@@ -307,6 +324,7 @@ class NewsModel extends MY_Model {
         foreach ($temp as $id) {
             $this->db->select('news.*');
             $this->db->where('news.id', $id);
+			$this->db->where('news.display', 'public');
             $query = $this->db->get('news');
             if ($query->num_rows() > 0) {
                 $result[] = $query->result();
@@ -318,6 +336,7 @@ class NewsModel extends MY_Model {
     public function get_random_news_single($item, $limit = 2) {
         // echo $n;
         $this->db->select('news.id');
+		$this->db->where('news.display', 'public');
         $this->db->like('categoryid', $item);
         $query_news = $this->db->get('news');
         if ($query_news->num_rows() > 0) {
@@ -370,6 +389,34 @@ class NewsModel extends MY_Model {
             }
         }
     }
+	
+	public function getNewsByTag($tags,$limit=10,$offset) {
+		$this->db->select('news_tags.*');
+		if($tags != ""){
+			$this->db->like('tag_id','"'.$tags.'"');
+		}
+		$query = $this->db->get('news_tags', $limit, $offset);
+		$array_tagid = $query->result();
+		$data = array();
+		foreach ($array_tagid as $t) {
+			$this->db->select('news.id,news.title,news.alias,news.thumb,news.categoryid,news.create_time,news.author_id');
+			$this->db->like("news.id", $t->new_id);
+			$query = $this->db->get('news');
+			$data[] = $query->row();
+		}
+		return $data;
+	}
+	
+	function getNewsAlias($display='public') {
+		$this->db->select('news.alias');
+		if($display != ""){
+			$this->db->like('news.display',$display);
+		}
+		$query = $this->db->get('news');
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}
+	}
 	
     function update_counter($alias) {
         // return current article views

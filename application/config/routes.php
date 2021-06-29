@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller']							= "home";
 $route['404_override']									= 'override_404';
-$route['seo/sitemap\.xml']								= "seo/sitemap";
+$route['sitemap\.xml']									= "seo/sitemap";
 //$route['translate_uri_dashes']						= FALSE;
 
 // Admin Control Panel
@@ -65,9 +65,11 @@ $route['admin/newscategory/setorder/(:num)'] = 'admin/newscategory/setorder/$1';
 $route['admin/newscategory/(:num)']			=	'admin/newscategory/index/$1';
 $route['admin/landingpage/(:num)']				=	'admin/landingpage/index/$1';
 $route['admin/pages/(:num)']							=	'admin/pages/index/$1';
+$route['admin/ladi/(:num)']								=	'admin/ladi/index/$1';
 $route['admin/orders/(:num)']							=	'admin/orders/index/$1';
 $route['admin/customers/(:num)']					=	'admin/customers/index/$1';
 $route['admin/options/(:num)']          				=	'admin/options/index/$1';
+$route['admin/urlredirect/(:num)']          			=	'admin/urlredirect/index/$1';
 $route['admin/sliders/(:num)']          				=	'admin/sliders/index/$1';
 $route['admin/faqs/(:num)']							=	'admin/faqs/index/$1';
 $route['admin/tags/(:num)']							=	'admin/tags/index/$1';
@@ -81,10 +83,14 @@ $route['admin/affiliate/users']               		    =	'admin/affiliate/users';
 $route['search']												=	"news/news_search";
 $route['search/page/(:num)']							=	"news/news_search/$1";
 
+// Landing page
+
 // Front-end routes
 $route['category'] 											= 	"news/cat_index";
 $route['category/(:any)']									=	"news/category/$1";
 $route['category/(:any)/(:num)']						=	"news/category/$1/$2";
+$route['chuyen-muc/(:any)/(:any)']					=	"news/extend_cat/$1/$2";
+$route['tags/(:any)']										=	"news/tagsSearch/$1";
 
 $route['page/(:any)'] 										= 	"home/page";
 $route['thanh-vien-lien-ket']							=	"user/main/affiliateUserInfo";

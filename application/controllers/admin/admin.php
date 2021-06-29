@@ -2,7 +2,6 @@
 
 
 class Admin extends MY_Controller{
-    private $data;
     function __construct() {
 		parent::__construct();
         $this->auth = new Auth();
